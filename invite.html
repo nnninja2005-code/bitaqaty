@@ -1,8 +1,631 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@300;400;500;600;700;800&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Aref+Ruqaa:wght@400;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="/style.css"><title>دعوة زفاف · بطاقتي VIP</title>
-<meta name="description" content="دعوة زفاف رقمية فاخرة — بطاقتي VIP"></head>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@300;400;500;600;700;800&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Aref+Ruqaa:wght@400;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="/style.css"><title>دعوة زفاف · بطاقتي VIP</title></head>
 <body><div id="root"></div>
-<script src="/app.js"></script>
-<script>App.initInvite();</script>
+<script>
+/* بطاقتي VIP — المنطق المشترك لكل الصفحات */
+window.App = (function () {
+  const WA_FALLBACK = "9647515193165";
+
+  const THEMES = {
+    zerin: { tier: "vip", emoji: "👑", opening: "envelope", ornament: "❖",
+      names: { ar: "زێرين الملكي VIP", bad: "زێڕینا شاهانە VIP", sor: "زێڕینی شاهانە VIP" },
+      desc: { ar: "أسود وذهب خالص — فخامة لا تُنسى", bad: "ڕەش و زێڕ — لوکسیا نەژبیرکری", sor: "ڕەش و زێڕی بێگەرد — لوکسی لەبیرنەکراو" },
+      bg: "radial-gradient(1200px 700px at 50% -10%,#2a2312,#14100c 55%,#0a0806)",
+      card: "linear-gradient(160deg,#1c160e,#241c10)", text: "#f3e9d2",
+      accent: "#e9c05e", soft: "rgba(233,192,94,.16)", border: "rgba(233,192,94,.45)", parts: ["✦","✧","❖"] },
+    royal: { tier: "gold", emoji: "🎭", opening: "curtains", ornament: "✦",
+      names: { ar: "الملكي", bad: "شاهانە", sor: "شاهانە" },
+      desc: { ar: "ستارة مسرح ملكية تنفتح على اسمَيكما", bad: "پەردەیا شانۆیا شاهانە ڤەدبیت", sor: "پەردەی شانۆی شاهانە دەکرێتەوە" },
+      bg: "radial-gradient(1100px 700px at 50% -10%,#1a2350,#0b1026 60%,#070a1a)",
+      card: "linear-gradient(160deg,#10173a,#151d45)", text: "#eef0ff",
+      accent: "#e9c05e", soft: "rgba(233,192,94,.14)", border: "rgba(233,192,94,.4)", parts: ["✦","✧"] },
+    rose: { tier: "classic", emoji: "🌹", opening: "envelope", ornament: "✿",
+      names: { ar: "حُلم وردي", bad: "خەونا گوڵاڤی", sor: "خەونی گوڵاوی" },
+      desc: { ar: "مظروف وردي يُفتح على رومانسية تخطف القلب", bad: "زەرفەکێ گوڵاڤی ب نازکی ڤەدبیت", sor: "زەرفێکی گوڵاوی بە نەرمی دەکرێتەوە" },
+      bg: "radial-gradient(1100px 700px at 50% -10%,#fff,#fbeef0 45%,#f4dde2)",
+      card: "linear-gradient(160deg,#fff,#fdf3f4)", text: "#5c2a35",
+      accent: "#c46a7d", soft: "rgba(196,106,125,.12)", border: "rgba(196,106,125,.35)", parts: ["🌸","🌺","❀"] },
+    starlit: { tier: "gold", emoji: "✨", opening: "sky", ornament: "✧",
+      names: { ar: "تحت النجوم", bad: "د بن ستێرکان دا", sor: "لەژێر ئەستێرەکاندا" },
+      desc: { ar: "سماء ليل تتلألأ — لعرسٍ حالم تحت القمر", bad: "ئەسمانێ شەڤێ یێ پڕ ستێرک", sor: "ئاسمانی شەو پڕ لە ئەستێرە" },
+      bg: "radial-gradient(1200px 800px at 50% -20%,#1b2a5e,#101a40 50%,#070c22)",
+      card: "linear-gradient(160deg,#141f4a,#182553)", text: "#eaf0ff",
+      accent: "#ffd98a", soft: "rgba(255,217,138,.14)", border: "rgba(255,217,138,.4)", parts: ["✦","✧","⋆"] },
+    garden: { tier: "classic", emoji: "🌿", opening: "arch", ornament: "❁",
+      names: { ar: "الحديقة", bad: "باخچە", sor: "باخچە" },
+      desc: { ar: "إكليل أزهار وخضرة ناعمة — عرس بنسمة ربيع", bad: "تاجێ گوڵان و کەسکاتی", sor: "تاجی گوڵ و سەوزایی" },
+      bg: "radial-gradient(1100px 700px at 50% -10%,#fff,#f2f6ec 45%,#e2ecd8)",
+      card: "linear-gradient(160deg,#fff,#f6faf1)", text: "#33432c",
+      accent: "#6f8f5a", soft: "rgba(111,143,90,.12)", border: "rgba(111,143,90,.35)", parts: ["🍃","❀","✿"] },
+  };
+
+  const TIERS = {
+    classic: { music: false, program: false, templates: ["rose","garden"] },
+    gold: { music: true, program: true, templates: ["rose","garden","starlit","royal"] },
+    vip: { music: true, program: true, templates: ["zerin","royal","rose","starlit","garden"] },
+  };
+
+  const LANG_NAMES = { ar: "العربية", bad: "کوردی (بادینی)", sor: "کوردی (سۆرانی)" };
+
+  const DICTS = {
+    ar: { tapToOpen: "اضغط لفتح الدعوة", youAreInvited: "يتشرّفون بدعوتكم لحضور حفل زفاف",
+      and: "و", dearGuest: "دعوة خاصة إلى",
+      defaultPhrase: "بقلوبٍ مليئة بالفرح، ندعوكم لمشاركتنا أجمل ليالينا",
+      defaultDua: "اللهم بارك لهما وبارك عليهما واجمع بينهما في خير",
+      dateLabel: "التاريخ", timeLabel: "الوقت", venueLabel: "القاعة", addressLabel: "العنوان",
+      openMap: "الموقع على الخريطة", countdownTitle: "باقي على الفرح",
+      days: "يوم", hours: "ساعة", minutes: "دقيقة", seconds: "ثانية", itsToday: "اليوم هو يوم الفرح! 🎉",
+      programTitle: "برنامج الحفل", rsvpTitle: "تأكيد الحضور", rsvpBody: "يسعدنا تأكيد حضوركم عبر واتساب",
+      rsvpButton: "أؤكد حضوري 💌", rsvpMessage: "أهنّئكم من القلب 🤍 أؤكد حضوري لحفل زفافكم",
+      expiredTitle: "انتهى الفرح بسلام 🤍",
+      expiredBody: "هذه الدعوة أغلقت بعد انتهاء الحفل. نتمنى للعروسين حياة مليئة بالحب والسعادة.",
+      withLove: "بكل الحب", notFound: "لم نجد هذه الدعوة — تأكد من الرابط",
+      editTitle: "عدّل تفاصيل دعوتك", editSubtitle: "غيّر التفاصيل كما تريد — ثم احفظ وأرسل لنا التأكيد",
+      secTemplate: "القالب", secBasics: "الأساسيات", secDateTime: "التاريخ والوقت", secTexts: "النصوص",
+      secVenue: "القاعة", secProgram: "برنامج الحفل", secMusic: "الموسيقى (اختياري)", secRsvp: "تأكيد الحضور",
+      fLang: "لغة الدعوة", fGroom: "اسم العريس", fBride: "اسم العروس", fPhrase: "العبارة تحت الأسماء",
+      fEventDate: "تاريخ ووقت الحفل", fDateText: "نص التاريخ (كما سيظهر)", fTimeText: "نص الوقت (كما سيظهر)",
+      fCountdown: "إظهار العد التنازلي", fDua: "الدعاء / كلمة ختامية", fVenue: "اسم القاعة",
+      fAddress: "العنوان", fMaps: "رابط خرائط كوكل", fMusic: "رابط الموسيقى (يوتيوب أو MP3)",
+      musicHint: "يشتغل تلقائياً بعد فتح الدعوة", fRsvpOn: "تفعيل تأكيد الحضور",
+      fRsvpPhone: "رقم واتساب لاستقبال التأكيدات", phoneHint: "بصيغة دولية مثل 9647501234567",
+      addItem: "+ أضف فقرة", timePh: "٧:٠٠ مساءً", labelPh: "استقبال الضيوف",
+      saveBtn: "احفظ وانشر الدعوة ✨", savedOk: "تم الحفظ! دعوتك جاهزة",
+      sendWA: "أرسل التفاصيل عبر واتساب 📲", previewBtn: "معاينة الدعوة ↗",
+      publishNote: "بعد الحفظ اضغط زر الواتساب لتصلنا تفاصيلك", wrongKey: "رابط التعديل غير صحيح — تواصل معنا" },
+    bad: { tapToOpen: "دەست بدە بۆ ڤەکرنا داوەتنامەیێ", youAreInvited: "هوین ب دلخۆشی دهێنە ڤەخواندن بۆ داوەتا",
+      and: "و", dearGuest: "ڤەخواندنەکا تایبەت بۆ",
+      defaultPhrase: "ب دلێن پڕ ژ کەیفخۆشی، هوین دهێنە ڤەخواندن بۆ شەڤا مە یا جوانترین",
+      defaultDua: "خودێ ژیانا وان پڕ ژ خێر و خۆشی بکەت",
+      dateLabel: "مێژوو", timeLabel: "دەم", venueLabel: "هۆل", addressLabel: "ناڤ و نیشان",
+      openMap: "جهـ ل سەر نەخشێ ببینە", countdownTitle: "مایە بۆ داوەتێ",
+      days: "ڕۆژ", hours: "دەمژمێر", minutes: "خولەک", seconds: "چرکە", itsToday: "ئەڤرۆ ڕۆژا داوەتێ یە! 🎉",
+      programTitle: "بەرنامێ داوەتێ", rsvpTitle: "دڵنیاکرنا ئامادەبوونێ",
+      rsvpBody: "کەرەم بکە ئامادەبوونا خۆ ب واتسئاپێ دڵنیا بکە",
+      rsvpButton: "ئەز دێ ئامادە بم 💌", rsvpMessage: "پیرۆز بیت 🤍 ئەز دێ ل داوەتا هەوە ئامادە بم",
+      expiredTitle: "داوەت ب خێر و خۆشی بۆری 🤍",
+      expiredBody: "ئەڤ داوەتنامە هاتە گرتن پشتی داوەتێ. هیڤیا ژیانەکا پڕ ژ ئەڤین و بەختەوەری بۆ بویک و زاڤای دخوازین.",
+      withLove: "ب هەمی ئەڤینێ", notFound: "ئەڤ داوەتنامە نەهاتە دیتن — لینکێ چێک بکە",
+      editTitle: "پێزانینێن داوەتا خۆ بگهۆڕە", editSubtitle: "پێزانینان بگهۆڕە — پاشی خەزن بکە و بۆ مە بهنێرە",
+      secTemplate: "قالب", secBasics: "بنەڕەتی", secDateTime: "مێژوو و دەم", secTexts: "نڤیسین",
+      secVenue: "هۆل", secProgram: "بەرنامێ داوەتێ", secMusic: "موزیک (دلخواز)", secRsvp: "دڵنیاکرنا ئامادەبوونێ",
+      fLang: "زمانێ داوەتنامەیێ", fGroom: "ناڤێ زاڤای", fBride: "ناڤێ بویکێ", fPhrase: "پەیڤ د بن ناڤان دا",
+      fEventDate: "مێژوو و دەمێ داوەتێ", fDateText: "نڤیسینا مێژووێ", fTimeText: "نڤیسینا دەمی",
+      fCountdown: "هژمارتنا پاشڤە نیشان بدە", fDua: "دوعا / پەیڤا دوماهیێ", fVenue: "ناڤێ هۆلێ",
+      fAddress: "ناڤ و نیشان", fMaps: "لینکا گوگڵ ماپس", fMusic: "لینکا موزیکێ (یوتیوب یان MP3)",
+      musicHint: "پشتی ڤەکرنا داوەتنامەیێ دێ لێدەت", fRsvpOn: "دڵنیاکرنێ چالاک بکە",
+      fRsvpPhone: "ژمارا واتسئاپێ بۆ وەرگرتنا دڵنیاکرنان", phoneHint: "وەک 9647501234567",
+      addItem: "+ بڕگەیەکێ زێدە بکە", timePh: "٧:٠٠ ئێڤاری", labelPh: "پێشوازیا مێهڤانان",
+      saveBtn: "خەزن بکە و بڵاڤ بکە ✨", savedOk: "هاتە خەزنکرن! داوەتنامەیا تە ئامادە یە",
+      sendWA: "پێزانینان ب واتسئاپێ بهنێرە 📲", previewBtn: "بەرچاڤکرنا داوەتنامەیێ ↗",
+      publishNote: "پشتی خەزنکرنێ دوگمەیا واتسئاپێ بدە", wrongKey: "لینکا گهۆڕینێ نە دروست ە — پەیوەندیێ ب مە بکە" },
+    sor: { tapToOpen: "دەست بنێ بۆ کردنەوەی بانگهێشتنامەکە", youAreInvited: "بە خۆشحاڵییەوە بانگهێشت دەکرێن بۆ ئاهەنگی زەماوەندی",
+      and: "و", dearGuest: "بانگهێشتێکی تایبەت بۆ",
+      defaultPhrase: "بە دڵێکی پڕ لە خۆشی، بانگهێشتتان دەکەین بۆ جوانترین شەومان",
+      defaultDua: "خوا ژیانیان پڕ بکات لە خێر و خۆشی",
+      dateLabel: "ڕێکەوت", timeLabel: "کات", venueLabel: "هۆڵ", addressLabel: "ناونیشان",
+      openMap: "شوێنەکە لەسەر نەخشە ببینە", countdownTitle: "ماوە بۆ ئاهەنگەکە",
+      days: "ڕۆژ", hours: "کاتژمێر", minutes: "خولەک", seconds: "چرکە", itsToday: "ئەمڕۆ ڕۆژی ئاهەنگەکەیە! 🎉",
+      programTitle: "بەرنامەی ئاهەنگ", rsvpTitle: "دڵنیاکردنەوەی ئامادەبوون",
+      rsvpBody: "تکایە ئامادەبوونتان بە واتسئاپ دڵنیا بکەنەوە",
+      rsvpButton: "ئامادە دەبم 💌", rsvpMessage: "پیرۆزە 🤍 ئامادە دەبم لە ئاهەنگی زەماوەندتان",
+      expiredTitle: "ئاهەنگەکە بە خۆشی تێپەڕی 🤍",
+      expiredBody: "ئەم بانگهێشتنامەیە داخرا دوای تەواوبوونی ئاهەنگەکە. هیوای ژیانێکی پڕ لە خۆشەویستی بۆ بووک و زاوا دەخوازین.",
+      withLove: "بە هەموو خۆشەویستییەوە", notFound: "ئەم بانگهێشتنامەیە نەدۆزرایەوە — لینکەکە بپشکنە",
+      editTitle: "وردەکارییەکانی بانگهێشتنامەکەت بگۆڕە", editSubtitle: "وردەکارییەکان بگۆڕە — پاشان پاشەکەوتی بکە",
+      secTemplate: "قاڵب", secBasics: "بنەڕەتییەکان", secDateTime: "ڕێکەوت و کات", secTexts: "دەقەکان",
+      secVenue: "هۆڵ", secProgram: "بەرنامەی ئاهەنگ", secMusic: "مۆسیقا (ئارەزوومەندانە)", secRsvp: "دڵنیاکردنەوەی ئامادەبوون",
+      fLang: "زمانی بانگهێشتنامەکە", fGroom: "ناوی زاوا", fBride: "ناوی بووک", fPhrase: "دەستەواژە لەژێر ناوەکان",
+      fEventDate: "ڕێکەوت و کاتی ئاهەنگ", fDateText: "دەقی ڕێکەوت", fTimeText: "دەقی کات",
+      fCountdown: "پیشاندانی کاتی ماوە", fDua: "دوعا / وشەی کۆتایی", fVenue: "ناوی هۆڵ",
+      fAddress: "ناونیشان", fMaps: "لینکی گووگڵ ماپس", fMusic: "لینکی مۆسیقا (یوتیوب یان MP3)",
+      musicHint: "دوای کردنەوەی بانگهێشتنامەکە لێدەدرێت", fRsvpOn: "دڵنیاکردنەوە چالاک بکە",
+      fRsvpPhone: "ژمارەی واتسئاپ بۆ وەرگرتنی دڵنیاکردنەوەکان", phoneHint: "وەک 9647501234567",
+      addItem: "+ بڕگەیەک زیاد بکە", timePh: "٧:٠٠ ئێوارە", labelPh: "پێشوازی میوانان",
+      saveBtn: "پاشەکەوت بکە و بڵاوی بکەرەوە ✨", savedOk: "پاشەکەوت کرا! بانگهێشتنامەکەت ئامادەیە",
+      sendWA: "وردەکارییەکان بە واتسئاپ بنێرە 📲", previewBtn: "پێشبینینی بانگهێشتنامەکە ↗",
+      publishNote: "دوای پاشەکەوتکردن دوگمەی واتسئاپەکە دابگرە", wrongKey: "لینکی دەستکاری هەڵەیە — پەیوەندیمان پێوە بکە" },
+  };
+
+  const $ = (s, r) => (r || document).querySelector(s);
+  const el = (tag, attrs, html) => {
+    const e = document.createElement(tag);
+    if (attrs) for (const k in attrs) {
+      if (k === "style") e.style.cssText = attrs[k];
+      else if (k.startsWith("on")) e.addEventListener(k.slice(2), attrs[k]);
+      else e.setAttribute(k, attrs[k]);
+    }
+    if (html !== undefined) e.innerHTML = html;
+    return e;
+  };
+  const esc = (s) => String(s || "").replace(/[&<>"']/g, (c) => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+  const dict = (l) => DICTS[l] || DICTS.ar;
+  const pathParam = () => decodeURIComponent((location.pathname.split("/")[2] || "").split("?")[0]);
+  const qs = (k) => new URLSearchParams(location.search).get(k) || "";
+
+  function ytId(url) {
+    const m = String(url || "").match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([\w-]{11})/);
+    return m ? m[1] : null;
+  }
+
+  function particles(container, theme, n) {
+    for (let i = 0; i < (n || 16); i++) {
+      const p = el("span", { class: "fall",
+        style: `left:${Math.random()*100}%;animation-duration:${7+Math.random()*9}s;animation-delay:${Math.random()*10}s;font-size:${10+Math.random()*15}px;color:${theme.accent};opacity:.6` },
+        theme.parts[i % theme.parts.length]);
+      container.appendChild(p);
+    }
+  }
+
+  function countdown(target, d, node, accent, border) {
+    function tick() {
+      const left = new Date(target).getTime() - Date.now();
+      if (left <= 0) { node.innerHTML = `<p style="color:${accent};font-weight:700;text-align:center">${d.itsToday}</p>`; return; }
+      const dd = Math.floor(left/864e5), h = Math.floor(left%864e5/36e5), m = Math.floor(left%36e5/6e4), s = Math.floor(left%6e4/1e3);
+      node.innerHTML = [[dd,d.days],[h,d.hours],[m,d.minutes],[s,d.seconds]].map(([v,l]) =>
+        `<div class="cd-cell" style="border-color:${border}"><div class="cd-num" style="color:${accent}">${v}</div><div class="cd-lab">${l}</div></div>`).join("");
+      setTimeout(tick, 1000);
+    }
+    tick();
+  }
+
+  return { THEMES, TIERS, LANG_NAMES, DICTS, WA_FALLBACK, $, el, esc, dict, pathParam, qs, ytId, particles, countdown };
+})();
+
+/* ===== الصفحة الرئيسية ===== */
+App.initLanding = function () {
+  const { THEMES, $, el } = App;
+  const L = {
+    ar: { kicker: "دعوات زفاف رقمية فاخرة", title: "ليلة العمر تستحق دعوة لا تُنسى",
+      sub: "قوالب حيّة بأنميشن ساحر، عدّ تنازلي، خرائط، موسيقى، وتأكيد حضور عبر واتساب — بالعربية والكردية (بادينی و سۆرانی)",
+      cta: "اطلب دعوتك الآن", demo: "شاهد القوالب حيّة", featsT: "لماذا بطاقتي VIP؟",
+      feats: [["👑","فخامة حقيقية","تصاميم ذهبية راقية تليق بأهم ليلة في حياتكم"],
+        ["🌐","ثلاث لغات","عربية، بادينية، وسورانية — بخطوط صحيحة بلا أي كسر"],
+        ["⏳","عدّ تنازلي حي","ضيوفكم يعيشون لحظة الانتظار معكم ثانية بثانية"],
+        ["📍","خرائط مباشرة","زر واحد يوصل ضيوفكم إلى باب القاعة"],
+        ["🎵","موسيقاكم الخاصة","أغنيتكم المفضلة تستقبل الضيوف عند فتح الدعوة"],
+        ["💌","تأكيد حضور واتساب","كل ضيف يؤكد حضوره برسالة واحدة"]],
+      tiersT: "الفئات", tiers: [["VIP 👑","كل القوالب + موسيقى + اسم الضيف على الدعوة + برنامج الحفل"],
+        ["ذهبية ✨","٤ قوالب + موسيقى + برنامج الحفل"],["عادية 🌹","قالبان أنيقان بكل الأساسيات"]],
+      tplT: "قوالبنا — عيشها حيّة قبل أن تطلب", tplS: "اضغط أي قالب لتفتحه كما سيراه ضيوفك تماماً",
+      prev: "معاينة حيّة ↗", orderT: "جاهز تحجز دعوتك؟", orderS: "راسلنا على واتساب — نجهّز لك رابطك الخاص خلال دقائق",
+      orderB: "احجز عبر واتساب 📲", footer: "بطاقتي VIP — دعوات تُصنع بحب في كردستان",
+      wa: "مرحباً 🌟 أريد حجز دعوة زفاف من بطاقتي VIP" },
+    bad: { kicker: "داوەتنامەیێن دیجیتال یێن لوکس", title: "شەڤا تەمەنی، داوەتنامەیەکا نەژبیرکری دڤێت",
+      sub: "قالبێن زیندی ب ئانیمەیشنێن جوان، هژمارتنا پاشڤە، نەخشە، موزیک و دڵنیاکرنا ئامادەبوونێ ب واتسئاپێ — ب عەرەبی و کوردی (بادینی و سۆرانی)",
+      cta: "نوکە داوا بکە", demo: "قالبان ب زیندی ببینە", featsT: "بۆچی بطاقتي VIP؟",
+      feats: [["👑","لوکسیا ڕاستەقینە","دیزاینێن زێڕین یێن هێژایی گرنگترین شەڤا ژیانا هەوە"],
+        ["🌐","سێ زمان","عەرەبی، بادینی و سۆرانی — ب فۆنتێن دروست بێ کێماسی"],
+        ["⏳","هژمارتنا پاشڤە","مێهڤانێن هەوە چرکە ب چرکە ل گەل هەوە چاڤەڕێ دبن"],
+        ["📍","نەخشەیا ڕاستەوخۆ","دوگمەیەک مێهڤانان دگهینیتە دەرگەهێ هۆلێ"],
+        ["🎵","موزیکا هەوە یا تایبەت","ستڕانا هەوە یا حەزژێکری مێهڤانان پێشوازی دکەت"],
+        ["💌","دڵنیاکرن ب واتسئاپێ","هەر مێهڤانەک ب پەیامەکێ ئامادەبوونا خۆ دڵنیا دکەت"]],
+      tiersT: "جۆر", tiers: [["VIP 👑","هەمی قالب + موزیک + ناڤێ مێهڤانی + بەرنامێ داوەتێ"],
+        ["زێڕین ✨","٤ قالب + موزیک + بەرنامێ داوەتێ"],["ئاسایی 🌹","دوو قالبێن جوان ب هەمی بنەڕەتیان"]],
+      tplT: "قالبێن مە — بەری داوا بکەی ب زیندی ببینە", tplS: "دەست بدە هەر قالبەکێ دا وەک مێهڤانێن تە ببینی",
+      prev: "بەرچاڤکرنا زیندی ↗", orderT: "ئامادەیی داوەتنامەیا خۆ حجز بکەی؟",
+      orderS: "پەیامەکێ ب واتسئاپێ بهنێرە — د چەند خولەکان دا لینکا تە ئامادە دکەین",
+      orderB: "ب واتسئاپێ حجز بکە 📲", footer: "بطاقتي VIP — داوەتنامە ب ئەڤینێ ل کوردستانێ دهێنە چێکرن",
+      wa: "سڵاڤ 🌟 دخوازم داوەتنامەیەکا زەماوەندێ ژ بطاقتي VIP حجز بکەم" },
+    sor: { kicker: "بانگهێشتنامەی دیجیتاڵی لوکس", title: "شەوی تەمەن، بانگهێشتنامەیەکی لەبیرنەکراوی دەوێت",
+      sub: "قاڵبی زیندوو بە ئانیمەیشنی سەرنجڕاکێش، کاتی ماوە، نەخشە، مۆسیقا و دڵنیاکردنەوەی ئامادەبوون بە واتسئاپ — بە عەرەبی و کوردی (بادینی و سۆرانی)",
+      cta: "ئێستا داوا بکە", demo: "قاڵبەکان بە زیندوویی ببینە", featsT: "بۆچی بطاقتي VIP؟",
+      feats: [["👑","لوکسی ڕاستەقینە","دیزاینی زێڕینی شایستەی گرنگترین شەوی ژیانتان"],
+        ["🌐","سێ زمان","عەرەبی، بادینی و سۆرانی — بە فۆنتی دروست بێ کەموکوڕی"],
+        ["⏳","کاتی ماوە بە زیندوویی","میوانەکانتان چرکە بە چرکە لەگەڵتان چاوەڕێ دەکەن"],
+        ["📍","نەخشەی ڕاستەوخۆ","دوگمەیەک میوانان دەگەیەنێتە دەرگای هۆڵ"],
+        ["🎵","مۆسیقای تایبەتتان","گۆرانییە دڵخوازەکەتان پێشوازی لە میوانان دەکات"],
+        ["💌","دڵنیاکردنەوە بە واتسئاپ","هەر میوانێک بە نامەیەک ئامادەبوونی دڵنیا دەکاتەوە"]],
+      tiersT: "جۆرەکان", tiers: [["VIP 👑","هەموو قاڵبەکان + مۆسیقا + ناوی میوان + بەرنامەی ئاهەنگ"],
+        ["زێڕین ✨","٤ قاڵب + مۆسیقا + بەرنامەی ئاهەنگ"],["ئاسایی 🌹","دوو قاڵبی جوان بە هەموو بنەڕەتییەکان"]],
+      tplT: "قاڵبەکانمان — پێش داواکردن بە زیندوویی بیانبینە", tplS: "دەست بنێ بە هەر قاڵبێک بۆ بینینی",
+      prev: "پێشبینینی زیندوو ↗", orderT: "ئامادەیت بانگهێشتنامەکەت حجز بکەیت؟",
+      orderS: "نامەیەک بە واتسئاپ بنێرە — لە چەند خولەکێکدا لینکی تایبەتت ئامادە دەکەین",
+      orderB: "بە واتسئاپ حجز بکە 📲", footer: "بطاقتي VIP — بانگهێشتنامە بە خۆشەویستی لە کوردستان دروست دەکرێن",
+      wa: "سڵاو 🌟 دەمەوێت بانگهێشتنامەیەکی زەماوەند لە بطاقتي VIP حجز بکەم" },
+  };
+  let lang = "ar";
+  const root = App.$("#root");
+
+  function render() {
+    const s = L[lang];
+    const waOrder = "https://wa.me/" + App.WA_FALLBACK + "?text=" + encodeURIComponent(s.wa);
+    root.innerHTML = `
+      <nav class="land-nav">
+        <a href="/" class="display gold-text" style="font-size:24px;text-decoration:none">بطاقتي VIP</a>
+        <div style="display:flex;gap:8px">
+          ${["ar","bad","sor"].map((l) => `<button class="lang-btn${lang === l ? " act" : ""}" data-l="${l}">${l === "ar" ? "عربي" : l === "bad" ? "بادینی" : "سۆرانی"}</button>`).join("")}
+        </div></nav>
+      <header class="hero">
+        <p class="fadeUp" style="font-size:13px;letter-spacing:2px;color:#f2d998">✦ ${s.kicker} ✦</p>
+        <h1 class="display gold-text fadeUp" style="font-size:clamp(30px,6vw,54px);line-height:1.4;margin:22px 0 0;animation-delay:.15s">${s.title}</h1>
+        <p class="fadeUp" style="max-width:560px;margin:22px auto 0;font-size:15px;line-height:1.9;opacity:.8;animation-delay:.3s">${s.sub}</p>
+        <div class="fadeUp" style="display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-top:36px;animation-delay:.45s">
+          <a class="btn" style="background:linear-gradient(270deg,#a86f1c,#dfa93a,#a86f1c);color:#14100c" href="${waOrder}" target="_blank" rel="noreferrer">${s.cta}</a>
+          <a class="btn" style="border:1px solid rgba(233,192,94,.5);color:#f9edcd" href="#templates">${s.demo}</a>
+        </div>
+        <div class="seal floaty" style="width:96px;height:96px;font-size:36px;margin:56px auto 0;background:rgba(233,192,94,.1);border:1px solid rgba(233,192,94,.4)">💍</div>
+      </header>
+      <section class="feats"><h2 class="display gold-text" style="font-size:30px;text-align:center">${s.featsT}</h2>
+        <div class="feat-grid">${s.feats.map((f) => `<div class="feat"><div style="font-size:30px">${f[0]}</div><h3 style="color:#f2d998;margin:12px 0 0;font-size:16px">${f[1]}</h3><p style="font-size:13px;line-height:1.8;opacity:.75;margin-top:8px">${f[2]}</p></div>`).join("")}</div></section>
+      <section class="feats" style="max-width:860px"><h2 class="display gold-text" style="font-size:30px;text-align:center">${s.tiersT}</h2>
+        <div class="tier-grid">${s.tiers.map((t, i) => `<div class="tier${i === 0 ? " vip" : ""}"><h3 style="color:#f2d998;font-size:17px">${t[0]}</h3><p style="font-size:13px;line-height:1.8;opacity:.8;margin-top:12px">${t[1]}</p></div>`).join("")}</div></section>
+      <section class="feats" id="templates"><h2 class="display gold-text" style="font-size:30px;text-align:center">${s.tplT}</h2>
+        <p style="text-align:center;font-size:13px;opacity:.7;margin-top:10px">${s.tplS}</p>
+        <div class="tpl-show">${Object.values(THEMES).map((t) => `
+          <a class="tpl-item" href="/d/demo-${t === THEMES.zerin ? "zerin" : Object.keys(THEMES).find((k) => THEMES[k] === t)}" style="background:${t.bg};color:${t.text}">
+            <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;height:160px;padding:20px">
+              <span style="font-size:44px">${t.emoji}</span>
+              <span style="border:1px solid ${t.accent};color:${t.accent};border-radius:99px;padding:2px 12px;font-size:9px;font-weight:800;letter-spacing:1px">${t.tier.toUpperCase()}</span></div>
+            <div style="border-top:1px solid ${t.border};background:rgba(0,0,0,.08);padding:18px">
+              <h3 style="color:${t.accent};font-size:15px">${t.names[lang]}</h3>
+              <p style="font-size:11px;line-height:1.8;opacity:.8;margin-top:6px">${t.desc[lang]}</p>
+              <p style="color:${t.accent};font-size:11px;font-weight:700;margin-top:10px">${s.prev}</p></div></a>`).join("")}</div></section>
+      <section class="feats" style="max-width:620px"><div class="cta-box">
+        <h2 class="display gold-text" style="font-size:28px">${s.orderT}</h2>
+        <p style="font-size:13px;opacity:.75;margin-top:14px">${s.orderS}</p>
+        <a class="btn" style="background:#25D366;color:#fff;margin-top:26px" href="${waOrder}" target="_blank" rel="noreferrer">${s.orderB}</a></div></section>
+      <footer class="land-footer">
+        <p class="display gold-text" style="font-size:19px">بطاقتي VIP</p>
+        <p style="font-size:11px;opacity:.5;margin-top:8px">${s.footer} · bitaqaty.vip</p></footer>`;
+    root.querySelectorAll(".lang-btn").forEach((b) => b.addEventListener("click", () => { lang = b.dataset.l; render(); }));
+  }
+  render();
+  /* نجوم متساقطة */
+  for (let i = 0; i < 12; i++) {
+    document.body.appendChild(App.el("span", { class: "fall",
+      style: `left:${Math.random()*100}%;animation-duration:${8+Math.random()*10}s;animation-delay:${Math.random()*12}s;font-size:${8+Math.random()*11}px;color:#dfa93a;opacity:.45` }, "✦"));
+  }
+};
+
+/* ===== رمز التحكم — غيّره من هنا ===== */
+App.ADMIN_CODE = "BITAQATY-2026";
+
+/* ===== ترميز الدعوة داخل الرابط (بدون سيرفر) ===== */
+App.encode = function (inv) {
+  const json = JSON.stringify(inv);
+  return "v1." + btoa(unescape(encodeURIComponent(json))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+};
+App.decode = function (hash) {
+  let s = String(hash || "").replace(/^#/, "");
+  if (!s.startsWith("v1.")) return null;
+  s = s.slice(3).replace(/-/g, "+").replace(/_/g, "/");
+  try { return JSON.parse(decodeURIComponent(escape(atob(s)))); } catch { return null; }
+};
+App.newInvite = function (p) {
+  return { code: p.code || "", tier: p.tier || "classic", template: p.template || "rose",
+    lang: p.lang || "ar", customerName: p.customerName || "", groom: "", bride: "",
+    phrase: "", dua: "", eventDate: "", dateText: "", timeText: "", showCountdown: true,
+    venueName: "", venueAddress: "", mapsUrl: "", program: [], musicUrl: "",
+    rsvpEnabled: true, rsvpPhone: "" };
+};
+App.isExpired = function (inv) {
+  if (!inv.eventDate) return false;
+  return Date.now() > new Date(inv.eventDate).getTime() + 2 * 864e5;
+};
+App.demoInvite = function (code) {
+  const m = { "demo-zerin": ["zerin","ar","vip"], "demo-royal": ["royal","ar","gold"],
+    "demo-rose": ["rose","ar","classic"], "demo-starlit": ["starlit","ar","gold"],
+    "demo-garden": ["garden","ar","classic"], "demo-zerin-bad": ["zerin","bad","vip"],
+    "demo-zerin-sor": ["zerin","sor","vip"] };
+  if (!m[code]) return null;
+  const [template, lang, tier] = m[code];
+  const d = new Date(); d.setDate(d.getDate() + 30); d.setHours(19, 0, 0, 0);
+  const names = { ar: ["آلان","دلڤين"], bad: ["ئالان","دلڤین"], sor: ["ئالان","دلڤین"] };
+  const prog = { ar: [["7:00","استقبال الضيوف"],["8:30","دخول العروسين"],["10:00","قطع الكيك"]],
+    bad: [["7:00","پێشوازیا مێهڤانان"],["8:30","هاتنا بویک و زاڤای"],["10:00","بڕینا کێکێ"]],
+    sor: [["7:00","پێشوازی میوانان"],["8:30","هاتنی بووک و زاوا"],["10:00","بڕینی کێک"]] };
+  const inv = App.newInvite({ code, tier, template, lang });
+  inv.groom = names[lang][0]; inv.bride = names[lang][1];
+  inv.eventDate = d.toISOString();
+  inv.venueName = lang === "ar" ? "قاعة زانا الملكية" : "هۆلا زانا";
+  inv.venueAddress = lang === "ar" ? "دهوك — شارع القاعات" : "دهۆک";
+  inv.mapsUrl = "https://maps.google.com/?q=Duhok";
+  inv.program = prog[lang].map(function (x) { return { time: x[0], label: x[1] }; });
+  inv.rsvpPhone = App.WA_FALLBACK;
+  return inv;
+};
+
+/* ===== صفحة الدعوة (الضيوف) ===== */
+App.initInvite = function () {
+  const { THEMES, $, el, esc, dict, pathParam, qs, ytId, particles, countdown } = App;
+  const root = $("#root");
+  const code = pathParam();
+  const guest = qs("guest");
+  let inv = App.decode(location.hash);
+  if (!inv && code.indexOf("demo-") === 0) inv = App.demoInvite(code);
+  if (!inv) {
+    root.innerHTML = '<div class="center-page"><div style="font-size:56px">🔍</div><h1 class="gold-text" style="font-size:22px">' + dict("ar").notFound + '</h1><a href="/" style="color:#e9c05e;margin-top:20px;font-size:13px">بطاقتي VIP · الرئيسية</a></div>';
+    return;
+  }
+  const d = dict(inv.lang);
+  const t = THEMES[inv.template] || THEMES.zerin;
+
+  if (App.isExpired(inv)) {
+    root.innerHTML = '<div class="center-page"><div style="font-size:56px">🕊️</div>' +
+      '<h1 class="display gold-text" style="font-size:26px;margin:18px 0 0">' + d.expiredTitle + '</h1>' +
+      '<p style="max-width:340px;opacity:.75;font-size:14px;line-height:1.9">' + d.expiredBody + '</p>' +
+      '<p class="display" style="color:#e9c05e;font-size:19px">' + esc(inv.groom) + " " + d.and + " " + esc(inv.bride) + ' 💍</p>' +
+      '<a href="/" style="color:#e9c05e;opacity:.6;margin-top:26px;font-size:12px">بطاقتي VIP · bitaqaty.vip</a></div>';
+    return;
+  }
+
+  document.body.style.background = t.bg;
+  document.body.style.color = t.text;
+  const groom = esc(inv.groom || "—"), bride = esc(inv.bride || "—");
+  const phrase = esc(inv.phrase) || d.defaultPhrase;
+  const dua = esc(inv.dua) || d.defaultDua;
+  const loc = inv.lang === "ar" ? "ar-IQ" : "ckb-IQ";
+  const dateText = esc(inv.dateText) || (inv.eventDate ? new Date(inv.eventDate).toLocaleDateString(loc, { weekday: "long", year: "numeric", month: "long", day: "numeric" }) : "");
+  const timeText = esc(inv.timeText) || (inv.eventDate ? new Date(inv.eventDate).toLocaleTimeString(loc, { hour: "numeric", minute: "2-digit" }) : "");
+  const coverIcon = t.opening === "curtains" ? "🎭" : t.opening === "sky" ? "🌙" : t.opening === "arch" ? "🌿" : "💌";
+
+  const cover = el("div", { class: "cover" });
+  if (t.opening === "curtains") {
+    cover.appendChild(el("div", { class: "curtain curtain-l" }));
+    cover.appendChild(el("div", { class: "curtain curtain-r" }));
+  } else {
+    cover.appendChild(el("div", { class: "cover-bg cover-fade", style: "background:" + t.bg }));
+  }
+  const center = el("div", { class: "cover-center cover-fade" },
+    '<div class="seal pulse" style="background:' + t.soft + ';border:2px solid ' + t.border + ';color:' + t.accent + '">' + coverIcon + '</div>' +
+    '<div><p class="display" style="color:' + t.accent + ';font-size:30px;margin:0">' + groom + " " + d.and + " " + bride + '</p>' +
+    (guest ? '<p style="font-size:13px;opacity:.9;margin-top:10px">' + d.dearGuest + ': <b style="color:' + t.accent + '">' + esc(guest) + '</b></p>' : "") + '</div>' +
+    '<button class="btn" style="background:' + t.accent + ';color:#1c1508">' + d.tapToOpen + '</button>');
+  cover.appendChild(center);
+  root.appendChild(cover);
+
+  const card = function (inner) { return '<section class="card reveal" style="background:' + t.card + ';border:1px solid ' + t.border + '">' + inner + '</section>'; };
+  const main = el("main", { class: "invite-main" },
+    '<section class="reveal" style="text-align:center">' +
+      '<div class="seal" style="width:76px;height:76px;font-size:28px;margin:0 auto 18px;background:' + t.soft + ';border:1.5px solid ' + t.border + '">💍</div>' +
+      '<p style="font-size:13px;opacity:.85">' + d.youAreInvited + '</p>' +
+      '<h1 class="display" style="color:' + t.accent + ';font-size:38px;line-height:1.5;margin:16px 0 0">' + groom + '<span style="font-size:22px;opacity:.8;margin:0 12px">' + d.and + '</span>' + bride + '</h1>' +
+      '<div class="orna"><span style="background:' + t.border + '"></span><i style="color:' + t.accent + '">' + t.ornament + '</i><span style="background:' + t.border + '"></span></div>' +
+      '<p class="naskh" style="max-width:360px;margin:18px auto 0;font-size:17px;line-height:1.9;opacity:.95">' + phrase + '</p>' +
+      (guest ? '<p style="margin-top:14px;font-size:13px">' + d.dearGuest + ': <b style="color:' + t.accent + '">' + esc(guest) + '</b></p>' : "") +
+    '</section>' +
+    (inv.showCountdown && inv.eventDate ? card('<h2 class="sec-title" style="color:' + t.accent + '">' + d.countdownTitle + '</h2><div class="cd" id="cd"></div>') : "") +
+    (dateText || timeText ? '<section class="reveal grid2">' +
+      '<div class="card" style="background:' + t.card + ';border:1px solid ' + t.border + ';text-align:center"><div style="font-size:24px">📅</div><div class="lab">' + d.dateLabel + '</div><div class="val">' + dateText + '</div></div>' +
+      '<div class="card" style="background:' + t.card + ';border:1px solid ' + t.border + ';text-align:center"><div style="font-size:24px">🕰️</div><div class="lab">' + d.timeLabel + '</div><div class="val">' + timeText + '</div></div></section>' : "") +
+    (inv.venueName || inv.venueAddress ? card('<div style="text-align:center"><div style="font-size:24px">🏛️</div>' +
+      (inv.venueName ? '<div class="lab">' + d.venueLabel + '</div><div style="color:' + t.accent + ';font-size:18px;font-weight:700;margin-top:4px">' + esc(inv.venueName) + '</div>' : "") +
+      (inv.venueAddress ? '<div style="margin-top:8px;font-size:14px;opacity:.9">' + esc(inv.venueAddress) + '</div>' : "") +
+      (inv.mapsUrl ? '<a class="btn" style="background:' + t.accent + ';color:#1c1508;margin-top:16px" href="' + esc(inv.mapsUrl) + '" target="_blank" rel="noreferrer">📍 ' + d.openMap + '</a>' : "") + '</div>') : "") +
+    (inv.program && inv.program.length ? card('<h2 class="sec-title" style="color:' + t.accent + '">' + d.programTitle + '</h2>' +
+      '<div class="prog">' + inv.program.map(function (p) { return '<div class="prog-row"><span class="prog-time" style="background:' + t.soft + ';color:' + t.accent + ';border:1px solid ' + t.border + '">' + esc(p.time) + '</span><span style="font-size:14px">' + esc(p.label) + '</span></div>'; }).join("") + '</div>') : "") +
+    '<section class="reveal" style="text-align:center"><p class="naskh" style="max-width:360px;margin:0 auto;font-size:15px;line-height:1.9;opacity:.9">' + dua + '</p></section>' +
+    (inv.rsvpEnabled && inv.rsvpPhone ? card('<div style="text-align:center"><h2 class="sec-title" style="color:' + t.accent + ';margin-bottom:6px">' + d.rsvpTitle + '</h2>' +
+      '<p style="font-size:13px;opacity:.85">' + d.rsvpBody + '</p>' +
+      '<a class="btn" style="background:' + t.accent + ';color:#1c1508;margin-top:14px;font-weight:800" target="_blank" rel="noreferrer" href="https://wa.me/' + inv.rsvpPhone + '?text=' + encodeURIComponent(d.rsvpMessage + " — " + (inv.groom || "") + " " + d.and + " " + (inv.bride || "") + " 💍" + (guest ? "\n(" + guest + ")" : "")) + '">' + d.rsvpButton + '</a></div>') : "") +
+    '<footer class="reveal" style="text-align:center;padding:16px 0 30px">' +
+      '<p style="font-size:12px;opacity:.6">' + d.withLove + " — " + groom + " " + d.and + " " + bride + '</p>' +
+      '<a href="/" style="color:' + t.accent + ';font-size:11px;opacity:.5">بطاقتي VIP · bitaqaty.vip</a></footer>');
+  root.appendChild(main);
+
+  cover.addEventListener("click", function () {
+    cover.classList.add("opened");
+    particles(root, t, 18);
+    setTimeout(function () {
+      var nodes = document.querySelectorAll(".reveal");
+      nodes.forEach(function (n, i) { setTimeout(function () { n.classList.add("shown"); }, i * 130); });
+    }, 700);
+    setTimeout(function () { cover.remove(); }, 2400);
+    if (inv.musicUrl) {
+      const id = ytId(inv.musicUrl);
+      let audio = null, ifr = null, muted = false;
+      if (id) {
+        ifr = el("iframe", { class: "yt-hidden", allow: "autoplay", src: "https://www.youtube.com/embed/" + id + "?autoplay=1&loop=1&playlist=" + id });
+        document.body.appendChild(ifr);
+      } else {
+        audio = el("audio", { src: inv.musicUrl, loop: "" });
+        document.body.appendChild(audio);
+        audio.play().catch(function () {});
+      }
+      const btn = el("button", { class: "music-btn", style: "background:" + t.soft + ";border:1px solid " + t.border + ";color:" + t.accent }, "🎵");
+      btn.addEventListener("click", function () {
+        muted = !muted;
+        btn.textContent = muted ? "🔇" : "🎵";
+        if (audio) { audio.muted = muted; if (!muted) audio.play().catch(function () {}); }
+        if (ifr) { if (muted) ifr.remove(); else document.body.appendChild(ifr); }
+      });
+      document.body.appendChild(btn);
+    }
+    const cd = $("#cd");
+    if (cd) countdown(inv.eventDate, d, cd, t.accent, t.border);
+  });
+};
+
+/* ===== صفحة التعديل (الزبون) — بدون سيرفر ===== */
+App.initEdit = function () {
+  const { THEMES, TIERS, LANG_NAMES, $, esc, dict } = App;
+  const root = $("#root");
+  let inv = App.decode(location.hash);
+  if (!inv) {
+    root.innerHTML = '<div class="center-page"><div style="font-size:56px">🔍</div><p style="font-size:17px">' + dict("ar").notFound + '</p></div>';
+    return;
+  }
+  let saved = false;
+
+  function guestLink() {
+    return location.origin + "/d/" + encodeURIComponent(inv.code || "dawat") + "#" + App.encode(inv);
+  }
+  function waLink() {
+    const t = THEMES[inv.template];
+    const lines = ["✨ دعوة جديدة جاهزة — بطاقتي VIP", "الكود: " + inv.code, "الفئة: " + (inv.tier || "").toUpperCase(),
+      "القالب: " + t.names.ar, "العريس: " + inv.groom, "العروس: " + inv.bride,
+      "التاريخ: " + (inv.dateText || inv.eventDate), "الوقت: " + inv.timeText,
+      "القاعة: " + inv.venueName, "العنوان: " + inv.venueAddress,
+      inv.mapsUrl ? "الخريطة: " + inv.mapsUrl : "", inv.musicUrl ? "الموسيقى: " + inv.musicUrl : "",
+      "", "رابط الدعوة النهائي:", guestLink()].filter(Boolean);
+    return "https://wa.me/" + App.WA_FALLBACK + "?text=" + encodeURIComponent(lines.join("\n"));
+  }
+
+  function render() {
+    const d = dict(inv.lang);
+    const f = TIERS[inv.tier] || TIERS.classic;
+    const tierColor = inv.tier === "vip" ? "#e9c05e" : inv.tier === "gold" ? "#d9a941" : "#a8b0c0";
+    const inp = function (name, label, val, ph, dir) {
+      return '<label class="field"><span>' + label + '</span><input data-k="' + name + '" value="' + esc(val) + '" placeholder="' + esc(ph || "") + '" ' + (dir ? 'dir="' + dir + '"' : "") + '></label>';
+    };
+    const area = function (name, label, val, ph) {
+      return '<label class="field"><span>' + label + '</span><textarea data-k="' + name + '" rows="2" placeholder="' + esc(ph || "") + '">' + esc(val) + '</textarea></label>';
+    };
+    const tog = function (name, label, on) {
+      return '<button type="button" class="toggle" data-t="' + name + '"><span>' + label + '</span><i class="' + (on ? "on" : "") + '"></i></button>';
+    };
+
+    root.innerHTML = '<div class="edit-wrap">' +
+      '<header style="text-align:center;margin-bottom:28px">' +
+        '<div class="seal" style="width:64px;height:64px;font-size:24px;margin:0 auto 12px;background:rgba(233,192,94,.1);border:1px solid rgba(233,192,94,.4)">💍</div>' +
+        '<h1 class="display gold-text" style="font-size:28px;margin:0">' + d.editTitle + '</h1>' +
+        '<p style="font-size:13px;opacity:.7;margin:8px 0 12px">' + d.editSubtitle + '</p>' +
+        '<span style="border:1px solid ' + tierColor + ';color:' + tierColor + ';border-radius:99px;padding:4px 16px;font-size:11px;font-weight:800">' + (inv.tier || "").toUpperCase() + ' · ' + esc(inv.code) + '</span></header>' +
+      '<section class="panel"><h2>' + d.secTemplate + '</h2><div class="tpl-grid">' +
+        f.templates.map(function (tid) { const t = THEMES[tid]; const act = inv.template === tid;
+          return '<button type="button" class="tpl-card' + (act ? " act" : "") + '" data-tpl="' + tid + '" style="background:' + t.bg + ';color:' + t.text + ';border-color:' + (act ? t.accent : "transparent") + '">' +
+            '<div style="font-size:24px">' + t.emoji + '</div><div style="font-size:11px;font-weight:700;margin-top:4px">' + t.names[inv.lang] + '</div></button>'; }).join("") +
+      '</div></section>' +
+      '<section class="panel"><h2>' + d.secBasics + '</h2>' +
+        '<label class="field"><span>' + d.fLang + '</span><select data-k="lang">' +
+          Object.keys(LANG_NAMES).map(function (l) { return '<option value="' + l + '" ' + (inv.lang === l ? "selected" : "") + '>' + LANG_NAMES[l] + '</option>'; }).join("") +
+        '</select></label>' +
+        '<div class="grid2">' + inp("groom", d.fGroom, inv.groom) + inp("bride", d.fBride, inv.bride) + '</div>' +
+        area("phrase", d.fPhrase, inv.phrase, d.defaultPhrase) + '</section>' +
+      '<section class="panel"><h2>' + d.secDateTime + '</h2>' +
+        '<label class="field"><span>' + d.fEventDate + '</span><input type="datetime-local" data-k="eventDate" value="' + (inv.eventDate ? inv.eventDate.slice(0, 16) : "") + '"></label>' +
+        '<div class="grid2">' + inp("dateText", d.fDateText, inv.dateText, "يوم الجمعة، ١٥ آب ٢٠٢٦") + inp("timeText", d.fTimeText, inv.timeText, "الساعة ٧ مساءً") + '</div>' +
+        tog("showCountdown", d.fCountdown, inv.showCountdown) + '</section>' +
+      '<section class="panel"><h2>' + d.secTexts + '</h2>' + area("dua", d.fDua, inv.dua, d.defaultDua) + '</section>' +
+      '<section class="panel"><h2>' + d.secVenue + '</h2>' +
+        inp("venueName", d.fVenue, inv.venueName) + inp("venueAddress", d.fAddress, inv.venueAddress) +
+        inp("mapsUrl", d.fMaps, inv.mapsUrl, "https://maps.google.com/...", "ltr") + '</section>' +
+      (f.program ? '<section class="panel"><h2>' + d.secProgram + '</h2><div id="prog">' +
+        inv.program.map(function (p, i) {
+          return '<div class="prog-edit" data-i="' + i + '"><input class="p-time" value="' + esc(p.time) + '" placeholder="' + d.timePh + '" style="width:100px;text-align:center"><input class="p-label" value="' + esc(p.label) + '" placeholder="' + d.labelPh + '"><button type="button" class="p-del">✕</button></div>'; }).join("") +
+        '</div><button type="button" class="btn-ghost" id="addProg">' + d.addItem + '</button></section>' : "") +
+      (f.music ? '<section class="panel"><h2>' + d.secMusic + '</h2>' +
+        inp("musicUrl", d.fMusic, inv.musicUrl, "https://youtube.com/...", "ltr") +
+        '<p style="font-size:11px;opacity:.6;margin:4px 0 0">' + d.musicHint + '</p></section>' : "") +
+      '<section class="panel"><h2>' + d.secRsvp + '</h2>' + tog("rsvpEnabled", d.fRsvpOn, inv.rsvpEnabled) +
+        (inv.rsvpEnabled ? inp("rsvpPhone", d.fRsvpPhone, inv.rsvpPhone, "9647501234567", "ltr") + '<p style="font-size:11px;opacity:.6;margin:4px 0 0">' + d.phoneHint + '</p>' : "") + '</section>' +
+      '<div class="actions">' +
+        '<button type="button" class="btn-gold" id="save">' + (saved ? "✓ " + d.savedOk : d.saveBtn) + '</button>' +
+        (saved ? '<div class="linkrow"><span>🔗</span><code dir="ltr">' + guestLink() + '</code><button type="button" id="copyLink">نسخ</button></div>' +
+          '<a class="btn-wa" target="_blank" rel="noreferrer" href="' + waLink() + '">' + d.sendWA + '</a>' +
+          '<a class="btn-ghost" style="text-align:center" target="_blank" rel="noreferrer" href="' + guestLink() + '">' + d.previewBtn + '</a>' :
+          '<p style="text-align:center;font-size:11px;opacity:.6;margin:0">' + d.publishNote + '</p>') +
+      '</div></div>';
+    bind();
+  }
+
+  function collect() {
+    document.querySelectorAll("[data-k]").forEach(function (n) {
+      let v = n.value;
+      if (n.dataset.k === "eventDate" && v) v = new Date(v).toISOString();
+      inv[n.dataset.k] = v;
+    });
+    inv.program = Array.prototype.map.call(document.querySelectorAll(".prog-edit"), function (r) {
+      return { time: r.querySelector(".p-time").value, label: r.querySelector(".p-label").value };
+    }).filter(function (p) { return p.time || p.label; });
+  }
+
+  function bind() {
+    document.querySelectorAll(".tpl-card").forEach(function (b) { b.addEventListener("click", function () { collect(); inv.template = b.dataset.tpl; saved = false; render(); }); });
+    document.querySelectorAll(".toggle").forEach(function (b) { b.addEventListener("click", function () { collect(); inv[b.dataset.t] = !inv[b.dataset.t]; saved = false; render(); }); });
+    const sel = document.querySelector('[data-k="lang"]');
+    if (sel) sel.addEventListener("change", function () { collect(); saved = false; render(); });
+    const ap = $("#addProg");
+    if (ap) ap.addEventListener("click", function () { collect(); inv.program.push({ time: "", label: "" }); render(); });
+    document.querySelectorAll(".p-del").forEach(function (b) { b.addEventListener("click", function () { collect(); inv.program.splice(+b.parentElement.dataset.i, 1); render(); }); });
+    $("#save").addEventListener("click", function () {
+      collect();
+      saved = true;
+      history.replaceState(null, "", location.pathname + "#" + App.encode(inv));
+      render();
+      window.scrollTo(0, document.body.scrollHeight);
+    });
+    const cl = $("#copyLink");
+    if (cl) cl.addEventListener("click", function () { navigator.clipboard.writeText(guestLink()); cl.textContent = "✓"; });
+  }
+
+  render();
+};
+
+/* ===== لوحة التحكم (الأدمن) — بدون سيرفر ===== */
+App.initAdmin = function () {
+  const { THEMES, TIERS, LANG_NAMES, $, esc } = App;
+  const root = $("#root");
+
+  function loginView() {
+    root.innerHTML = '<div class="center-page">' +
+      '<div class="seal" style="width:80px;height:80px;font-size:30px;background:rgba(233,192,94,.1);border:1px solid rgba(233,192,94,.4)">🔐</div>' +
+      '<h1 class="display gold-text" style="font-size:30px;margin:16px 0 0">لوحة التحكم</h1>' +
+      '<p style="font-size:13px;opacity:.6">بطاقتي VIP — الدخول بالرمز السري فقط</p>' +
+      '<input id="pw" type="password" placeholder="رمز التحكم" dir="ltr" style="margin-top:22px;max-width:300px;text-align:center;border-radius:99px">' +
+      '<button class="btn-gold" id="go" style="max-width:300px;margin-top:14px">دخول</button>' +
+      '<p id="err" style="color:#f87171;font-size:13px;margin-top:14px"></p></div>';
+    const pw = $("#pw");
+    const go = function () {
+      if (pw.value.trim() === App.ADMIN_CODE) mainView();
+      else $("#err").textContent = "رمز التحكم غير صحيح ❌";
+    };
+    $("#go").addEventListener("click", go);
+    pw.addEventListener("keydown", function (e) { if (e.key === "Enter") go(); });
+  }
+
+  function mainView() {
+    root.innerHTML = '<div class="edit-wrap" style="max-width:680px">' +
+      '<header style="text-align:center;margin-bottom:24px">' +
+        '<h1 class="display gold-text" style="font-size:28px;margin:0">لوحة التحكم</h1>' +
+        '<p style="font-size:12px;opacity:.6;margin-top:6px">أنشئ دعوة، وأرسل رابط التعديل للزبون — يكتب معلوماته وتصلك على الواتساب</p></header>' +
+      '<section class="panel"><h2>➕ إنشاء دعوة جديدة</h2>' +
+        '<div class="grid2">' +
+          '<label class="field"><span>كود الدعوة (بالإنكليزي، مثل ahmad-shilan)</span><input id="nCode" dir="ltr" placeholder="ahmad-shilan"></label>' +
+          '<label class="field"><span>اسم الزبون</span><input id="nName" placeholder="أحمد"></label>' +
+          '<label class="field"><span>رقم الزبون (واتساب)</span><input id="nPhone" dir="ltr" placeholder="9647501234567"></label>' +
+          '<label class="field"><span>الفئة</span><select id="nTier">' +
+            '<option value="vip">VIP 👑 — كل القوالب + موسيقى</option>' +
+            '<option value="gold">ذهبية ✨ — ٤ قوالب + موسيقى</option>' +
+            '<option value="classic">عادية 🌹 — قالبان</option></select></label>' +
+          '<label class="field"><span>القالب الافتراضي</span><select id="nTpl"></select></label>' +
+          '<label class="field"><span>لغة الدعوة</span><select id="nLang">' +
+            Object.keys(LANG_NAMES).map(function (l) { return '<option value="' + l + '">' + LANG_NAMES[l] + '</option>'; }).join("") + '</select></label>' +
+        '</div>' +
+        '<button class="btn-gold" id="mk" style="margin-top:16px">أنشئ الدعوة ✨</button>' +
+        '<div id="createdBox"></div></section>' +
+      '<section class="panel"><h2>💡 طريقة العمل</h2>' +
+        '<p style="font-size:13px;line-height:2;opacity:.8">1. أنشئ الدعوة واختر الفئة والقالب<br>2. أرسل <b>رابط التعديل</b> للزبون بزر الواتساب<br>3. الزبون يكتب معلومات حفله ويضغط حفظ — تصلك التفاصيل مع <b>رابط الدعوة النهائي</b> على واتسابك تلقائياً<br>4. الرابط النهائي يوزعه الزبون على ضيوفه — ويقفل تلقائياً بعد الحفل بيومين 🔒</p></section></div>';
+
+    const tplSel = $("#nTpl"), tierSel = $("#nTier");
+    function fillTpl() {
+      tplSel.innerHTML = TIERS[tierSel.value].templates.map(function (tid) {
+        return '<option value="' + tid + '">' + THEMES[tid].emoji + " " + THEMES[tid].names.ar + '</option>';
+      }).join("");
+    }
+    fillTpl();
+    tierSel.addEventListener("change", fillTpl);
+    $("#mk").addEventListener("click", function () {
+      let code = ($("#nCode").value || "").trim().toLowerCase().replace(/[^a-z0-9-]/g, "");
+      if (!code) code = "dawat-" + Math.random().toString(36).slice(2, 7);
+      const inv = App.newInvite({ code: code, tier: tierSel.value, template: tplSel.value,
+        lang: $("#nLang").value, customerName: $("#nName").value });
+      const editUrl = location.origin + "/edit/" + code + "#" + App.encode(inv);
+      const phone = ($("#nPhone").value || "").replace(/\D/g, "");
+      const waTxt = "أهلاً " + ($("#nName").value || "") + " 🤍\nهذا رابط تعديل دعوتك — افتحه واكتب معلومات حفلكم ثم اضغط حفظ:\n" + editUrl + "\n\nبطاقتي VIP ✨";
+      $("#createdBox").innerHTML = '<div class="created">' +
+        '<p style="color:#34d399;font-weight:700;margin:0 0 10px">✓ تم إنشاء الدعوة «' + esc(code) + '»</p>' +
+        '<div class="linkrow"><span>رابط التعديل (للزبون):</span><code dir="ltr">' + editUrl + '</code><button id="cpE">نسخ</button></div>' +
+        '<a class="btn-wa" style="margin-top:10px" target="_blank" rel="noreferrer" href="https://wa.me/' + phone + '?text=' + encodeURIComponent(waTxt) + '">أرسل الرابط للزبون 📲</a></div>';
+      $("#cpE").addEventListener("click", function () { navigator.clipboard.writeText(editUrl); $("#cpE").textContent = "✓"; });
+    });
+  }
+
+  loginView();
+};
+
+App.initInvite();
+</script>
 </body></html>
