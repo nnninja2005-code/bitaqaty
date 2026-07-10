@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@300;400;500;600;700;800&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Aref+Ruqaa:wght@400;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="/style.css"><title>بطاقتي VIP · دعوات زفاف رقمية فاخرة</title><meta name="description" content="منصة دعوات زفاف رقمية فاخرة بالعربية والكردية — قوالب فيديو حية، عد تنازلي، موسيقى، وتأكيد حضور عبر واتساب."></head>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@300;400;500;600;700;800&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Aref+Ruqaa:wght@400;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="/style.css"><title>دعوة زفاف · بطاقتي VIP</title></head>
 <body><div id="root"></div>
 <script>
 /* بطاقتي VIP — المنطق المشترك لكل الصفحات */
@@ -452,6 +452,26 @@ App.ic = function (name, size) {
 /* ===== رمز التحكم — غيّره من هنا ===== */
 App.ADMIN_CODE = "BITAQATY-2026";
 
+/* ===== قاعدة البيانات Firebase — متصلة مباشرة ===== */
+App.FB_URL = "https://bitaqaty-6d4cf-default-rtdb.europe-west1.firebasedatabase.app";
+App.fbGet = async function (code) {
+  const r = await fetch(App.FB_URL + "/invites/" + encodeURIComponent(code) + ".json");
+  if (!r.ok) throw 0;
+  return r.json();
+};
+App.fbPut = async function (inv) {
+  const r = await fetch(App.FB_URL + "/invites/" + encodeURIComponent(inv.code) + ".json",
+    { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(inv) });
+  if (!r.ok) throw 0;
+  return r.json();
+};
+App.fbList = async function () {
+  const r = await fetch(App.FB_URL + "/invites.json");
+  if (!r.ok) throw 0;
+  const all = await r.json();
+  return all ? Object.values(all).filter(function (x) { return x && x.code && !x.hidden; }) : [];
+};
+
 /* ===== ترميز الدعوة داخل الرابط (بدون سيرفر) ===== */
 function b64u(str) {
   return btoa(unescape(encodeURIComponent(str))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
@@ -498,13 +518,17 @@ App.decode = function (hash) {
   return null;
 };
 App.newInvite = function (p) {
-  return { code: p.code || "", tier: p.tier || "classic", template: p.template || "rose",
-    lang: p.lang || "ar", customerName: p.customerName || "", groom: "", bride: "", gLine: "", bLine: "",
+  return { code: p.code || "", editKey: Math.random().toString(36).slice(2, 12),
+    tier: p.tier || "classic", template: p.template || "rose",
+    lang: p.lang || "ar", customerName: p.customerName || "", customerPhone: p.customerPhone || "",
+    groom: "", bride: "", gLine: "", bLine: "",
     phrase: "", dua: "", eventDate: "", dateText: "", timeText: "", showCountdown: true,
     venueName: "", venueAddress: "", mapsUrl: "", program: [], musicUrl: "",
-    rsvpEnabled: true, rsvpPhone: "" };
+    rsvpEnabled: true, rsvpPhone: "", published: false, active: true, hidden: false,
+    createdAt: new Date().toISOString() };
 };
 App.isExpired = function (inv) {
+  if (inv.active === false || inv.hidden) return true;
   if (!inv.eventDate) return false;
   return Date.now() > new Date(inv.eventDate).getTime() + 2 * 864e5;
 };
@@ -612,12 +636,9 @@ App.initInvite = async function () {
   const root = $("#root");
   const code = pathParam();
   const guest = qs("guest");
-  let inv = App.dataParam(), srvExpired = null;
+  let inv = App.dataParam();
   if (!inv && code && code.indexOf("demo-") !== 0) {
-    try {
-      const r = await fetch("/api/invites?code=" + encodeURIComponent(code) + "&view=1");
-      if (r.ok) { const j = await r.json(); inv = j.invite; srvExpired = j.expired; }
-    } catch (e) {}
+    try { inv = await App.fbGet(code); } catch (e) {}
   }
   if (!inv && code.indexOf("demo-") === 0) inv = App.demoInvite(code);
   if (!inv) {
@@ -627,7 +648,7 @@ App.initInvite = async function () {
   const d = dict(inv.lang);
   const t = THEMES[inv.template] || THEMES.zerin;
 
-  if (srvExpired !== null ? srvExpired : App.isExpired(inv)) {
+  if (App.isExpired(inv)) {
     root.innerHTML = '<div class="center-page"><div style="font-size:56px">🕊️</div>' +
       '<h1 class="display gold-text" style="font-size:26px;margin:18px 0 0">' + d.expiredTitle + '</h1>' +
       '<p style="max-width:340px;opacity:.75;font-size:14px;line-height:1.9">' + d.expiredBody + '</p>' +
@@ -785,8 +806,8 @@ App.initEdit = async function () {
   let inv = null, serverMode = false;
   if (editKey) {
     try {
-      const r = await fetch("/api/invites?code=" + encodeURIComponent(App.pathParam()) + "&key=" + encodeURIComponent(editKey));
-      if (r.ok) { inv = (await r.json()).invite; serverMode = true; }
+      const v = await App.fbGet(App.pathParam());
+      if (v && v.editKey === editKey) { inv = v; serverMode = true; }
     } catch (e) {}
   }
   if (!inv) inv = App.dataParam();
@@ -895,9 +916,10 @@ App.initEdit = async function () {
         const btn = $("#save");
         btn.disabled = true; btn.textContent = "...";
         try {
-          const r = await fetch("/api/invites", { method: "PUT", headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(Object.assign({}, inv, { editKey: editKey })) });
-          if (r.ok) { inv = (await r.json()).invite; saved = true; }
+          inv.published = true;
+          inv.updatedAt = new Date().toISOString();
+          await App.fbPut(inv);
+          saved = true;
         } catch (e) {}
         btn.disabled = false;
       } else {
@@ -937,14 +959,13 @@ App.initAdmin = function () {
     const pw = $("#pw");
     const go = async function () {
       adminCode = pw.value.trim();
+      if (adminCode !== App.ADMIN_CODE) { $("#err").textContent = "رمز التحكم غير صحيح"; return; }
       try {
-        const r = await fetch("/api/invites?list=1", { headers: H() });
-        if (r.status === 200) { invites = (await r.json()).invites; serverMode = true; mainView(); return; }
-        if (r.status === 401) { $("#err").textContent = "رمز التحكم غير صحيح"; return; }
-      } catch (e) {}
-      /* لا يوجد API — الوضع الاحتياطي */
-      if (adminCode === App.ADMIN_CODE) mainView();
-      else $("#err").textContent = "رمز التحكم غير صحيح";
+        invites = await App.fbList();
+        invites.sort(function (a, b) { return (a.createdAt || "") < (b.createdAt || "") ? 1 : -1; });
+        serverMode = true;
+      } catch (e) { serverMode = false; }
+      mainView();
     };
     $("#go").addEventListener("click", go);
     pw.addEventListener("keydown", function (e) { if (e.key === "Enter") go(); });
@@ -953,8 +974,8 @@ App.initAdmin = function () {
   async function refresh() {
     if (!serverMode) { mainView(); return; }
     try {
-      const r = await fetch("/api/invites?list=1", { headers: H() });
-      if (r.ok) invites = (await r.json()).invites;
+      invites = await App.fbList();
+      invites.sort(function (a, b) { return (a.createdAt || "") < (b.createdAt || "") ? 1 : -1; });
     } catch (e) {}
     mainView();
   }
@@ -1056,17 +1077,21 @@ App.initAdmin = function () {
       const name = $("#nName").value, phone = ($("#nPhone").value || "").replace(/\D/g, "");
       const origin = location.origin;
       if (serverMode) {
-        const r = await fetch("/api/invites", { method: "POST", headers: H(),
-          body: JSON.stringify({ code: code, tier: tierSel.value, template: tplSel.value, lang: $("#nLang").value, customerName: name, customerPhone: phone }) });
-        if (r.ok) {
-          const inv = (await r.json()).invite;
+        if (!code) code = "dawat-" + Math.random().toString(36).slice(2, 7);
+        try {
+          const exists = await App.fbGet(code);
+          if (exists) {
+            $("#createdBox").innerHTML = '<p class="notice" style="margin-top:12px">هذا الكود مستخدم — اختر كوداً آخر</p>';
+            return;
+          }
+          const inv = App.newInvite({ code: code, tier: tierSel.value, template: tplSel.value, lang: $("#nLang").value, customerName: name, customerPhone: phone });
+          await App.fbPut(inv);
           const editUrl = origin + "/edit/" + inv.code + "?key=" + inv.editKey;
           const guestUrl = origin + "/d/" + inv.code;
           showCreated(inv.code, editUrl, guestUrl, name, phone);
           refresh();
-        } else {
-          const j = await r.json().catch(function () { return {}; });
-          $("#createdBox").innerHTML = '<p class="notice" style="margin-top:12px">' + (j.error === "exists" ? "هذا الكود مستخدم — اختر كوداً آخر" : "حدث خطأ") + '</p>';
+        } catch (e) {
+          $("#createdBox").innerHTML = '<p class="notice" style="margin-top:12px">تعذر الاتصال بقاعدة البيانات — تأكد من نشر قواعد Rules</p>';
         }
       } else {
         if (!code) code = "dawat-" + Math.random().toString(36).slice(2, 7);
@@ -1107,13 +1132,16 @@ App.initAdmin = function () {
             const a = b.dataset.a;
             if (a === "copyg") { navigator.clipboard.writeText(origin + "/d/" + code); b.innerHTML = "✓ نُسخ"; }
             if (a === "copye") { navigator.clipboard.writeText(origin + "/edit/" + code + "?key=" + inv.editKey); b.innerHTML = "✓ نُسخ"; }
-            if (a === "tog") { await fetch("/api/invites", { method: "PUT", headers: H(), body: JSON.stringify({ code: code, active: !inv.active }) }); refresh(); }
-            if (a === "del") { if (confirm("حذف «" + code + "» نهائياً؟")) { await fetch("/api/invites?code=" + code, { method: "DELETE", headers: H() }); refresh(); } }
+            if (a === "tog") { inv.active = !inv.active; await App.fbPut(inv); refresh(); }
+            if (a === "del") { if (confirm("حذف «" + code + "» نهائياً؟")) { inv.hidden = true; inv.active = false; await App.fbPut(inv); refresh(); } }
           });
         });
         const sel = row.querySelector(".tier-sel");
         sel.addEventListener("change", async function () {
-          await fetch("/api/invites", { method: "PUT", headers: H(), body: JSON.stringify({ code: code, tier: sel.value }) });
+          inv.tier = sel.value;
+          const allowed = TIERS[inv.tier].templates;
+          if (allowed.indexOf(inv.template) === -1) inv.template = allowed[0];
+          await App.fbPut(inv);
           refresh();
         });
       });
@@ -1132,6 +1160,6 @@ App.initAdmin = function () {
   loginView();
 };
 
-App.initLanding();
+App.initInvite();
 </script>
 </body></html>

@@ -1,3 +1,1165 @@
-<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>بطاقتي VIP</title>
-<style>body{margin:0;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(1200px 700px at 50% -10%,#241c10,#14100c 55%,#0a0806);color:#f3e9d2;font-family:Tahoma,Arial;text-align:center;padding:24px}a{color:#e9c05e}</style></head>
-<body><div style="font-size:56px">🔍</div><h1>الصفحة غير موجودة</h1><p>تأكد من الرابط أو ارجع <a href="/">للصفحة الرئيسية</a></p></body></html>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@300;400;500;600;700;800&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Aref+Ruqaa:wght@400;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="/style.css"><title>لوحة التحكم · بطاقتي VIP</title><meta name="robots" content="noindex"></head>
+<body><div id="root"></div>
+<script>
+/* بطاقتي VIP — المنطق المشترك لكل الصفحات */
+window.App = (function () {
+  const WA_FALLBACK = "9647515193165";
+
+  const THEMES = {
+    almas: { tier: "vip", emoji: "💎", icon: "gem", opening: "video", ornament: "❖",
+    video: "/v-almas.mp4", poster: "/p-almas.jpg",
+    names: { ar: "الماسة", bad: "ئەڵماس", sor: "ئەڵماس" },
+    desc: {
+      ar: "فيلم افتتاحي حقيقي: صندوق مخملي يُفتح عن ماسة تتلألأ بين البتلات",
+      bad: "فیلمەکێ ڕاستەقینە: سندوقێ مەخمەل ل سەر ئەڵماسەکێ ڤەدبیت",
+      sor: "فیلمێکی ڕاستەقینە: سندوقی مەخمەڵ لەسەر ئەڵماسێک دەکرێتەوە",
+    },
+    tap: { ar: "اضغط وشاهد الافتتاحية", bad: "دەست بدە و تەماشا بکە", sor: "دەست بنێ و تەماشا بکە" },
+    bg: "radial-gradient(1100px 700px at 50% -10%, #fffdf8 0%, #f6eedd 45%, #eadec4 100%)",
+    card: "linear-gradient(160deg, #fffefa, #f8f1e2)", text: "#655230",
+    accent: "#a8853f", soft: "rgba(168,133,63,.12)", border: "rgba(168,133,63,.35)", fx: "petals", colors: ["#f3e6cd","#e9d5ac"] },
+  qaea: { tier: "vip", emoji: "🏛️", icon: "venue", opening: "video", ornament: "✦",
+    video: "/v-qaea.mp4", poster: "/p-qaea.jpg",
+    names: { ar: "القاعة الملكية", bad: "هۆلا شاهانە", sor: "هۆڵی شاهانە" },
+    desc: {
+      ar: "افتتاحية سينمائية داخل قاعة ملكية بثرياتها الكريستالية وشموعها",
+      bad: "دەستپێکەکا سینەمایی د هۆلەکا شاهانە دا ب چرایێن کریستال",
+      sor: "دەستپێکێکی سینەمایی لەناو هۆڵێکی شاهانە بە چرا کریستاڵییەکان",
+    },
+    tap: { ar: "اضغط وشاهد الافتتاحية", bad: "دەست بدە و تەماشا بکە", sor: "دەست بنێ و تەماشا بکە" },
+    bg: "radial-gradient(1100px 700px at 50% -10%, #fffdf8 0%, #f5ecda 45%, #e7d9bc 100%)",
+    card: "linear-gradient(160deg, #fffefa, #f7f0e0) ", text: "#63512f",
+    accent: "#a8853f", soft: "rgba(168,133,63,.12)", border: "rgba(168,133,63,.35)", fx: "petals", colors: ["#f3e6cd","#ecd9b0"] },
+  hareer: { tier: "vip", emoji: "🎐", icon: "envelope", opening: "video", ornament: "✧",
+    video: "/v-hareer.mp4", poster: "/p-hareer.jpg",
+    names: { ar: "ستائر الحرير", bad: "پەردەیێن حەریری", sor: "پەردەی ئاوریشم" },
+    desc: {
+      ar: "ستائر حرير شفافة تنفرج على ضوء ذهبي وبتلات تتساقط — نعومة سينمائية",
+      bad: "پەردەیێن حەریری ل سەر ڕۆناهیا زێڕین ڤەدبن و گوڵ دبارن",
+      sor: "پەردەی ئاوریشمی لەسەر ڕووناکی زێڕین دەکرێنەوە و گوڵ دەبارێت",
+    },
+    tap: { ar: "اضغط وشاهد الافتتاحية", bad: "دەست بدە و تەماشا بکە", sor: "دەست بنێ و تەماشا بکە" },
+    bg: "radial-gradient(1100px 700px at 50% -10%, #fdfaf4 0%, #f3ead8 45%, #e6d8bd 100%)",
+    card: "linear-gradient(160deg, #fffef9, #f6efdf)", text: "#665336",
+    accent: "#ab8848", soft: "rgba(171,136,72,.12)", border: "rgba(171,136,72,.35)", fx: "petals", colors: ["#f5e9d2","#ebdab5"] },
+  warda: { tier: "vip", emoji: "🤍", icon: "bloom", opening: "video", ornament: "✿",
+    video: "/v-warda.mp4", poster: "/p-warda.jpg",
+    names: { ar: "الوردة البيضاء", bad: "گوڵا سپی", sor: "گوڵە سپییەکە" },
+    desc: {
+      ar: "وردة بيضاء تتفتح وخيوط نور ذهبية ترقص حولها — رومانسية خالصة",
+      bad: "گوڵەکا سپی ڤەدبیت و ڕشمەیێن ڕۆناهیێ ل دەورا وێ دگەڕن",
+      sor: "گوڵێکی سپی دەپشکوێت و دەزووی ڕووناکی بەدەوریدا سەما دەکەن",
+    },
+    tap: { ar: "اضغط وشاهد الافتتاحية", bad: "دەست بدە و تەماشا بکە", sor: "دەست بنێ و تەماشا بکە" },
+    bg: "radial-gradient(1100px 700px at 50% -10%, #fffcfa 0%, #faeee9 45%, #efdcd2 100%)",
+    card: "linear-gradient(160deg, #fffefd, #fbf1ec)", text: "#6e4a3f",
+    accent: "#bd8571", soft: "rgba(189,133,113,.12)", border: "rgba(189,133,113,.35)", fx: "petals", colors: ["#f6dfd6","#eecdc0","#f9ece6"] },
+  hikaya: { tier: "vip", emoji: "📖", icon: "heart", opening: "video", ornament: "❦",
+    video: "/v-hikaya.mp4", poster: "/p-hikaya.jpg",
+    names: { ar: "حكاية العمر", bad: "چیرۆکا تەمەنی", sor: "چیرۆکی تەمەن" },
+    desc: {
+      ar: "كتاب عتيق يُفتح بين البتلات والنجوم — وحكايتكما تبدأ من أول صفحة",
+      bad: "پەرتووکەکا کەڤن د ناڤ گوڵان دا ڤەدبیت — چیرۆکا هەوە دەست پێ دکەت",
+      sor: "پەڕتووکێکی کۆن لەنێو گوڵەکاندا دەکرێتەوە — چیرۆکی ئێوە دەست پێدەکات",
+    },
+    tap: { ar: "اضغط وافتح الحكاية", bad: "دەست بدە و چیرۆکێ ڤەکە", sor: "دەست بنێ و چیرۆکەکە بکەرەوە" },
+    bg: "radial-gradient(1100px 700px at 50% -10%, #fdfaf3 0%, #f4ecd9 45%, #e8dabd 100%)",
+    card: "linear-gradient(160deg, #fffef9, #f7f0de)", text: "#645231",
+    accent: "#a8853f", soft: "rgba(168,133,63,.12)", border: "rgba(168,133,63,.35)", fx: "petals", colors: ["#f4e8cf","#ecdcb8"] },
+  zerin: { tier: "vip", emoji: "👑", icon: "crown", opening: "envelope", ornament: "❖",
+      names: { ar: "زێرين الملكي VIP", bad: "زێڕینا شاهانە VIP", sor: "زێڕینی شاهانە VIP" },
+      desc: { ar: "أسود وذهب خالص — فخامة لا تُنسى", bad: "ڕەش و زێڕ — لوکسیا نەژبیرکری", sor: "ڕەش و زێڕی بێگەرد — لوکسی لەبیرنەکراو" },
+      bg: "radial-gradient(1200px 700px at 50% -10%,#2a2312,#14100c 55%,#0a0806)",
+      card: "linear-gradient(160deg,#1c160e,#241c10)", text: "#f3e9d2",
+      accent: "#e9c05e", soft: "rgba(233,192,94,.16)", border: "rgba(233,192,94,.45)", fx: "sparks", colors: ["#e9c05e","#fff3cf"] },
+    royal: { tier: "gold", emoji: "🎭", icon: "gem", opening: "curtains", ornament: "✦",
+      names: { ar: "الملكي", bad: "شاهانە", sor: "شاهانە" },
+      desc: { ar: "ستارة مسرح ملكية تنفتح على اسمَيكما", bad: "پەردەیا شانۆیا شاهانە ڤەدبیت", sor: "پەردەی شانۆی شاهانە دەکرێتەوە" },
+      bg: "radial-gradient(1100px 700px at 50% -10%,#1a2350,#0b1026 60%,#070a1a)",
+      card: "linear-gradient(160deg,#10173a,#151d45)", text: "#eef0ff",
+      accent: "#e9c05e", soft: "rgba(233,192,94,.14)", border: "rgba(233,192,94,.4)", fx: "sparks", colors: ["#e9c05e","#aebcff"] },
+    rose: { tier: "classic", emoji: "🌹", icon: "bloom", opening: "envelope", ornament: "✿",
+      names: { ar: "حُلم وردي", bad: "خەونا گوڵاڤی", sor: "خەونی گوڵاوی" },
+      desc: { ar: "مظروف وردي يُفتح على رومانسية تخطف القلب", bad: "زەرفەکێ گوڵاڤی ب نازکی ڤەدبیت", sor: "زەرفێکی گوڵاوی بە نەرمی دەکرێتەوە" },
+      bg: "radial-gradient(1100px 700px at 50% -10%,#fff,#fbeef0 45%,#f4dde2)",
+      card: "linear-gradient(160deg,#fff,#fdf3f4)", text: "#5c2a35",
+      accent: "#c46a7d", soft: "rgba(196,106,125,.12)", border: "rgba(196,106,125,.35)", fx: "petals", colors: ["#e88ba1","#f0aab9","#d76a8a"] },
+    starlit: { tier: "gold", emoji: "✨", icon: "star", opening: "sky", ornament: "✧",
+      names: { ar: "تحت النجوم", bad: "د بن ستێرکان دا", sor: "لەژێر ئەستێرەکاندا" },
+      desc: { ar: "سماء ليل تتلألأ — لعرسٍ حالم تحت القمر", bad: "ئەسمانێ شەڤێ یێ پڕ ستێرک", sor: "ئاسمانی شەو پڕ لە ئەستێرە" },
+      bg: "radial-gradient(1200px 800px at 50% -20%,#1b2a5e,#101a40 50%,#070c22)",
+      card: "linear-gradient(160deg,#141f4a,#182553)", text: "#eaf0ff",
+      accent: "#ffd98a", soft: "rgba(255,217,138,.14)", border: "rgba(255,217,138,.4)", fx: "sparks", colors: ["#ffd98a","#cfe0ff"] },
+    khatim: { tier: "vip", emoji: "💍", icon: "ring", opening: "box", ornament: "❖",
+    names: { ar: "الخاتم", bad: "گوستیرە", sor: "ئەنگوستیلە" },
+    desc: {
+      ar: "صندوق خاتم مخملي يُفتح تحت ضوء المسرح — لحظة العمر صارت دعوة",
+      bad: "سندوقێ گوستیرێ ب دەستێ تە ڤەدبیت — بن ڕۆناهیا سەحنەیێ",
+      sor: "سندوقی ئەنگوستیلە بە دەستت دەکرێتەوە — لەژێر ڕووناکی سەحنە",
+    },
+    tap: { ar: "المس الصندوق", bad: "دەست بدە سندوقی", sor: "دەست بنێ بە سندوقەکە" },
+    bg: "radial-gradient(1100px 750px at 50% -5%, #47141f 0%, #2a0d14 55%, #16060a 100%)",
+    card: "linear-gradient(160deg, #33101a, #401520)", text: "#f6e7d5",
+    accent: "#e9b95e", soft: "rgba(233,185,94,.15)", border: "rgba(233,185,94,.42)", fx: "petals", colors: ["#c4485a","#d76a7a"] },
+  qasr: { tier: "vip", emoji: "🏰", icon: "bfly", opening: "bflies", ornament: "✦",
+    names: { ar: "قصر الحكايات", bad: "قەسرا چیرۆکان", sor: "قەسری چیرۆکەکان" },
+    desc: {
+      ar: "فراشات ساحرة تحلّق نحو قصرٍ بين الغيوم — من حكايات الأميرات",
+      bad: "دەرگەهەکێ زێڕین ل سەر قەسرەکا د ناڤ عەوران دا ڤەدبیت",
+      sor: "دەروازەیەکی زێڕین دەکرێتەوە بۆ قەسرێک لەنێو هەورەکاندا",
+    },
+    tap: { ar: "المس الفراشات", bad: "دەست بدە پەپوولان", sor: "دەست بنێ بە پەپوولەکان" },
+    bg: "radial-gradient(1200px 800px at 50% -10%, #5a3a78 0%, #3a2350 45%, #1d1330 100%)",
+    card: "linear-gradient(160deg, #2c1c42, #372450)", text: "#f4eaff",
+    accent: "#e8bfff", soft: "rgba(232,191,255,.13)", border: "rgba(232,191,255,.4)", fx: "petals", colors: ["#e8bfff","#d3a6f5"] },
+  swan: { tier: "gold", emoji: "🦢", icon: "heart", opening: "arch", ornament: "❦",
+    names: { ar: "بحيرة البجع", bad: "گۆلا قوان", sor: "دەریاچەی قوو" },
+    desc: {
+      ar: "قوس مذهّب على بحيرة حالمة تتلألأ — رومانسية ملكية هادئة",
+      bad: "کەوانەکا زێڕین ل سەر گۆلەکا خەونین",
+      sor: "کەوانێکی زێڕین لەسەر دەریاچەیەکی خەونین",
+    },
+    bg: "radial-gradient(1100px 700px at 50% -10%, #fffdf7 0%, #f7eeda 45%, #ecdcbc 100%)",
+    card: "linear-gradient(160deg, #fffef9, #faf3e3)", text: "#5d4a2e",
+    accent: "#b98f4e", soft: "rgba(185,143,78,.12)", border: "rgba(185,143,78,.35)", fx: "petals", colors: ["#e8cfa0","#dcbd88"] },
+  fanar: { tier: "vip", emoji: "🏮", icon: "lantern", opening: "sky", ornament: "✧",
+    names: { ar: "ليلة الفوانيس", bad: "شەڤا فانۆسان", sor: "شەوی فانۆسەکان" },
+    desc: {
+      ar: "مئات الفوانيس تحلّق في سماء الليل احتفالاً بكما",
+      bad: "فانۆس د ئەسمانێ شەڤێ دا دفڕن بۆ شاهیا هەوە",
+      sor: "فانۆسەکان لە ئاسمانی شەودا دەفڕن بۆ ئاهەنگی ئێوە",
+    },
+    bg: "radial-gradient(1200px 800px at 50% -15%, #14384a 0%, #0c2430 50%, #051218 100%)",
+    card: "linear-gradient(160deg, #0f2d3d, #123646)", text: "#f0ead9",
+    accent: "#ffc873", soft: "rgba(255,200,115,.14)", border: "rgba(255,200,115,.4)", fx: "sparks", colors: ["#ffc873","#ffe7bd"] },
+  ward: { tier: "gold", emoji: "🌹", icon: "bloom", opening: "petals", ornament: "❁",
+    names: { ar: "مطر الورد", bad: "بارانا گوڵان", sor: "بارانی گوڵ" },
+    desc: {
+      ar: "مخمل عنّابي وشلال ورد لا يتوقف — دفء يليق بليلة العمر",
+      bad: "مەخمەلێ سۆر و بارانا گوڵان یا بێ ڕاوەستان",
+      sor: "مەخمەڵی سوور و بارانی گوڵی بێ وچان",
+    },
+    bg: "radial-gradient(1100px 750px at 50% -5%, #4d1a2b 0%, #33101c 55%, #1b0710 100%)",
+    card: "linear-gradient(160deg, #3d1424, #4a1a2c)", text: "#f7e6dc",
+    accent: "#e9c05e", soft: "rgba(233,192,94,.14)", border: "rgba(233,192,94,.42)", fx: "petals", colors: ["#c4485a","#e9c05e","#d76a7a"] },
+  garden: { tier: "classic", emoji: "🌿", icon: "leaf", opening: "arch", ornament: "❁",
+      names: { ar: "الحديقة", bad: "باخچە", sor: "باخچە" },
+      desc: { ar: "إكليل أزهار وخضرة ناعمة — عرس بنسمة ربيع", bad: "تاجێ گوڵان و کەسکاتی", sor: "تاجی گوڵ و سەوزایی" },
+      bg: "radial-gradient(1100px 700px at 50% -10%,#fff,#f2f6ec 45%,#e2ecd8)",
+      card: "linear-gradient(160deg,#fff,#f6faf1)", text: "#33432c",
+      accent: "#6f8f5a", soft: "rgba(111,143,90,.12)", border: "rgba(111,143,90,.35)", fx: "petals", colors: ["#9ec27e","#c9e0b4","#7ea55e"] },
+  };
+
+  const TIERS = {
+    classic: { music: false, program: false, templates: ["rose","garden"] },
+    gold: { music: true, program: true, templates: ["rose","garden","starlit","royal","swan","ward"] },
+    vip: { music: true, program: true, templates: ["almas","qaea","hareer","warda","hikaya","zerin","khatim","qasr","fanar","royal","swan","ward","starlit","rose","garden"] },
+  };
+
+  const LANG_NAMES = { ar: "العربية", bad: "کوردی (بادینی)", sor: "کوردی (سۆرانی)" };
+
+  const DICTS = {
+    ar: { tapToOpen: "اضغط لفتح الدعوة", youAreInvited: "يتشرّفون بدعوتكم لحضور حفل زفاف",
+      and: "و", dearGuest: "دعوة خاصة إلى",
+      defaultPhrase: "بقلوبٍ مليئة بالفرح، ندعوكم لمشاركتنا أجمل ليالينا",
+      defaultDua: "اللهم بارك لهما وبارك عليهما واجمع بينهما في خير",
+      dateLabel: "التاريخ", timeLabel: "الوقت", venueLabel: "القاعة", addressLabel: "العنوان",
+      openMap: "الموقع على الخريطة", countdownTitle: "باقي على الفرح",
+      days: "يوم", hours: "ساعة", minutes: "دقيقة", seconds: "ثانية", itsToday: "اليوم هو يوم الفرح! 🎉",
+      programTitle: "برنامج الحفل", rsvpTitle: "تأكيد الحضور", rsvpBody: "يسعدنا تأكيد حضوركم عبر واتساب",
+      rsvpButton: "أؤكد حضوري 💌", rsvpMessage: "أهنّئكم من القلب 🤍 أؤكد حضوري لحفل زفافكم",
+      expiredTitle: "انتهى الفرح بسلام 🤍",
+      expiredBody: "هذه الدعوة أغلقت بعد انتهاء الحفل. نتمنى للعروسين حياة مليئة بالحب والسعادة.",
+      withLove: "بكل الحب", notFound: "لم نجد هذه الدعوة — تأكد من الرابط",
+      editTitle: "عدّل تفاصيل دعوتك", editSubtitle: "غيّر التفاصيل كما تريد — ثم احفظ وأرسل لنا التأكيد",
+      secTemplate: "القالب", secBasics: "الأساسيات", secDateTime: "التاريخ والوقت", secTexts: "النصوص",
+      secVenue: "القاعة", secProgram: "برنامج الحفل", secMusic: "الموسيقى (اختياري)", secRsvp: "تأكيد الحضور",
+      fLang: "لغة الدعوة", fGroom: "اسم العريس", fBride: "اسم العروس", fGLine: "سطر تحت اسم العريس (مثال: نجل الحاج أحمد)", fBLine: "سطر تحت اسم العروس (مثال: كريمة الحاج علي)", fPhrase: "العبارة تحت الأسماء",
+      fEventDate: "تاريخ ووقت الحفل", fDateText: "نص التاريخ (كما سيظهر)", fTimeText: "نص الوقت (كما سيظهر)",
+      fCountdown: "إظهار العد التنازلي", fDua: "الدعاء / كلمة ختامية", fVenue: "اسم القاعة",
+      fAddress: "العنوان", fMaps: "رابط خرائط كوكل", fMusic: "رابط الموسيقى (يوتيوب أو MP3)",
+      musicHint: "يبدأ تلقائياً من المقطع الحماسي — ولتحديد البداية بنفسك أضف t=45 لنهاية رابط اليوتيوب", fRsvpOn: "تفعيل تأكيد الحضور",
+      fRsvpPhone: "رقم واتساب لاستقبال التأكيدات", phoneHint: "بصيغة دولية مثل 9647501234567",
+      addItem: "+ أضف فقرة", timePh: "٧:٠٠ مساءً", labelPh: "استقبال الضيوف",
+      saveBtn: "احفظ وانشر الدعوة ✨", savedOk: "تم الحفظ! دعوتك جاهزة",
+      sendWA: "أرسل التفاصيل عبر واتساب 📲", previewBtn: "معاينة الدعوة ↗",
+      publishNote: "بعد الحفظ اضغط زر الواتساب لتصلنا تفاصيلك", wrongKey: "رابط التعديل غير صحيح — تواصل معنا" },
+    bad: { tapToOpen: "دەست بدە بۆ ڤەکرنا داوەتنامەیێ", youAreInvited: "هوین ب دلخۆشی دهێنە ڤەخواندن بۆ داوەتا",
+      and: "و", dearGuest: "ڤەخواندنەکا تایبەت بۆ",
+      defaultPhrase: "ب دلێن پڕ ژ کەیفخۆشی، هوین دهێنە ڤەخواندن بۆ شەڤا مە یا جوانترین",
+      defaultDua: "خودێ ژیانا وان پڕ ژ خێر و خۆشی بکەت",
+      dateLabel: "مێژوو", timeLabel: "دەم", venueLabel: "هۆل", addressLabel: "ناڤ و نیشان",
+      openMap: "جهـ ل سەر نەخشێ ببینە", countdownTitle: "مایە بۆ داوەتێ",
+      days: "ڕۆژ", hours: "دەمژمێر", minutes: "خولەک", seconds: "چرکە", itsToday: "ئەڤرۆ ڕۆژا داوەتێ یە! 🎉",
+      programTitle: "بەرنامێ داوەتێ", rsvpTitle: "دڵنیاکرنا ئامادەبوونێ",
+      rsvpBody: "کەرەم بکە ئامادەبوونا خۆ ب واتسئاپێ دڵنیا بکە",
+      rsvpButton: "ئەز دێ ئامادە بم 💌", rsvpMessage: "پیرۆز بیت 🤍 ئەز دێ ل داوەتا هەوە ئامادە بم",
+      expiredTitle: "داوەت ب خێر و خۆشی بۆری 🤍",
+      expiredBody: "ئەڤ داوەتنامە هاتە گرتن پشتی داوەتێ. هیڤیا ژیانەکا پڕ ژ ئەڤین و بەختەوەری بۆ بویک و زاڤای دخوازین.",
+      withLove: "ب هەمی ئەڤینێ", notFound: "ئەڤ داوەتنامە نەهاتە دیتن — لینکێ چێک بکە",
+      editTitle: "پێزانینێن داوەتا خۆ بگهۆڕە", editSubtitle: "پێزانینان بگهۆڕە — پاشی خەزن بکە و بۆ مە بهنێرە",
+      secTemplate: "قالب", secBasics: "بنەڕەتی", secDateTime: "مێژوو و دەم", secTexts: "نڤیسین",
+      secVenue: "هۆل", secProgram: "بەرنامێ داوەتێ", secMusic: "موزیک (دلخواز)", secRsvp: "دڵنیاکرنا ئامادەبوونێ",
+      fLang: "زمانێ داوەتنامەیێ", fGroom: "ناڤێ زاڤای", fBride: "ناڤێ بویکێ", fGLine: "ڕێزا بن ناڤێ زاڤای (وەک: کوڕێ حاجی ئەحمەد)", fBLine: "ڕێزا بن ناڤێ بویکێ (وەک: کچا حاجی عەلی)", fPhrase: "پەیڤ د بن ناڤان دا",
+      fEventDate: "مێژوو و دەمێ داوەتێ", fDateText: "نڤیسینا مێژووێ", fTimeText: "نڤیسینا دەمی",
+      fCountdown: "هژمارتنا پاشڤە نیشان بدە", fDua: "دوعا / پەیڤا دوماهیێ", fVenue: "ناڤێ هۆلێ",
+      fAddress: "ناڤ و نیشان", fMaps: "لینکا گوگڵ ماپس", fMusic: "لینکا موزیکێ (یوتیوب یان MP3)",
+      musicHint: "پشتی ڤەکرنا داوەتنامەیێ دێ لێدەت", fRsvpOn: "دڵنیاکرنێ چالاک بکە",
+      fRsvpPhone: "ژمارا واتسئاپێ بۆ وەرگرتنا دڵنیاکرنان", phoneHint: "وەک 9647501234567",
+      addItem: "+ بڕگەیەکێ زێدە بکە", timePh: "٧:٠٠ ئێڤاری", labelPh: "پێشوازیا مێهڤانان",
+      saveBtn: "خەزن بکە و بڵاڤ بکە ✨", savedOk: "هاتە خەزنکرن! داوەتنامەیا تە ئامادە یە",
+      sendWA: "پێزانینان ب واتسئاپێ بهنێرە 📲", previewBtn: "بەرچاڤکرنا داوەتنامەیێ ↗",
+      publishNote: "پشتی خەزنکرنێ دوگمەیا واتسئاپێ بدە", wrongKey: "لینکا گهۆڕینێ نە دروست ە — پەیوەندیێ ب مە بکە" },
+    sor: { tapToOpen: "دەست بنێ بۆ کردنەوەی بانگهێشتنامەکە", youAreInvited: "بە خۆشحاڵییەوە بانگهێشت دەکرێن بۆ ئاهەنگی زەماوەندی",
+      and: "و", dearGuest: "بانگهێشتێکی تایبەت بۆ",
+      defaultPhrase: "بە دڵێکی پڕ لە خۆشی، بانگهێشتتان دەکەین بۆ جوانترین شەومان",
+      defaultDua: "خوا ژیانیان پڕ بکات لە خێر و خۆشی",
+      dateLabel: "ڕێکەوت", timeLabel: "کات", venueLabel: "هۆڵ", addressLabel: "ناونیشان",
+      openMap: "شوێنەکە لەسەر نەخشە ببینە", countdownTitle: "ماوە بۆ ئاهەنگەکە",
+      days: "ڕۆژ", hours: "کاتژمێر", minutes: "خولەک", seconds: "چرکە", itsToday: "ئەمڕۆ ڕۆژی ئاهەنگەکەیە! 🎉",
+      programTitle: "بەرنامەی ئاهەنگ", rsvpTitle: "دڵنیاکردنەوەی ئامادەبوون",
+      rsvpBody: "تکایە ئامادەبوونتان بە واتسئاپ دڵنیا بکەنەوە",
+      rsvpButton: "ئامادە دەبم 💌", rsvpMessage: "پیرۆزە 🤍 ئامادە دەبم لە ئاهەنگی زەماوەندتان",
+      expiredTitle: "ئاهەنگەکە بە خۆشی تێپەڕی 🤍",
+      expiredBody: "ئەم بانگهێشتنامەیە داخرا دوای تەواوبوونی ئاهەنگەکە. هیوای ژیانێکی پڕ لە خۆشەویستی بۆ بووک و زاوا دەخوازین.",
+      withLove: "بە هەموو خۆشەویستییەوە", notFound: "ئەم بانگهێشتنامەیە نەدۆزرایەوە — لینکەکە بپشکنە",
+      editTitle: "وردەکارییەکانی بانگهێشتنامەکەت بگۆڕە", editSubtitle: "وردەکارییەکان بگۆڕە — پاشان پاشەکەوتی بکە",
+      secTemplate: "قاڵب", secBasics: "بنەڕەتییەکان", secDateTime: "ڕێکەوت و کات", secTexts: "دەقەکان",
+      secVenue: "هۆڵ", secProgram: "بەرنامەی ئاهەنگ", secMusic: "مۆسیقا (ئارەزوومەندانە)", secRsvp: "دڵنیاکردنەوەی ئامادەبوون",
+      fLang: "زمانی بانگهێشتنامەکە", fGroom: "ناوی زاوا", fBride: "ناوی بووک", fGLine: "دێڕ لەژێر ناوی زاوا (وەک: کوڕی حاجی ئەحمەد)", fBLine: "دێڕ لەژێر ناوی بووک (وەک: کچی حاجی عەلی)", fPhrase: "دەستەواژە لەژێر ناوەکان",
+      fEventDate: "ڕێکەوت و کاتی ئاهەنگ", fDateText: "دەقی ڕێکەوت", fTimeText: "دەقی کات",
+      fCountdown: "پیشاندانی کاتی ماوە", fDua: "دوعا / وشەی کۆتایی", fVenue: "ناوی هۆڵ",
+      fAddress: "ناونیشان", fMaps: "لینکی گووگڵ ماپس", fMusic: "لینکی مۆسیقا (یوتیوب یان MP3)",
+      musicHint: "دوای کردنەوەی بانگهێشتنامەکە لێدەدرێت", fRsvpOn: "دڵنیاکردنەوە چالاک بکە",
+      fRsvpPhone: "ژمارەی واتسئاپ بۆ وەرگرتنی دڵنیاکردنەوەکان", phoneHint: "وەک 9647501234567",
+      addItem: "+ بڕگەیەک زیاد بکە", timePh: "٧:٠٠ ئێوارە", labelPh: "پێشوازی میوانان",
+      saveBtn: "پاشەکەوت بکە و بڵاوی بکەرەوە ✨", savedOk: "پاشەکەوت کرا! بانگهێشتنامەکەت ئامادەیە",
+      sendWA: "وردەکارییەکان بە واتسئاپ بنێرە 📲", previewBtn: "پێشبینینی بانگهێشتنامەکە ↗",
+      publishNote: "دوای پاشەکەوتکردن دوگمەی واتسئاپەکە دابگرە", wrongKey: "لینکی دەستکاری هەڵەیە — پەیوەندیمان پێوە بکە" },
+  };
+
+  const $ = (s, r) => (r || document).querySelector(s);
+  const el = (tag, attrs, html) => {
+    const e = document.createElement(tag);
+    if (attrs) for (const k in attrs) {
+      if (k === "style") e.style.cssText = attrs[k];
+      else if (k.startsWith("on")) e.addEventListener(k.slice(2), attrs[k]);
+      else e.setAttribute(k, attrs[k]);
+    }
+    if (html !== undefined) e.innerHTML = html;
+    return e;
+  };
+  const esc = (s) => String(s || "").replace(/[&<>"']/g, (c) => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+  const dict = (l) => DICTS[l] || DICTS.ar;
+  const pathParam = () => decodeURIComponent((location.pathname.split("/")[2] || "").split("?")[0]);
+  const qs = (k) => new URLSearchParams(location.search).get(k) || "";
+
+  function ytId(url) {
+    const m = String(url || "").match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([\w-]{11})/);
+    return m ? m[1] : null;
+  }
+
+  function particles(container, theme, n) {
+    const type = theme.fx || "sparks";
+    const colors = theme.colors || [theme.accent];
+    for (let i = 0; i < (n || 16); i++) {
+      const c = colors[i % colors.length];
+      let st = "left:" + Math.random() * 100 + "%;animation-duration:" + (6 + Math.random() * 9) + "s;animation-delay:" + Math.random() * 10 + "s;";
+      let cls = "spark";
+      if (type === "petals") {
+        cls = "petal";
+        const w = 9 + Math.random() * 9;
+        st += "background:radial-gradient(60% 60% at 35% 35%, " + c + ", " + c + "cc);width:" + w + "px;height:" + w + "px;";
+      } else {
+        const w = 3.5 + Math.random() * 3.5;
+        st += "background:" + c + ";box-shadow:0 0 " + (8 + Math.random() * 8) + "px 2px " + c + ";width:" + w + "px;height:" + w + "px;";
+      }
+      container.appendChild(el("span", { class: cls, style: st }));
+    }
+  }
+
+  function countdown(target, d, node, accent, border) {
+    function tick() {
+      const left = new Date(target).getTime() - Date.now();
+      if (left <= 0) { node.innerHTML = `<p style="color:${accent};font-weight:700;text-align:center">${d.itsToday}</p>`; return; }
+      const dd = Math.floor(left/864e5), h = Math.floor(left%864e5/36e5), m = Math.floor(left%36e5/6e4), s = Math.floor(left%6e4/1e3);
+      node.innerHTML = [[dd,d.days],[h,d.hours],[m,d.minutes],[s,d.seconds]].map(([v,l]) =>
+        `<div class="cd-cell" style="border-color:${border}"><div class="cd-num" style="color:${accent}">${v}</div><div class="cd-lab">${l}</div></div>`).join("");
+      setTimeout(tick, 1000);
+    }
+    tick();
+  }
+
+  return { THEMES, TIERS, LANG_NAMES, DICTS, WA_FALLBACK, $, el, esc, dict, pathParam, qs, ytId, particles, countdown };
+})();
+
+/* ===== الصفحة الرئيسية ===== */
+App.initLanding = function () {
+  const { THEMES, $, el } = App;
+  const L = {
+    ar: { kicker: "دعوات زفاف رقمية فاخرة", title: "ليلة العمر تستحق دعوة لا تُنسى",
+      sub: "قوالب حيّة بأنميشن ساحر، عدّ تنازلي، خرائط، موسيقى، وتأكيد حضور عبر واتساب — بالعربية والكردية (بادينی و سۆرانی)",
+      cta: "اطلب دعوتك الآن", demo: "شاهد القوالب حيّة", featsT: "لماذا بطاقتي VIP؟",
+      feats: [["crown","فخامة حقيقية","تصاميم ذهبية راقية تليق بأهم ليلة في حياتكم"],
+        ["globe","ثلاث لغات","عربية، بادينية، وسورانية — بخطوط صحيحة بلا أي كسر"],
+        ["hourglass","عدّ تنازلي حي","ضيوفكم يعيشون لحظة الانتظار معكم ثانية بثانية"],
+        ["pin","خرائط مباشرة","زر واحد يوصل ضيوفكم إلى باب القاعة"],
+        ["music","موسيقاكم الخاصة","أغنيتكم المفضلة تستقبل الضيوف عند فتح الدعوة"],
+        ["chat","تأكيد حضور واتساب","كل ضيف يؤكد حضوره برسالة واحدة"]],
+      tiersT: "الفئات", tiers: [["VIP","٩٩,٠٠٠ د.ع","كل القوالب الخمسة + موسيقى خاصة + اسم الضيف على الدعوة + برنامج الحفل كامل","crown"],["احترافي","٦٥,٠٠٠ د.ع","٤ قوالب راقية + موسيقى + برنامج الحفل","gem"],["عادي","٢٥,٠٠٠ د.ع","قالبان أنيقان بكل الأساسيات","bloom"]],
+      tplT: "قوالبنا — عيشها حيّة قبل أن تطلب", tplS: "اضغط أي قالب لتفتحه كما سيراه ضيوفك تماماً",
+      prev: "معاينة حيّة", tplOrder: "اطلب هذا القالب", ordMsg: ["🎉 مرحباً! أريد أطلب دعوة إلكترونية من بطاقتي VIP", "المناسبة: زفاف", "القالب", "الباقة"], pkg: { vip: "VIP", gold: "احترافي", classic: "عادي" }, orderT: "جاهز تحجز دعوتك؟", orderS: "راسلنا على واتساب — نجهّز لك رابطك الخاص خلال دقائق",
+      orderB: "احجز عبر واتساب 📲", footer: "بطاقتي VIP — دعوات تُصنع بحب في كردستان",
+      wa: "مرحباً 🌟 أريد حجز دعوة زفاف من بطاقتي VIP" },
+    bad: { kicker: "داوەتنامەیێن دیجیتال یێن لوکس", title: "شەڤا تەمەنی، داوەتنامەیەکا نەژبیرکری دڤێت",
+      sub: "قالبێن زیندی ب ئانیمەیشنێن جوان، هژمارتنا پاشڤە، نەخشە، موزیک و دڵنیاکرنا ئامادەبوونێ ب واتسئاپێ — ب عەرەبی و کوردی (بادینی و سۆرانی)",
+      cta: "نوکە داوا بکە", demo: "قالبان ب زیندی ببینە", featsT: "بۆچی بطاقتي VIP؟",
+      feats: [["crown","لوکسیا ڕاستەقینە","دیزاینێن زێڕین یێن هێژایی گرنگترین شەڤا ژیانا هەوە"],
+        ["globe","سێ زمان","عەرەبی، بادینی و سۆرانی — ب فۆنتێن دروست بێ کێماسی"],
+        ["hourglass","هژمارتنا پاشڤە","مێهڤانێن هەوە چرکە ب چرکە ل گەل هەوە چاڤەڕێ دبن"],
+        ["pin","نەخشەیا ڕاستەوخۆ","دوگمەیەک مێهڤانان دگهینیتە دەرگەهێ هۆلێ"],
+        ["music","موزیکا هەوە یا تایبەت","ستڕانا هەوە یا حەزژێکری مێهڤانان پێشوازی دکەت"],
+        ["chat","دڵنیاکرن ب واتسئاپێ","هەر مێهڤانەک ب پەیامەکێ ئامادەبوونا خۆ دڵنیا دکەت"]],
+      tiersT: "جۆر", tiers: [["VIP","٩٩,٠٠٠ د.ع","هەمی ٥ قالب + موزیکا تایبەت + ناڤێ مێهڤانی ل سەر داوەتنامەیێ + بەرنامێ داوەتێ","crown"],["پیشەیی","٦٥,٠٠٠ د.ع","٤ قالبێن جوان + موزیک + بەرنامێ داوەتێ","gem"],["ئاسایی","٢٥,٠٠٠ د.ع","دوو قالبێن جوان ب هەمی بنەڕەتیان","bloom"]],
+      tplT: "قالبێن مە — بەری داوا بکەی ب زیندی ببینە", tplS: "دەست بدە هەر قالبەکێ دا وەک مێهڤانێن تە ببینی",
+      prev: "بەرچاڤکرنا زیندی", tplOrder: "ڤی قالبی داوا بکە", ordMsg: ["🎉 سڵاڤ! دخوازم داوەتنامەیەکا ئەلیکترۆنی ژ بطاقتي VIP داوا بکەم", "بۆنە: داوەتا زەماوەندێ", "قالب", "پاکێج"], pkg: { vip: "VIP", gold: "پیشەیی", classic: "ئاسایی" }, orderT: "ئامادەیی داوەتنامەیا خۆ حجز بکەی؟",
+      orderS: "پەیامەکێ ب واتسئاپێ بهنێرە — د چەند خولەکان دا لینکا تە ئامادە دکەین",
+      orderB: "ب واتسئاپێ حجز بکە 📲", footer: "بطاقتي VIP — داوەتنامە ب ئەڤینێ ل کوردستانێ دهێنە چێکرن",
+      wa: "سڵاڤ 🌟 دخوازم داوەتنامەیەکا زەماوەندێ ژ بطاقتي VIP حجز بکەم" },
+    sor: { kicker: "بانگهێشتنامەی دیجیتاڵی لوکس", title: "شەوی تەمەن، بانگهێشتنامەیەکی لەبیرنەکراوی دەوێت",
+      sub: "قاڵبی زیندوو بە ئانیمەیشنی سەرنجڕاکێش، کاتی ماوە، نەخشە، مۆسیقا و دڵنیاکردنەوەی ئامادەبوون بە واتسئاپ — بە عەرەبی و کوردی (بادینی و سۆرانی)",
+      cta: "ئێستا داوا بکە", demo: "قاڵبەکان بە زیندوویی ببینە", featsT: "بۆچی بطاقتي VIP؟",
+      feats: [["crown","لوکسی ڕاستەقینە","دیزاینی زێڕینی شایستەی گرنگترین شەوی ژیانتان"],
+        ["globe","سێ زمان","عەرەبی، بادینی و سۆرانی — بە فۆنتی دروست بێ کەموکوڕی"],
+        ["hourglass","کاتی ماوە بە زیندوویی","میوانەکانتان چرکە بە چرکە لەگەڵتان چاوەڕێ دەکەن"],
+        ["pin","نەخشەی ڕاستەوخۆ","دوگمەیەک میوانان دەگەیەنێتە دەرگای هۆڵ"],
+        ["music","مۆسیقای تایبەتتان","گۆرانییە دڵخوازەکەتان پێشوازی لە میوانان دەکات"],
+        ["chat","دڵنیاکردنەوە بە واتسئاپ","هەر میوانێک بە نامەیەک ئامادەبوونی دڵنیا دەکاتەوە"]],
+      tiersT: "جۆرەکان", tiers: [["VIP","٩٩,٠٠٠ د.ع","هەموو ٥ قاڵبەکان + مۆسیقای تایبەت + ناوی میوان لەسەر بانگهێشتنامەکە + بەرنامەی ئاهەنگ","crown"],["پیشەیی","٦٥,٠٠٠ د.ع","٤ قاڵبی جوان + مۆسیقا + بەرنامەی ئاهەنگ","gem"],["ئاسایی","٢٥,٠٠٠ د.ع","دوو قاڵبی جوان بە هەموو بنەڕەتییەکان","bloom"]],
+      tplT: "قاڵبەکانمان — پێش داواکردن بە زیندوویی بیانبینە", tplS: "دەست بنێ بە هەر قاڵبێک بۆ بینینی",
+      prev: "پێشبینینی زیندوو", tplOrder: "ئەم قاڵبە داوا بکە", ordMsg: ["🎉 سڵاو! دەمەوێت بانگهێشتنامەیەکی ئەلیکترۆنی لە بطاقتي VIP داوا بکەم", "بۆنە: ئاهەنگی زەماوەند", "قاڵب", "پاکێج"], pkg: { vip: "VIP", gold: "پیشەیی", classic: "ئاسایی" }, orderT: "ئامادەیت بانگهێشتنامەکەت حجز بکەیت؟",
+      orderS: "نامەیەک بە واتسئاپ بنێرە — لە چەند خولەکێکدا لینکی تایبەتت ئامادە دەکەین",
+      orderB: "بە واتسئاپ حجز بکە 📲", footer: "بطاقتي VIP — بانگهێشتنامە بە خۆشەویستی لە کوردستان دروست دەکرێن",
+      wa: "سڵاو 🌟 دەمەوێت بانگهێشتنامەیەکی زەماوەند لە بطاقتي VIP حجز بکەم" },
+  };
+  let lang = "ar";
+  const root = App.$("#root");
+
+  function render() {
+    const s = L[lang];
+    const waOrder = "https://wa.me/" + App.WA_FALLBACK + "?text=" + encodeURIComponent(s.wa);
+    root.innerHTML = `
+      <nav class="land-nav">
+        <a href="/" class="display gold-text" style="font-size:24px;text-decoration:none">بطاقتي VIP</a>
+        <div style="display:flex;gap:8px">
+          ${["ar","bad","sor"].map((l) => `<button class="lang-btn${lang === l ? " act" : ""}" data-l="${l}">${l === "ar" ? "عربي" : l === "bad" ? "بادینی" : "سۆرانی"}</button>`).join("")}
+        </div></nav>
+      <header class="hero">
+        <p class="fadeUp" style="font-size:13px;letter-spacing:2px;color:#f2d998">✦ ${s.kicker} ✦</p>
+        <h1 class="display gold-text fadeUp" style="font-size:clamp(30px,6vw,54px);line-height:1.4;margin:22px 0 0;animation-delay:.15s">${s.title}</h1>
+        <p class="fadeUp" style="max-width:560px;margin:22px auto 0;font-size:15px;line-height:1.9;opacity:.8;animation-delay:.3s">${s.sub}</p>
+        <div class="fadeUp" style="display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-top:36px;animation-delay:.45s">
+          <a class="btn" style="background:linear-gradient(270deg,#a86f1c,#dfa93a,#a86f1c);color:#14100c" href="${waOrder}" target="_blank" rel="noreferrer">${s.cta}</a>
+          <a class="btn" style="border:1px solid rgba(233,192,94,.5);color:#f9edcd" href="#templates">${s.demo}</a>
+        </div>
+        <div class="seal floaty" style="width:96px;height:96px;margin:56px auto 0;background:rgba(233,192,94,.1);border:1px solid rgba(233,192,94,.4);color:#dfa93a">${App.ic("rings",42)}</div>
+      </header>
+      <section class="feats"><h2 class="display gold-text" style="font-size:30px;text-align:center">${s.featsT}</h2>
+        <div class="feat-grid">${s.feats.map((f) => `<div class="feat"><div style="color:#dfa93a">${App.ic(f[0],30)}</div><h3 style="color:#f2d998;margin:12px 0 0;font-size:16px">${f[1]}</h3><p style="font-size:13px;line-height:1.8;opacity:.75;margin-top:8px">${f[2]}</p></div>`).join("")}</div></section>
+      <section class="feats" style="max-width:860px"><h2 class="display gold-text" style="font-size:30px;text-align:center">${s.tiersT}</h2>
+        <div class="tier-grid">${s.tiers.map((t, i) => `<div class="tier${i === 0 ? " vip" : ""}"><div style="color:#dfa93a">${App.ic(t[3],34)}</div><h3 style="color:#f2d998;font-size:18px;margin-top:10px">${t[0]}</h3><div class="display gold-text" style="font-size:27px;margin-top:8px">${t[1]}</div><p style="font-size:13px;line-height:1.8;opacity:.8;margin-top:10px">${t[2]}</p></div>`).join("")}</div></section>
+      <section class="feats" id="templates"><h2 class="display gold-text" style="font-size:30px;text-align:center">${s.tplT}</h2>
+        <p style="text-align:center;font-size:13px;opacity:.7;margin-top:10px">${s.tplS}</p>
+        <div class="tpl-show">${Object.values(THEMES).map((t) => {
+          const key = Object.keys(THEMES).find((k) => THEMES[k] === t);
+          const price = t.tier === "vip" ? "٩٩,٠٠٠" : t.tier === "gold" ? "٦٥,٠٠٠" : "٢٥,٠٠٠";
+          const ordWa = "https://wa.me/" + App.WA_FALLBACK + "?text=" + encodeURIComponent(s.ordMsg[0] + "\n" + s.ordMsg[1] + "\n" + s.ordMsg[2] + ": " + t.names[lang] + "\n" + s.ordMsg[3] + ": " + s.pkg[t.tier] + " — " + price + " د.ع");
+          return `
+          <div class="tpl-item" style="background:${t.bg};color:${t.text}">
+            <a href="/d/demo-${key}" style="display:block;text-decoration:none;color:inherit">
+            <div class="tpl-prev">
+              ${t.poster ? '<img class="prev-img" src="' + t.poster + '" alt="" loading="lazy"><div class="prev-grad"></div>' : '<div class="scene">' + App.scene(t) + '</div>'}
+              ${t.video ? '<span class="vid-badge">▶ VIDEO</span>' : ""}
+              <span class="prev-badge" style="border-color:${t.accent};color:${t.accent};background:rgba(0,0,0,.18)">${t.tier === "gold" ? "PRO" : t.tier.toUpperCase()}</span>
+              <div class="prev-center">
+                <div class="display glowname" style="color:${t.accent};font-size:24px;line-height:1.4;margin-top:6px">${lang === "ar" ? "آلان و دلڤين" : "ئالان و دلڤین"}</div>
+                <div style="display:flex;align-items:center;gap:8px;opacity:.7"><span style="height:1px;width:34px;background:${t.border}"></span><span style="color:${t.accent};font-size:11px">${t.ornament}</span><span style="height:1px;width:34px;background:${t.border}"></span></div>
+                <span class="prev-tap" style="border-color:${t.border};color:${t.accent};background:${t.soft}">${(t.tap && t.tap[lang]) || App.DICTS[lang].tapToOpen}</span>
+              </div>
+            </div></a>
+            <div style="border-top:1px solid ${t.border};background:rgba(0,0,0,.08);padding:16px;position:relative;z-index:3">
+              <div style="display:flex;justify-content:space-between;align-items:center"><h3 style="color:${t.accent};font-size:15px">${t.names[lang]}</h3><span class="display" style="color:${t.accent};font-size:15px">${price} د.ع</span></div>
+              <p style="font-size:11px;line-height:1.8;opacity:.8;margin-top:6px">${t.desc[lang]}</p>
+              <div class="order-btns">
+                <a style="background:${t.accent};color:#1c1508" target="_blank" rel="noreferrer" href="${ordWa}">${s.tplOrder}</a>
+                <a style="border:1px solid ${t.border};color:${t.accent}" href="/d/demo-${key}">${s.prev} ↗</a>
+              </div></div></div>`;
+        }).join("")}</div></section>
+      <section class="feats" style="max-width:620px"><div class="cta-box">
+        <h2 class="display gold-text" style="font-size:28px">${s.orderT}</h2>
+        <p style="font-size:13px;opacity:.75;margin-top:14px">${s.orderS}</p>
+        <a class="btn" style="background:#25D366;color:#fff;margin-top:26px" href="${waOrder}" target="_blank" rel="noreferrer">${s.orderB}</a></div></section>
+      <footer class="land-footer">
+        <p class="display gold-text" style="font-size:19px">بطاقتي VIP</p>
+        <p style="font-size:11px;opacity:.5;margin-top:8px">${s.footer} · bitaqaty.vip</p></footer>`;
+    root.querySelectorAll(".lang-btn").forEach((b) => b.addEventListener("click", () => { lang = b.dataset.l; render(); }));
+  }
+  render();
+  /* نجوم متساقطة */
+  for (let i = 0; i < 12; i++) {
+    document.body.appendChild(App.el("span", { class: "fall",
+      style: `left:${Math.random()*100}%;animation-duration:${8+Math.random()*10}s;animation-delay:${Math.random()*12}s;font-size:${8+Math.random()*11}px;color:#dfa93a;opacity:.45` }, "✦"));
+  }
+};
+
+
+/* ===== أيقونات SVG احترافية ===== */
+App.ICONS = {
+  rings: '<circle cx="9" cy="14.5" r="5.5"/><circle cx="15" cy="9.5" r="5.5"/>',
+  crown: '<path d="M3 17.5h18M4.5 17.5L3 8l5.6 3.8L12 5l3.4 6.8L21 8l-1.5 9.5z"/>',
+  gem: '<path d="M7 3h10l4 6-9 12L3 9z"/><path d="M3 9h18M9.5 3L12 9l2.5-6M12 21L9.5 9M12 21l2.5-12"/>',
+  bloom: '<circle cx="12" cy="12" r="2.4"/><circle cx="12" cy="6.2" r="2.9"/><circle cx="17.3" cy="9.7" r="2.9"/><circle cx="15.4" cy="15.9" r="2.9"/><circle cx="8.6" cy="15.9" r="2.9"/><circle cx="6.7" cy="9.7" r="2.9"/>',
+  bird: '<path d="M3 11c3.2-4.5 6.3-4.5 9-.5 2.7-4 5.8-4 9 .5"/>',
+  star: '<path d="M12 3l2.7 5.6 6.3.9-4.5 4.4 1 6.1-5.5-3-5.5 3 1-6.1L3 9.5l6.3-.9z"/>',
+  leaf: '<path d="M5 19C5 9.5 12.5 4 20 4c0 8.5-4.5 15-13 15z"/><path d="M5 19c2.5-5.5 6.5-9 11-11"/>',
+  moon: '<path d="M20 13.5A8.5 8.5 0 1 1 10.5 4a7 7 0 0 0 9.5 9.5z"/>',
+  envelope: '<rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3 8l9 6 9-6"/>',
+  calendar: '<rect x="3.5" y="5" width="17" height="16" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/>',
+  clock: '<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 3"/>',
+  pin: '<path d="M12 21.5S5 15.8 5 10.5a7 7 0 0 1 14 0c0 5.3-7 11-7 11z"/><circle cx="12" cy="10.5" r="2.5"/>',
+  venue: '<path d="M4 21h16M6 21v-8M10 21v-8M14 21v-8M18 21v-8M3 13h18M12 3.5L3.5 13h17z"/>',
+  music: '<path d="M9 18.5V6l11-2.5V16"/><circle cx="6.5" cy="18.5" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/>',
+  mute: '<path d="M9 18.5V6l11-2.5V16"/><circle cx="6.5" cy="18.5" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/><path d="M3 3l18 18"/>',
+  globe: '<circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5a13 13 0 0 1 0 17M12 3.5a13 13 0 0 0 0 17"/>',
+  hourglass: '<path d="M6.5 3h11M6.5 21h11M8 3v3.5l4 5.5 4-5.5V3M8 21v-3.5L12 12l4 5.5V21"/>',
+  chat: '<path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5H3.5l2-3.2A8.5 8.5 0 1 1 21 11.5z"/>',
+  lock: '<rect x="4.5" y="10.5" width="15" height="10" rx="2"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/>',
+  send: '<path d="M21.5 2.5L11 13M21.5 2.5L15 21l-4-8-8.5-4z"/>',
+  copy: '<rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/>',
+  trash: '<path d="M4 7h16M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M6 7l1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13"/>',
+  ring: '<circle cx="12" cy="14.5" r="5.5"/><path d="M9.5 9L12 5l2.5 4M12 5l-1.5 4M12 5l1.5 4"/>',
+  castle: '<path d="M3 21h18M5 21V9l1.5-1.5V5H8v2h2.5V4H13v3h2.5V5H18v2.5L19 9v12"/><path d="M10 21v-5.5h4V21"/>',
+  heart: '<path d="M12 20.5S4 15.2 4 9.8A4.4 4.4 0 0 1 12 6.6a4.4 4.4 0 0 1 8 3.2c0 5.4-8 10.7-8 10.7z"/>',
+  lantern: '<rect x="8" y="6.5" width="8" height="11" rx="3.5"/><path d="M10.5 3.5h3M12 3.5v3M10.5 20.5h3M12 17.5v3"/>',
+  bfly: '<path d="M12 7.5v10"/><path d="M12 10.5C9 4.5 3 4.5 3 8.7c0 3.4 5 4.9 9 3.3M12 10.5c3-6 9-6 9-1.8 0 3.4-5 4.9-9 3.3"/><path d="M12 13c-3-.4-6.8 1.6-6.3 4.4.4 2.5 4.3 2 6.3-.9M12 13c3-.4 6.8 1.6 6.3 4.4-.4 2.5-4.3 2-6.3-.9"/><path d="M10.5 5.5L12 7.5l1.5-2"/>'
+};
+App.ic = function (name, size) {
+  return '<svg width="' + (size || 24) + '" height="' + (size || 24) + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;display:inline-block">' + (App.ICONS[name] || "") + '</svg>';
+};
+
+/* ===== رمز التحكم — غيّره من هنا ===== */
+App.ADMIN_CODE = "BITAQATY-2026";
+
+/* ===== قاعدة البيانات Firebase — متصلة مباشرة ===== */
+App.FB_URL = "https://bitaqaty-6d4cf-default-rtdb.europe-west1.firebasedatabase.app";
+App.fbGet = async function (code) {
+  const r = await fetch(App.FB_URL + "/invites/" + encodeURIComponent(code) + ".json");
+  if (!r.ok) throw 0;
+  return r.json();
+};
+App.fbPut = async function (inv) {
+  const r = await fetch(App.FB_URL + "/invites/" + encodeURIComponent(inv.code) + ".json",
+    { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(inv) });
+  if (!r.ok) throw 0;
+  return r.json();
+};
+App.fbList = async function () {
+  const r = await fetch(App.FB_URL + "/invites.json");
+  if (!r.ok) throw 0;
+  const all = await r.json();
+  return all ? Object.values(all).filter(function (x) { return x && x.code && !x.hidden; }) : [];
+};
+
+/* ===== ترميز الدعوة داخل الرابط (بدون سيرفر) ===== */
+function b64u(str) {
+  return btoa(unescape(encodeURIComponent(str))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+}
+function unb64u(str) {
+  return decodeURIComponent(escape(atob(str.replace(/-/g, "+").replace(/_/g, "/"))));
+}
+App.encode = function (inv) {
+  const yid = App.ytId(inv.musicUrl || "");
+  const tm = String(inv.musicUrl || "").match(/[?&#]t=(\d+)/);
+  const mu = yid ? "y:" + yid + (tm ? ":" + tm[1] : "") : (inv.musicUrl || "");
+  const ep = inv.eventDate ? Math.round(new Date(inv.eventDate).getTime() / 60000) : "";
+  const pr = (inv.program || []).map(function (p) { return p.time + "~" + p.label; }).join("|");
+  const a = [inv.code || "", (inv.tier || "classic")[0], inv.template || "", inv.lang || "ar",
+    inv.groom || "", inv.bride || "", inv.gLine || "", inv.bLine || "", inv.phrase || "", inv.dua || "",
+    ep, inv.dateText || "", inv.timeText || "", inv.showCountdown ? 1 : 0,
+    inv.venueName || "", inv.venueAddress || "", inv.mapsUrl || "", pr, mu,
+    inv.rsvpEnabled ? 1 : 0, inv.rsvpPhone || "", inv.customerName || ""];
+  return "v2." + b64u(JSON.stringify(a));
+};
+App.dataParam = function () {
+  const q = new URLSearchParams(location.search).get("d");
+  return App.decode(q || location.hash);
+};
+App.decode = function (hash) {
+  let s = String(hash || "").replace(/^#/, "");
+  try {
+    if (s.startsWith("v2.")) {
+      const a = JSON.parse(unb64u(s.slice(3)));
+      const tier = a[1] === "v" ? "vip" : a[1] === "g" ? "gold" : "classic";
+      let mu = a[18] || "";
+      const ym = mu.match(/^y:([\w-]{11})(?::(\d+))?$/);
+      if (ym) mu = "https://youtu.be/" + ym[1] + (ym[2] ? "?t=" + ym[2] : "");
+      return { code: a[0], tier: tier, template: a[2], lang: a[3], groom: a[4], bride: a[5],
+        gLine: a[6], bLine: a[7], phrase: a[8], dua: a[9],
+        eventDate: a[10] ? new Date(a[10] * 60000).toISOString() : "",
+        dateText: a[11], timeText: a[12], showCountdown: !!a[13],
+        venueName: a[14], venueAddress: a[15], mapsUrl: a[16],
+        program: a[17] ? a[17].split("|").map(function (x) { const i = x.indexOf("~"); return { time: x.slice(0, i), label: x.slice(i + 1) }; }) : [],
+        musicUrl: mu, rsvpEnabled: !!a[19], rsvpPhone: a[20], customerName: a[21] || "" };
+    }
+    if (s.startsWith("v1.")) return JSON.parse(unb64u(s.slice(3)));
+  } catch (e) {}
+  return null;
+};
+App.newInvite = function (p) {
+  return { code: p.code || "", editKey: Math.random().toString(36).slice(2, 12),
+    tier: p.tier || "classic", template: p.template || "rose",
+    lang: p.lang || "ar", customerName: p.customerName || "", customerPhone: p.customerPhone || "",
+    groom: "", bride: "", gLine: "", bLine: "",
+    phrase: "", dua: "", eventDate: "", dateText: "", timeText: "", showCountdown: true,
+    venueName: "", venueAddress: "", mapsUrl: "", program: [], musicUrl: "",
+    rsvpEnabled: true, rsvpPhone: "", published: false, active: true, hidden: false,
+    createdAt: new Date().toISOString() };
+};
+App.isExpired = function (inv) {
+  if (inv.active === false || inv.hidden) return true;
+  if (!inv.eventDate) return false;
+  return Date.now() > new Date(inv.eventDate).getTime() + 2 * 864e5;
+};
+App.demoInvite = function (code) {
+  const m = { "demo-zerin": ["zerin","ar","vip"], "demo-royal": ["royal","ar","gold"],
+    "demo-rose": ["rose","ar","classic"], "demo-starlit": ["starlit","ar","gold"],
+    "demo-garden": ["garden","ar","classic"], "demo-khatim": ["khatim","ar","vip"], "demo-almas": ["almas","ar","vip"], "demo-qaea": ["qaea","ar","vip"], "demo-hareer": ["hareer","ar","vip"], "demo-warda": ["warda","ar","vip"], "demo-hikaya": ["hikaya","ar","vip"], "demo-qasr": ["qasr","ar","vip"], "demo-swan": ["swan","ar","gold"], "demo-fanar": ["fanar","ar","vip"], "demo-ward": ["ward","ar","gold"], "demo-zerin-bad": ["zerin","bad","vip"],
+    "demo-zerin-sor": ["zerin","sor","vip"] };
+  if (!m[code]) return null;
+  const [template, lang, tier] = m[code];
+  const d = new Date(); d.setDate(d.getDate() + 30); d.setHours(19, 0, 0, 0);
+  const names = { ar: ["آلان","دلڤين"], bad: ["ئالان","دلڤین"], sor: ["ئالان","دلڤین"] };
+  const prog = { ar: [["7:00","استقبال الضيوف"],["8:30","دخول العروسين"],["10:00","قطع الكيك"]],
+    bad: [["7:00","پێشوازیا مێهڤانان"],["8:30","هاتنا بویک و زاڤای"],["10:00","بڕینا کێکێ"]],
+    sor: [["7:00","پێشوازی میوانان"],["8:30","هاتنی بووک و زاوا"],["10:00","بڕینی کێک"]] };
+  const inv = App.newInvite({ code, tier, template, lang });
+  inv.groom = names[lang][0]; inv.bride = names[lang][1];
+  inv.eventDate = d.toISOString();
+  inv.venueName = lang === "ar" ? "قاعة زانا الملكية" : "هۆلا زانا";
+  inv.venueAddress = lang === "ar" ? "دهوك — شارع القاعات" : "دهۆک";
+  inv.mapsUrl = "https://maps.google.com/?q=Duhok";
+  inv.program = prog[lang].map(function (x) { return { time: x[0], label: x[1] }; });
+  inv.rsvpPhone = App.WA_FALLBACK;
+  return inv;
+};
+
+
+
+/* خاتم ذهبي واقعي بتدرجات */
+App.ring = function (size) {
+  const id = "g" + Math.floor(Math.random() * 1e6);
+  return '<svg width="' + size + '" height="' + size + '" viewBox="0 0 64 64" style="vertical-align:middle">' +
+    '<defs><linearGradient id="' + id + 'a" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff0c0"/><stop offset=".45" stop-color="#e9b95e"/><stop offset="1" stop-color="#9a6b22"/></linearGradient>' +
+    '<linearGradient id="' + id + 'b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#a8d8ff"/></linearGradient></defs>' +
+    '<circle cx="32" cy="40" r="15" fill="none" stroke="url(#' + id + 'a)" stroke-width="6"/>' +
+    '<circle cx="32" cy="40" r="15" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="1.6" stroke-dasharray="10 84"/>' +
+    '<path d="M25 18.5L32 8l7 10.5-7 9z" fill="url(#' + id + 'b)" stroke="#e8f4ff" stroke-width="1"/>' +
+    '<path d="M25 18.5h14M32 8v19.5" stroke="rgba(120,170,220,.55)" stroke-width="1"/>' +
+    '<path d="M18 8l2.2 2.2M46 8l-2.2 2.2M32 2.5v3" stroke="#ffe9b0" stroke-width="1.6" stroke-linecap="round"/></svg>';
+};
+
+/* فراشات محلقة */
+App.bflies = function (n, big) {
+  const colors = ["#e8bfff", "#f3d1ff", "#ffd98a", "#d3a6f5"];
+  let h = "";
+  for (let i = 0; i < n; i++) {
+    const c = colors[i % colors.length];
+    const size = big ? 26 + Math.random() * 30 : 14 + Math.random() * 14;
+    h += '<span class="bfly" style="top:' + (Math.random() * 70) + '%;color:' + c + ';animation-duration:' + (10 + Math.random() * 14) + 's;animation-delay:-' + (Math.random() * 14) + 's;filter:drop-shadow(0 0 6px ' + c + '55)">' + App.ic("bfly", size) + '</span>';
+  }
+  return h;
+};
+/* ===== المشاهد المتحركة لكل قالب ===== */
+App.scene = function (t) {
+  function petals(colors, n) {
+    let h = "";
+    for (let i = 0; i < n; i++) {
+      const c = colors[i % colors.length];
+      h += '<span class="petal" style="left:' + (Math.random() * 100) + '%;background:radial-gradient(60% 60% at 35% 35%, ' + c + ', ' + c + 'cc);animation-duration:' + (6 + Math.random() * 8) + 's;animation-delay:' + (Math.random() * 9) + 's;width:' + (9 + Math.random() * 8) + 'px;height:' + (9 + Math.random() * 8) + 'px"></span>';
+    }
+    return h;
+  }
+  function stars(n) {
+    let h = "";
+    for (let i = 0; i < n; i++) {
+      h += '<span class="stardot" style="left:' + (Math.random() * 100) + '%;top:' + (Math.random() * 55) + '%;width:' + (1.5 + Math.random() * 2.5) + 'px;height:' + (1.5 + Math.random() * 2.5) + 'px;animation-duration:' + (1.8 + Math.random() * 3) + 's;animation-delay:' + (Math.random() * 3) + 's"></span>';
+    }
+    return h;
+  }
+  const id = t.id;
+  if (id === "khatim")
+    return '<div class="rays"></div><div class="drape drape-l"></div><div class="drape drape-r"></div><div class="spot"></div>' +
+      '<div class="podium"></div><div class="ringbox"><div class="boxbase"></div><div class="boxlid"></div><div class="ringjewel">' + App.ring(44) + '</div></div>' +
+      petals(["#c4485a", "#a03248", "#d76a7a"], 16);
+  if (id === "qasr")
+    return stars(22) +
+      '<div class="castle" style="color:rgba(238,210,255,.55)">' + App.ic("castle", 150) + '</div>' +
+      '<div class="cloud" style="width:44vw;height:12vh;bottom:6vh;left:-6vw;animation-duration:11s"></div>' +
+      '<div class="cloud" style="width:36vw;height:10vh;bottom:16vh;right:-4vw;animation-duration:14s"></div>' +
+      '<div class="cloud" style="width:30vw;height:8vh;bottom:2vh;left:36vw;animation-duration:9s"></div>' +
+      App.bflies(4, false) +
+      petals(["#e8bfff", "#d3a6f5"], 10);
+  if (id === "swan")
+    return '<div class="archdeco" style="color:rgba(185,143,78,.6)">' + App.ic("heart", 120) + '</div><div class="lakeline"></div>' +
+      '<span class="bird" style="top:14%;color:rgba(120,95,60,.65);animation-duration:16s">' + App.ic("bird", 26) + '</span>' +
+      '<span class="bird" style="top:22%;color:rgba(120,95,60,.5);animation-duration:22s;animation-delay:4s">' + App.ic("bird", 18) + '</span>' +
+      '<span class="bird" style="top:9%;color:rgba(120,95,60,.4);animation-duration:19s;animation-delay:9s">' + App.ic("bird", 14) + '</span>' +
+      petals(["#e8cfa0", "#dcbd88"], 8);
+  if (id === "fanar") {
+    let l = "";
+    for (let i = 0; i < 9; i++)
+      l += '<span class="lantern" style="left:' + (5 + Math.random() * 90) + '%;animation-duration:' + (9 + Math.random() * 10) + 's;animation-delay:' + (Math.random() * 10) + 's;transform:scale(' + (0.6 + Math.random() * 0.7) + ')"></span>';
+    return stars(18) + '<div style="position:absolute;top:7vh;left:12vw;color:rgba(255,220,150,.7)" class="floaty">' + App.ic("moon", 54) + '</div>' + l;
+  }
+  if (id === "ward")
+    return '<div class="rays"></div><div class="spot" style="background:radial-gradient(45% 55% at 50% 0%, rgba(255,190,170,.16), transparent 72%)"></div>' +
+      petals(["#c4485a", "#e9c05e", "#a03248", "#d76a7a"], 26);
+  if (id === "starlit") return stars(26);
+  if (id === "royal" || id === "zerin") return '<div class="rays"></div>' + stars(10);
+  return "";
+};
+/* ===== صفحة الدعوة (الضيوف) ===== */
+App.initInvite = async function () {
+  const { THEMES, $, el, esc, dict, pathParam, qs, ytId, particles, countdown } = App;
+  const root = $("#root");
+  const code = pathParam();
+  const guest = qs("guest");
+  let inv = App.dataParam();
+  if (!inv && code && code.indexOf("demo-") !== 0) {
+    try { inv = await App.fbGet(code); } catch (e) {}
+  }
+  if (!inv && code.indexOf("demo-") === 0) inv = App.demoInvite(code);
+  if (!inv) {
+    root.innerHTML = '<div class="center-page"><div style="font-size:56px">🔍</div><h1 class="gold-text" style="font-size:22px">' + dict("ar").notFound + '</h1><a href="/" style="color:#e9c05e;margin-top:20px;font-size:13px">بطاقتي VIP · الرئيسية</a></div>';
+    return;
+  }
+  const d = dict(inv.lang);
+  const t = THEMES[inv.template] || THEMES.zerin;
+
+  if (App.isExpired(inv)) {
+    root.innerHTML = '<div class="center-page"><div style="font-size:56px">🕊️</div>' +
+      '<h1 class="display gold-text" style="font-size:26px;margin:18px 0 0">' + d.expiredTitle + '</h1>' +
+      '<p style="max-width:340px;opacity:.75;font-size:14px;line-height:1.9">' + d.expiredBody + '</p>' +
+      '<p class="display" style="color:#e9c05e;font-size:19px">' + esc(inv.groom) + " " + d.and + " " + esc(inv.bride) + ' 💍</p>' +
+      '<a href="/" style="color:#e9c05e;opacity:.6;margin-top:26px;font-size:12px">بطاقتي VIP · bitaqaty.vip</a></div>';
+    return;
+  }
+
+  document.body.style.background = t.bg;
+  document.body.style.color = t.text;
+  const groom = esc(inv.groom || "—"), bride = esc(inv.bride || "—");
+  const phrase = esc(inv.phrase) || d.defaultPhrase;
+  const dua = esc(inv.dua) || d.defaultDua;
+  const loc = inv.lang === "ar" ? "ar-IQ-u-nu-latn" : "ckb-IQ-u-nu-latn";
+  const dateText = esc(inv.dateText) || (inv.eventDate ? new Date(inv.eventDate).toLocaleDateString(loc, { weekday: "long", year: "numeric", month: "long", day: "numeric" }) : "");
+  const timeText = esc(inv.timeText) || (inv.eventDate ? new Date(inv.eventDate).toLocaleTimeString(loc, { hour: "numeric", minute: "2-digit" }) : "");
+  const coverIcon = App.ic(t.opening === "curtains" ? "gem" : t.opening === "sky" ? "moon" : t.opening === "arch" ? "leaf" : t.opening === "box" ? "ring" : t.opening === "gate" ? "castle" : t.opening === "petals" ? "bloom" : "envelope", 46);
+
+  const sceneDiv = el("div", { class: "scene slowzoom" }, App.scene(t));
+  root.appendChild(sceneDiv);
+  const cover = el("div", { class: "cover" });
+  let vid = null;
+  if (t.video) {
+    vid = el("video", { class: "cover-video cover-fade", src: t.video, playsinline: "", preload: "auto" });
+    vid.muted = true;
+    cover.appendChild(vid);
+  } else if (t.opening === "curtains") {
+    cover.appendChild(el("div", { class: "curtain curtain-l" }));
+    cover.appendChild(el("div", { class: "curtain curtain-r" }));
+  } else if (t.opening === "bflies") {
+    cover.appendChild(el("div", { class: "cover-bg cover-fade", style: "background:" + t.bg }));
+    cover.appendChild(el("div", { class: "cover-fade", style: "position:absolute;inset:0" }, App.bflies(13, true)));
+  } else if (t.opening === "box") {
+    /* المشهد نفسه هو الغلاف — لا حاجة لطبقة تغطية */
+  } else {
+    cover.appendChild(el("div", { class: "cover-bg cover-fade", style: "background:" + t.bg }));
+  }
+  const center = el("div", { class: "cover-center cover-fade" },
+    '<div class="seal pulse" style="background:' + t.soft + ';border:2px solid ' + t.border + ';color:' + t.accent + '">' + coverIcon + '</div>' +
+    '<div><p class="display" style="color:' + t.accent + ';font-size:30px;margin:0">' + groom + " " + d.and + " " + bride + '</p>' +
+    (guest ? '<p style="font-size:13px;opacity:.9;margin-top:10px">' + d.dearGuest + ': <b style="color:' + t.accent + '">' + esc(guest) + '</b></p>' : "") + '</div>' +
+    '<button class="btn" style="background:' + t.accent + ';color:#1c1508">' + ((t.tap && t.tap[inv.lang]) || d.tapToOpen) + '</button>');
+  cover.appendChild(center);
+  root.appendChild(cover);
+
+  const card = function (inner) { return '<section class="card reveal" style="background:' + t.card + ';border:1px solid ' + t.border + '">' + inner + '</section>'; };
+  const main = el("main", { class: "invite-main" },
+    '<section class="reveal" style="text-align:center">' +
+      '<div class="seal" style="width:76px;height:76px;font-size:28px;margin:0 auto 18px;background:' + t.soft + ';border:1.5px solid ' + t.border + ';color:' + t.accent + '">' + App.ring(46) + '</div>' +
+      '<p style="font-size:13px;opacity:.85">' + d.youAreInvited + '</p>' +
+      '<h1 class="display glowname" style="color:' + t.accent + ';font-size:38px;line-height:1.5;margin:16px 0 0">' + groom + '<span style="font-size:22px;opacity:.8;margin:0 12px">' + d.and + '</span>' + bride + '</h1>' +
+      ((inv.gLine || inv.bLine) ? '<div style="margin-top:12px;font-size:12.5px;opacity:.85;line-height:2.1">' + (inv.gLine ? '<div>' + esc(inv.gLine) + '</div>' : '') + (inv.bLine ? '<div>' + esc(inv.bLine) + '</div>' : '') + '</div>' : '') +
+      '<div class="orna"><span style="background:' + t.border + '"></span><i style="color:' + t.accent + '">' + t.ornament + '</i><span style="background:' + t.border + '"></span></div>' +
+      '<p class="naskh" style="max-width:360px;margin:18px auto 0;font-size:17px;line-height:1.9;opacity:.95">' + phrase + '</p>' +
+      (guest ? '<p style="margin-top:14px;font-size:13px">' + d.dearGuest + ': <b style="color:' + t.accent + '">' + esc(guest) + '</b></p>' : "") +
+    '</section>' +
+    (inv.showCountdown && inv.eventDate ? card('<h2 class="sec-title" style="color:' + t.accent + '">' + d.countdownTitle + '</h2><div class="cd" id="cd"></div>') : "") +
+    (dateText || timeText ? '<section class="reveal grid2">' +
+      '<div class="card" style="background:' + t.card + ';border:1px solid ' + t.border + ';text-align:center"><div style="opacity:.85">' + App.ic("calendar", 24) + '</div><div class="lab">' + d.dateLabel + '</div><div class="val">' + dateText + '</div></div>' +
+      '<div class="card" style="background:' + t.card + ';border:1px solid ' + t.border + ';text-align:center"><div style="opacity:.85">' + App.ic("clock", 24) + '</div><div class="lab">' + d.timeLabel + '</div><div class="val">' + timeText + '</div></div></section>' : "") +
+    (inv.venueName || inv.venueAddress ? card('<div style="text-align:center"><div style="opacity:.85">' + App.ic("venue", 26) + '</div>' +
+      (inv.venueName ? '<div class="lab">' + d.venueLabel + '</div><div style="color:' + t.accent + ';font-size:18px;font-weight:700;margin-top:4px">' + esc(inv.venueName) + '</div>' : "") +
+      (inv.venueAddress ? '<div style="margin-top:8px;font-size:14px;opacity:.9">' + esc(inv.venueAddress) + '</div>' : "") +
+      (inv.mapsUrl ? '<a class="btn" style="background:' + t.accent + ';color:#1c1508;margin-top:16px" href="' + esc(inv.mapsUrl) + '" target="_blank" rel="noreferrer">' + App.ic("pin", 15) + ' ' + d.openMap + '</a>' : "") + '</div>') : "") +
+    (inv.program && inv.program.length ? card('<h2 class="sec-title" style="color:' + t.accent + '">' + d.programTitle + '</h2>' +
+      '<div class="prog">' + inv.program.map(function (p) { return '<div class="prog-row"><span class="prog-time" style="background:' + t.soft + ';color:' + t.accent + ';border:1px solid ' + t.border + '">' + esc(p.time) + '</span><span style="font-size:14px">' + esc(p.label) + '</span></div>'; }).join("") + '</div>') : "") +
+    '<section class="reveal" style="text-align:center"><p class="naskh" style="max-width:360px;margin:0 auto;font-size:15px;line-height:1.9;opacity:.9">' + dua + '</p></section>' +
+    (inv.rsvpEnabled && inv.rsvpPhone ? card('<div style="text-align:center"><h2 class="sec-title" style="color:' + t.accent + ';margin-bottom:6px">' + d.rsvpTitle + '</h2>' +
+      '<p style="font-size:13px;opacity:.85">' + d.rsvpBody + '</p>' +
+      '<a class="btn" style="background:' + t.accent + ';color:#1c1508;margin-top:14px;font-weight:800" target="_blank" rel="noreferrer" href="https://wa.me/' + inv.rsvpPhone + '?text=' + encodeURIComponent(d.rsvpMessage + " — " + (inv.groom || "") + " " + d.and + " " + (inv.bride || "") + " 💍" + (guest ? "\n(" + guest + ")" : "")) + '">' + d.rsvpButton + '</a></div>') : "") +
+    '<footer class="reveal" style="text-align:center;padding:16px 0 30px">' +
+      '<p style="font-size:12px;opacity:.6">' + d.withLove + " — " + groom + " " + d.and + " " + bride + '</p>' +
+      '<a href="/" style="color:' + t.accent + ';font-size:11px;opacity:.5">بطاقتي VIP · bitaqaty.vip</a></footer>');
+  root.appendChild(main);
+
+  let vidPlayed = false, openedFlag = false, musicStarted = false;
+  function startMusic() {
+    if (musicStarted || !inv.musicUrl) return;
+    musicStarted = true;
+    const id = ytId(inv.musicUrl);
+    const tm = String(inv.musicUrl).match(/[?&#]t=(?:(\d+)m)?(\d+)s?(?:\D|$)/);
+    let start = tm ? (+(tm[1] || 0)) * 60 + (+tm[2]) : null;
+    let audio = null, ifr = null, muted = false;
+    if (id) {
+      if (start === null) start = 35;
+      ifr = el("iframe", { class: "yt-hidden", allow: "autoplay", src: "https://www.youtube.com/embed/" + id + "?autoplay=1&loop=1&playlist=" + id + "&start=" + start });
+      document.body.appendChild(ifr);
+    } else {
+      audio = el("audio", { src: inv.musicUrl, loop: "" });
+      document.body.appendChild(audio);
+      audio.addEventListener("loadedmetadata", function () {
+        const st = start !== null ? start : (audio.duration > 75 ? 30 : 0);
+        try { audio.currentTime = st; } catch (e) {}
+      });
+      audio.play().catch(function () {});
+    }
+    const btn = el("button", { class: "music-btn", style: "background:" + t.soft + ";border:1px solid " + t.border + ";color:" + t.accent }, App.ic("music", 20));
+    btn.addEventListener("click", function () {
+      muted = !muted;
+      btn.innerHTML = App.ic(muted ? "mute" : "music", 20);
+      if (audio) { audio.muted = muted; if (!muted) audio.play().catch(function () {}); }
+      if (ifr) { if (muted) { ifr.remove(); } else { document.body.appendChild(ifr); } }
+    });
+    document.body.appendChild(btn);
+  }
+  cover.addEventListener("click", function () {
+    startMusic();
+    if (vid && !vidPlayed) {
+      vidPlayed = true;
+      center.classList.add("center-hide");
+      vid.play().catch(function () { openNow(); });
+      vid.addEventListener("ended", openNow);
+      vid.addEventListener("timeupdate", function () {
+        if (vid.duration && vid.currentTime > vid.duration - 0.7) openNow();
+      });
+      setTimeout(openNow, 11500);
+      const ov = el("div", { class: "vid-overlay" });
+      cover.appendChild(ov);
+      setTimeout(function () {
+        ov.innerHTML = '<p class="vo-line" style="font-size:15px;letter-spacing:.5px;font-weight:600;opacity:.95">' + d.youAreInvited + '</p>';
+      }, 1400);
+      setTimeout(function () {
+        ov.innerHTML += '<h2 class="vo-line display glowname" style="font-size:40px;line-height:1.55;margin:6px 0 0">' + groom + '</h2>' +
+          '<div class="vo-line vo-orna"><span></span><i style="font-size:13px">' + d.and + '</i><span></span></div>' +
+          '<h2 class="vo-line display glowname" style="font-size:40px;line-height:1.55;margin:0">' + bride + '</h2>';
+      }, 3300);
+      setTimeout(function () {
+        if (dateText) ov.innerHTML += '<p class="vo-line" style="font-size:16px;font-weight:700;margin-top:10px;letter-spacing:.5px">' + dateText + (timeText ? " · " + timeText : "") + '</p>';
+      }, 6300);
+      return;
+    }
+    openNow();
+  });
+  function openNow() {
+    if (openedFlag) return;
+    openedFlag = true;
+    cover.classList.add("opened");
+    document.body.classList.add("opened");
+    particles(root, t, 18);
+    setTimeout(function () {
+      var nodes = document.querySelectorAll(".reveal");
+      nodes.forEach(function (n, i) { setTimeout(function () { n.classList.add("shown"); }, i * 130); });
+    }, 700);
+    setTimeout(function () { cover.remove(); }, 2400);
+    const cd = $("#cd");
+    if (cd) countdown(inv.eventDate, d, cd, t.accent, t.border);
+  }
+};
+
+/* ===== صفحة التعديل (الزبون) — بدون سيرفر ===== */
+App.initEdit = async function () {
+  const { THEMES, TIERS, LANG_NAMES, $, esc, dict } = App;
+  const root = $("#root");
+  const editKey = App.qs("key");
+  let inv = null, serverMode = false;
+  if (editKey) {
+    try {
+      const v = await App.fbGet(App.pathParam());
+      if (v && v.editKey === editKey) { inv = v; serverMode = true; }
+    } catch (e) {}
+  }
+  if (!inv) inv = App.dataParam();
+  if (!inv) {
+    root.innerHTML = '<div class="center-page"><div style="font-size:56px">🔍</div><p style="font-size:17px">' + dict("ar").notFound + '</p></div>';
+    return;
+  }
+  let saved = false;
+
+  function guestLink() {
+    if (serverMode) return location.origin + "/d/" + encodeURIComponent(inv.code);
+    return location.origin + "/d/" + encodeURIComponent(inv.code || "dawat") + "?d=" + App.encode(inv);
+  }
+  function waLink() {
+    const t = THEMES[inv.template];
+    const lines = ["✨ دعوة جديدة جاهزة — بطاقتي VIP", "الكود: " + inv.code, "الفئة: " + (inv.tier || "").toUpperCase(),
+      "القالب: " + t.names.ar, "العريس: " + inv.groom, inv.gLine ? "أهل العريس: " + inv.gLine : "", "العروس: " + inv.bride, inv.bLine ? "أهل العروس: " + inv.bLine : "",
+      "التاريخ: " + (inv.dateText || inv.eventDate), "الوقت: " + inv.timeText,
+      "القاعة: " + inv.venueName, "العنوان: " + inv.venueAddress,
+      inv.mapsUrl ? "الخريطة: " + inv.mapsUrl : "", inv.musicUrl ? "الموسيقى: " + inv.musicUrl : "",
+      "", "رابط الدعوة النهائي:", guestLink()].filter(Boolean);
+    return "https://wa.me/" + App.WA_FALLBACK + "?text=" + encodeURIComponent(lines.join("\n"));
+  }
+
+  function render() {
+    const d = dict(inv.lang);
+    const f = TIERS[inv.tier] || TIERS.classic;
+    const tierColor = inv.tier === "vip" ? "#e9c05e" : inv.tier === "gold" ? "#d9a941" : "#a8b0c0";
+    const inp = function (name, label, val, ph, dir) {
+      return '<label class="field"><span>' + label + '</span><input data-k="' + name + '" value="' + esc(val) + '" placeholder="' + esc(ph || "") + '" ' + (dir ? 'dir="' + dir + '"' : "") + '></label>';
+    };
+    const area = function (name, label, val, ph) {
+      return '<label class="field"><span>' + label + '</span><textarea data-k="' + name + '" rows="2" placeholder="' + esc(ph || "") + '">' + esc(val) + '</textarea></label>';
+    };
+    const tog = function (name, label, on) {
+      return '<button type="button" class="toggle" data-t="' + name + '"><span>' + label + '</span><i class="' + (on ? "on" : "") + '"></i></button>';
+    };
+
+    root.innerHTML = '<div class="edit-wrap">' +
+      '<header style="text-align:center;margin-bottom:28px">' +
+        '<div class="seal" style="width:64px;height:64px;font-size:24px;margin:0 auto 12px;background:rgba(233,192,94,.1);border:1px solid rgba(233,192,94,.4);color:#dfa93a">' + App.ic("rings", 26) + '</div>' +
+        '<h1 class="display gold-text" style="font-size:28px;margin:0">' + d.editTitle + '</h1>' +
+        '<p style="font-size:13px;opacity:.7;margin:8px 0 12px">' + d.editSubtitle + '</p>' +
+        '<span style="border:1px solid ' + tierColor + ';color:' + tierColor + ';border-radius:99px;padding:4px 16px;font-size:11px;font-weight:800">' + (inv.tier || "").toUpperCase() + ' · ' + esc(inv.code) + '</span></header>' +
+      '<section class="panel"><h2>' + d.secTemplate + '</h2><div class="tpl-grid">' +
+        f.templates.map(function (tid) { const t = THEMES[tid]; const act = inv.template === tid;
+          return '<button type="button" class="tpl-card' + (act ? " act" : "") + '" data-tpl="' + tid + '" style="background:' + t.bg + ';color:' + t.text + ';border-color:' + (act ? t.accent : "transparent") + '">' +
+            '<div style="color:' + t.accent + '">' + App.ic(t.icon, 26) + '</div><div style="font-size:11px;font-weight:700;margin-top:4px">' + t.names[inv.lang] + '</div></button>'; }).join("") +
+      '</div></section>' +
+      '<section class="panel"><h2>' + d.secBasics + '</h2>' +
+        '<label class="field"><span>' + d.fLang + '</span><select data-k="lang">' +
+          Object.keys(LANG_NAMES).map(function (l) { return '<option value="' + l + '" ' + (inv.lang === l ? "selected" : "") + '>' + LANG_NAMES[l] + '</option>'; }).join("") +
+        '</select></label>' +
+        '<div class="grid2">' + inp("groom", d.fGroom, inv.groom) + inp("bride", d.fBride, inv.bride) + '</div>' +
+        inp("gLine", d.fGLine, inv.gLine || "") + inp("bLine", d.fBLine, inv.bLine || "") +
+        area("phrase", d.fPhrase, inv.phrase, d.defaultPhrase) + '</section>' +
+      '<section class="panel"><h2>' + d.secDateTime + '</h2>' +
+        '<label class="field"><span>' + d.fEventDate + '</span><input type="datetime-local" data-k="eventDate" value="' + (inv.eventDate ? inv.eventDate.slice(0, 16) : "") + '"></label>' +
+        '<div class="grid2">' + inp("dateText", d.fDateText, inv.dateText, "يوم الجمعة، ١٥ آب ٢٠٢٦") + inp("timeText", d.fTimeText, inv.timeText, "الساعة ٧ مساءً") + '</div>' +
+        tog("showCountdown", d.fCountdown, inv.showCountdown) + '</section>' +
+      '<section class="panel"><h2>' + d.secTexts + '</h2>' + area("dua", d.fDua, inv.dua, d.defaultDua) + '</section>' +
+      '<section class="panel"><h2>' + d.secVenue + '</h2>' +
+        inp("venueName", d.fVenue, inv.venueName) + inp("venueAddress", d.fAddress, inv.venueAddress) +
+        inp("mapsUrl", d.fMaps, inv.mapsUrl, "https://maps.google.com/...", "ltr") + '</section>' +
+      (f.program ? '<section class="panel"><h2>' + d.secProgram + '</h2><div id="prog">' +
+        inv.program.map(function (p, i) {
+          return '<div class="prog-edit" data-i="' + i + '"><input class="p-time" value="' + esc(p.time) + '" placeholder="' + d.timePh + '" style="width:100px;text-align:center"><input class="p-label" value="' + esc(p.label) + '" placeholder="' + d.labelPh + '"><button type="button" class="p-del">✕</button></div>'; }).join("") +
+        '</div><button type="button" class="btn-ghost" id="addProg">' + d.addItem + '</button></section>' : "") +
+      (f.music ? '<section class="panel"><h2>' + d.secMusic + '</h2>' +
+        inp("musicUrl", d.fMusic, inv.musicUrl, "https://youtube.com/...", "ltr") +
+        '<p style="font-size:11px;opacity:.6;margin:4px 0 0">' + d.musicHint + '</p></section>' : "") +
+      '<section class="panel"><h2>' + d.secRsvp + '</h2>' + tog("rsvpEnabled", d.fRsvpOn, inv.rsvpEnabled) +
+        (inv.rsvpEnabled ? inp("rsvpPhone", d.fRsvpPhone, inv.rsvpPhone, "9647501234567", "ltr") + '<p style="font-size:11px;opacity:.6;margin:4px 0 0">' + d.phoneHint + '</p>' : "") + '</section>' +
+      '<div class="actions">' +
+        '<button type="button" class="btn-gold" id="save">' + (saved ? "✓ " + d.savedOk : d.saveBtn) + '</button>' +
+        (saved ? '<div class="linkrow"><span>🔗</span><code dir="ltr">' + guestLink() + '</code><button type="button" id="copyLink">نسخ</button></div>' +
+          '<a class="btn-wa" target="_blank" rel="noreferrer" href="' + waLink() + '">' + d.sendWA + '</a>' +
+          '<a class="btn-ghost" style="text-align:center" target="_blank" rel="noreferrer" href="' + guestLink() + '">' + d.previewBtn + '</a>' :
+          '<p style="text-align:center;font-size:11px;opacity:.6;margin:0">' + d.publishNote + '</p>') +
+      '</div></div>';
+    bind();
+  }
+
+  function collect() {
+    document.querySelectorAll("[data-k]").forEach(function (n) {
+      let v = n.value;
+      if (n.dataset.k === "eventDate" && v) v = new Date(v).toISOString();
+      inv[n.dataset.k] = v;
+    });
+    inv.program = Array.prototype.map.call(document.querySelectorAll(".prog-edit"), function (r) {
+      return { time: r.querySelector(".p-time").value, label: r.querySelector(".p-label").value };
+    }).filter(function (p) { return p.time || p.label; });
+  }
+
+  function bind() {
+    document.querySelectorAll(".tpl-card").forEach(function (b) { b.addEventListener("click", function () { collect(); inv.template = b.dataset.tpl; saved = false; render(); }); });
+    document.querySelectorAll(".toggle").forEach(function (b) { b.addEventListener("click", function () { collect(); inv[b.dataset.t] = !inv[b.dataset.t]; saved = false; render(); }); });
+    const sel = document.querySelector('[data-k="lang"]');
+    if (sel) sel.addEventListener("change", function () { collect(); saved = false; render(); });
+    const ap = $("#addProg");
+    if (ap) ap.addEventListener("click", function () { collect(); inv.program.push({ time: "", label: "" }); render(); });
+    document.querySelectorAll(".p-del").forEach(function (b) { b.addEventListener("click", function () { collect(); inv.program.splice(+b.parentElement.dataset.i, 1); render(); }); });
+    $("#save").addEventListener("click", async function () {
+      collect();
+      if (serverMode) {
+        const btn = $("#save");
+        btn.disabled = true; btn.textContent = "...";
+        try {
+          inv.published = true;
+          inv.updatedAt = new Date().toISOString();
+          await App.fbPut(inv);
+          saved = true;
+        } catch (e) {}
+        btn.disabled = false;
+      } else {
+        saved = true;
+        history.replaceState(null, "", location.pathname + "?d=" + App.encode(inv));
+      }
+      render();
+      window.scrollTo(0, document.body.scrollHeight);
+    });
+    const cl = $("#copyLink");
+    if (cl) cl.addEventListener("click", function () { navigator.clipboard.writeText(guestLink()); cl.textContent = "✓"; });
+  }
+
+  render();
+};
+
+/* ===== لوحة التحكم — وضع السيرفر (روابط قصيرة + تعديل الباقة) مع وضع احتياطي ===== */
+App.initAdmin = function () {
+  const { THEMES, TIERS, LANG_NAMES, $, esc } = App;
+  const root = $("#root");
+  const PRICES = { vip: "٩٩,٠٠٠ د.ع", gold: "٦٥,٠٠٠ د.ع", classic: "٢٥,٠٠٠ د.ع" };
+  const TIER_AR = { vip: "VIP", gold: "احترافي", classic: "عادي" };
+  let serverMode = false, adminCode = "", invites = [];
+  const H = function () { return { "Content-Type": "application/json", "x-admin-code": adminCode }; };
+
+  function loadReg() { try { return JSON.parse(localStorage.getItem("bq_invites") || "[]"); } catch (e) { return []; } }
+  function saveReg(r) { localStorage.setItem("bq_invites", JSON.stringify(r)); }
+
+  function loginView() {
+    root.innerHTML = '<div class="center-page">' +
+      '<div class="seal" style="width:80px;height:80px;background:rgba(233,192,94,.1);border:1px solid rgba(233,192,94,.4);color:#dfa93a">' + App.ic("lock", 32) + '</div>' +
+      '<h1 class="display gold-text" style="font-size:30px;margin:16px 0 0">لوحة التحكم</h1>' +
+      '<p style="font-size:13px;opacity:.6">بطاقتي VIP — الدخول بالرمز السري فقط</p>' +
+      '<input id="pw" type="password" placeholder="رمز التحكم" dir="ltr" style="margin-top:22px;max-width:300px;text-align:center;border-radius:99px">' +
+      '<button class="btn-gold" id="go" style="max-width:300px;margin-top:14px">دخول</button>' +
+      '<p id="err" style="color:#f87171;font-size:13px;margin-top:14px"></p></div>';
+    const pw = $("#pw");
+    const go = async function () {
+      adminCode = pw.value.trim();
+      if (adminCode !== App.ADMIN_CODE) { $("#err").textContent = "رمز التحكم غير صحيح"; return; }
+      try {
+        invites = await App.fbList();
+        invites.sort(function (a, b) { return (a.createdAt || "") < (b.createdAt || "") ? 1 : -1; });
+        serverMode = true;
+      } catch (e) { serverMode = false; }
+      mainView();
+    };
+    $("#go").addEventListener("click", go);
+    pw.addEventListener("keydown", function (e) { if (e.key === "Enter") go(); });
+  }
+
+  async function refresh() {
+    if (!serverMode) { mainView(); return; }
+    try {
+      invites = await App.fbList();
+      invites.sort(function (a, b) { return (a.createdAt || "") < (b.createdAt || "") ? 1 : -1; });
+    } catch (e) {}
+    mainView();
+  }
+
+  function isExp(inv) {
+    if (!inv.active) return true;
+    if (!inv.eventDate) return false;
+    return Date.now() > new Date(inv.eventDate).getTime() + 2 * 864e5;
+  }
+
+  function srvRow(inv) {
+    const origin = location.origin;
+    const exp = isExp(inv);
+    const t = THEMES[inv.template] || {};
+    const tc = inv.tier === "vip" ? "#e9c05e" : inv.tier === "gold" ? "#d9a941" : "#a8b0c0";
+    const sc = exp ? "#f87171" : inv.published ? "#34d399" : "#fbbf24";
+    const editUrl = origin + "/edit/" + inv.code + "?key=" + inv.editKey;
+    const guestUrl = origin + "/d/" + inv.code;
+    return '<div class="inv-row" data-code="' + esc(inv.code) + '">' +
+      '<div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">' +
+        '<b style="color:#f2d998" dir="ltr">' + esc(inv.code) + '</b>' +
+        '<span class="badge" style="border-color:' + tc + ';color:' + tc + '">' + TIER_AR[inv.tier] + ' · ' + PRICES[inv.tier] + '</span>' +
+        '<span class="badge" style="border-color:' + sc + ';color:' + sc + '">' + (exp ? "مغلقة" : inv.published ? "منشورة" : "بانتظار الزبون") + '</span>' +
+        (inv.customerName ? '<span style="font-size:11px;opacity:.7">' + esc(inv.customerName) + '</span>' : "") +
+        (inv.groom ? '<span style="font-size:11px;opacity:.7">— ' + esc(inv.groom) + ' و ' + esc(inv.bride) + '</span>' : "") +
+      '</div>' +
+      '<div class="inv-actions">' +
+        '<button class="btn-ghost sm" data-a="copyg">' + App.ic("copy", 12) + ' رابط الدعوة</button>' +
+        '<button class="btn-ghost sm" data-a="copye">' + App.ic("copy", 12) + ' رابط التعديل</button>' +
+        '<a class="btn-ghost sm" target="_blank" rel="noreferrer" href="' + guestUrl + '">معاينة ↗</a>' +
+        '<a class="btn-ghost sm" target="_blank" rel="noreferrer" href="https://wa.me/' + (inv.customerPhone || "") + '?text=' + encodeURIComponent("أهلاً " + (inv.customerName || "") + " 🤍\nرابط تعديل دعوتك:\n" + editUrl + "\n\nورابط الدعوة لضيوفكم:\n" + guestUrl + "\n\nبطاقتي VIP") + '">' + App.ic("send", 12) + ' إرسال</a>' +
+        '<select class="tier-sel" style="width:auto;padding:5px 10px;font-size:11px;border-radius:99px">' +
+          ["vip", "gold", "classic"].map(function (x) { return '<option value="' + x + '" ' + (inv.tier === x ? "selected" : "") + '>' + TIER_AR[x] + '</option>'; }).join("") +
+        '</select>' +
+        '<button class="btn-ghost sm" data-a="tog">' + (inv.active ? "إغلاق 🔒" : "فتح 🔓") + '</button>' +
+        '<button class="btn-ghost sm danger" data-a="del">حذف</button>' +
+      '</div></div>';
+  }
+
+  function localRow(r, i) {
+    const tc = r.tier === "vip" ? "#e9c05e" : r.tier === "gold" ? "#d9a941" : "#a8b0c0";
+    return '<div class="inv-row">' +
+      '<div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">' +
+        '<b style="color:#f2d998" dir="ltr">' + esc(r.code) + '</b>' +
+        '<span class="badge" style="border-color:' + tc + ';color:' + tc + '">' + TIER_AR[r.tier] + '</span>' +
+        (r.name ? '<span style="font-size:11px;opacity:.7">' + esc(r.name) + '</span>' : "") + '</div>' +
+      '<div class="inv-actions">' +
+        '<button class="btn-ghost sm" data-l="copy" data-i="' + i + '">نسخ رابط التعديل</button>' +
+        '<button class="btn-ghost sm danger" data-l="del" data-i="' + i + '">حذف</button>' +
+      '</div></div>';
+  }
+
+  function mainView() {
+    const reg = serverMode ? [] : loadReg();
+    const count = serverMode ? invites.length : reg.length;
+    root.innerHTML = '<div class="edit-wrap" style="max-width:760px">' +
+      '<header style="text-align:center;margin-bottom:26px">' +
+        '<div class="seal" style="width:64px;height:64px;margin:0 auto 12px;background:rgba(233,192,94,.1);border:1px solid rgba(233,192,94,.4);color:#dfa93a">' + App.ic("crown", 28) + '</div>' +
+        '<h1 class="display gold-text" style="font-size:28px;margin:0">لوحة التحكم</h1>' +
+        '<p style="font-size:12px;opacity:.6;margin-top:6px">إجمالي الدعوات: ' + count +
+        (serverMode ? ' · <span style="color:#34d399">✓ روابط قصيرة مفعّلة</span>' : ' · <span style="color:#fbbf24">وضع احتياطي (روابط طويلة) — فعّل قاعدة البيانات للروابط القصيرة</span>') + '</p></header>' +
+      (serverMode ? '<div style="text-align:left;margin-bottom:14px"><button class="btn-ghost sm" id="rf">تحديث ↻</button></div>' : '') +
+      '<section class="panel"><h2>' + App.ic("gem", 15) + ' إنشاء دعوة جديدة</h2>' +
+        '<div class="grid2">' +
+          '<label class="field"><span>كود الدعوة (بالإنكليزي، مثل ahmad-shilan)</span><input id="nCode" dir="ltr" placeholder="ahmad-shilan"></label>' +
+          '<label class="field"><span>اسم الزبون</span><input id="nName" placeholder="أحمد"></label>' +
+          '<label class="field"><span>رقم الزبون (واتساب)</span><input id="nPhone" dir="ltr" placeholder="9647501234567"></label>' +
+          '<label class="field"><span>الفئة والسعر</span><select id="nTier">' +
+            '<option value="vip">VIP — ٩٩,٠٠٠ د.ع</option>' +
+            '<option value="gold">احترافي — ٦٥,٠٠٠ د.ع</option>' +
+            '<option value="classic">عادي — ٢٥,٠٠٠ د.ع</option></select></label>' +
+          '<label class="field"><span>القالب الافتراضي</span><select id="nTpl"></select></label>' +
+          '<label class="field"><span>لغة الدعوة</span><select id="nLang">' +
+            Object.keys(LANG_NAMES).map(function (l) { return '<option value="' + l + '">' + LANG_NAMES[l] + '</option>'; }).join("") + '</select></label>' +
+        '</div>' +
+        '<button class="btn-gold" id="mk" style="margin-top:16px">أنشئ الدعوة</button>' +
+        '<div id="createdBox"></div></section>' +
+      '<section class="panel"><h2>' + App.ic("calendar", 15) + ' دعواتي</h2><div id="list">' +
+        (serverMode
+          ? (invites.length ? invites.map(srvRow).join("") : '<p style="text-align:center;opacity:.5;padding:20px 0;font-size:13px">لا توجد دعوات بعد</p>')
+          : (reg.length ? reg.map(localRow).join("") : '<p style="text-align:center;opacity:.5;padding:20px 0;font-size:13px">لا توجد دعوات بعد</p>')) +
+      '</div>' +
+      (serverMode ? '<p style="font-size:10px;opacity:.5;margin-top:10px">غيّر الباقة من القائمة مباشرة — تُحفظ فوراً ويتغير ما يراه الزبون في محرره</p>' : '') +
+      '</section></div>';
+
+    const tplSel = $("#nTpl"), tierSel = $("#nTier");
+    function fillTpl() {
+      tplSel.innerHTML = TIERS[tierSel.value].templates.map(function (tid) {
+        return '<option value="' + tid + '">' + THEMES[tid].names.ar + '</option>';
+      }).join("");
+    }
+    fillTpl();
+    tierSel.addEventListener("change", fillTpl);
+    const rf = $("#rf");
+    if (rf) rf.addEventListener("click", refresh);
+
+    $("#mk").addEventListener("click", async function () {
+      let code = ($("#nCode").value || "").trim().toLowerCase().replace(/[^a-z0-9-]/g, "");
+      const name = $("#nName").value, phone = ($("#nPhone").value || "").replace(/\D/g, "");
+      const origin = location.origin;
+      if (serverMode) {
+        if (!code) code = "dawat-" + Math.random().toString(36).slice(2, 7);
+        try {
+          const exists = await App.fbGet(code);
+          if (exists) {
+            $("#createdBox").innerHTML = '<p class="notice" style="margin-top:12px">هذا الكود مستخدم — اختر كوداً آخر</p>';
+            return;
+          }
+          const inv = App.newInvite({ code: code, tier: tierSel.value, template: tplSel.value, lang: $("#nLang").value, customerName: name, customerPhone: phone });
+          await App.fbPut(inv);
+          const editUrl = origin + "/edit/" + inv.code + "?key=" + inv.editKey;
+          const guestUrl = origin + "/d/" + inv.code;
+          showCreated(inv.code, editUrl, guestUrl, name, phone);
+          refresh();
+        } catch (e) {
+          $("#createdBox").innerHTML = '<p class="notice" style="margin-top:12px">تعذر الاتصال بقاعدة البيانات — تأكد من نشر قواعد Rules</p>';
+        }
+      } else {
+        if (!code) code = "dawat-" + Math.random().toString(36).slice(2, 7);
+        const inv = App.newInvite({ code: code, tier: tierSel.value, template: tplSel.value, lang: $("#nLang").value, customerName: name });
+        const editUrl = origin + "/edit/" + code + "?d=" + App.encode(inv);
+        const reg2 = loadReg();
+        reg2.unshift({ code: code, name: name, phone: phone, tier: tierSel.value, editUrl: editUrl, at: Date.now() });
+        saveReg(reg2);
+        showCreated(code, editUrl, null, name, phone);
+        const list = $("#list");
+        list.innerHTML = loadReg().map(localRow).join("");
+        bindLocal();
+      }
+    });
+
+    function showCreated(code, editUrl, guestUrl, name, phone) {
+      const waTxt = "أهلاً " + (name || "") + " 🤍\nهذا رابط تعديل دعوتك — افتحه واكتب معلومات حفلكم ثم اضغط حفظ:\n" + editUrl + (guestUrl ? "\n\nورابط الدعوة النهائي لضيوفكم:\n" + guestUrl : "") + "\n\nبطاقتي VIP";
+      $("#createdBox").innerHTML = '<div class="created">' +
+        '<p style="color:#34d399;font-weight:700;margin:0 0 10px">تم إنشاء الدعوة «' + esc(code) + '»</p>' +
+        '<div class="linkrow"><span>رابط التعديل:</span><code dir="ltr">' + editUrl + '</code><button data-c="' + esc(editUrl) + '">نسخ</button></div>' +
+        (guestUrl ? '<div class="linkrow"><span>رابط الدعوة:</span><code dir="ltr">' + guestUrl + '</code><button data-c="' + esc(guestUrl) + '">نسخ</button></div>' : '') +
+        '<a class="btn-wa" style="margin-top:10px" target="_blank" rel="noreferrer" href="https://wa.me/' + phone + '?text=' + encodeURIComponent(waTxt) + '">' + App.ic("send", 15) + ' أرسل للزبون</a></div>';
+      $("#createdBox").querySelectorAll("[data-c]").forEach(function (b) {
+        b.addEventListener("click", function () { navigator.clipboard.writeText(b.dataset.c); b.textContent = "✓"; });
+      });
+    }
+
+    if (serverMode) bindSrv(); else bindLocal();
+
+    function bindSrv() {
+      root.querySelectorAll(".inv-row").forEach(function (row) {
+        const code = row.dataset.code;
+        const inv = invites.find(function (x) { return x.code === code; });
+        if (!inv) return;
+        const origin = location.origin;
+        row.querySelectorAll("[data-a]").forEach(function (b) {
+          b.addEventListener("click", async function () {
+            const a = b.dataset.a;
+            if (a === "copyg") { navigator.clipboard.writeText(origin + "/d/" + code); b.innerHTML = "✓ نُسخ"; }
+            if (a === "copye") { navigator.clipboard.writeText(origin + "/edit/" + code + "?key=" + inv.editKey); b.innerHTML = "✓ نُسخ"; }
+            if (a === "tog") { inv.active = !inv.active; await App.fbPut(inv); refresh(); }
+            if (a === "del") { if (confirm("حذف «" + code + "» نهائياً؟")) { inv.hidden = true; inv.active = false; await App.fbPut(inv); refresh(); } }
+          });
+        });
+        const sel = row.querySelector(".tier-sel");
+        sel.addEventListener("change", async function () {
+          inv.tier = sel.value;
+          const allowed = TIERS[inv.tier].templates;
+          if (allowed.indexOf(inv.template) === -1) inv.template = allowed[0];
+          await App.fbPut(inv);
+          refresh();
+        });
+      });
+    }
+    function bindLocal() {
+      root.querySelectorAll("[data-l]").forEach(function (b) {
+        b.addEventListener("click", function () {
+          const i = +b.dataset.i, r = loadReg();
+          if (b.dataset.l === "copy") { navigator.clipboard.writeText(r[i].editUrl); b.textContent = "✓"; }
+          if (b.dataset.l === "del") { r.splice(i, 1); saveReg(r); mainView(); }
+        });
+      });
+    }
+  }
+
+  loginView();
+};
+
+App.initAdmin();
+</script>
+</body></html>
