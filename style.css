@@ -179,3 +179,24 @@ body.opened .ringjewel { opacity: 1; transform: translateX(-50%) translateY(-46p
 @keyframes slowZoom { from { transform: scale(1) } to { transform: scale(1.07) } }
 .glowname { animation: glowName 3.5s ease-in-out infinite; }
 @keyframes glowName { 0%,100% { text-shadow: 0 0 14px rgba(255,215,130,.25) } 50% { text-shadow: 0 0 30px rgba(255,215,130,.6) } }
+
+/* ===== معاينات حية مصغرة في بطاقات القوالب ===== */
+.tpl-prev { position: relative; height: 360px; overflow: hidden; }
+.tpl-prev .scene { position: absolute; inset: 0; }
+.tpl-prev .petal, .tpl-prev .lantern, .tpl-prev .stardot { position: absolute; }
+.tpl-prev .podium { height: 30%; width: 130px; bottom: -18px; }
+.tpl-prev .ringbox { bottom: calc(30% + 8px); transform: translateX(-50%) scale(.82); }
+.tpl-prev .drape { width: 30%; }
+.tpl-prev .rays { width: 300%; height: 300%; margin-left: -150%; top: -100%; }
+.tpl-prev .spot { width: 90%; height: 100%; }
+.tpl-prev .castle { bottom: 18%; }
+.tpl-prev .lakeline { height: 26%; }
+.tpl-prev .archdeco { top: 8%; }
+.prev-center { position: absolute; inset: 0; z-index: 3; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: 34px; gap: 10px; text-align: center; pointer-events: none; }
+.prev-tap { font-size: 10px; letter-spacing: .5px; border: 1px solid; border-radius: 99px; padding: 5px 16px; opacity: .9; backdrop-filter: blur(3px); }
+.prev-badge { position: absolute; top: 12px; left: 12px; z-index: 4; border: 1px solid; border-radius: 99px; padding: 3px 12px; font-size: 9px; font-weight: 800; letter-spacing: 1.5px; backdrop-filter: blur(4px); }
+.bird { position: absolute; animation: flyAcross linear infinite; }
+.bird svg { animation: birdBob 1.2s ease-in-out infinite alternate; }
+@keyframes flyAcross { from { left: -12% } to { left: 108% } }
+@keyframes birdBob { from { transform: translateY(0) } to { transform: translateY(-6px) } }
+.tpl-prev .bird { position: absolute; }

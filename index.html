@@ -303,11 +303,18 @@ App.initLanding = function () {
       <section class="feats" id="templates"><h2 class="display gold-text" style="font-size:30px;text-align:center">${s.tplT}</h2>
         <p style="text-align:center;font-size:13px;opacity:.7;margin-top:10px">${s.tplS}</p>
         <div class="tpl-show">${Object.values(THEMES).map((t) => `
-          <a class="tpl-item" href="/d/demo-${t === THEMES.zerin ? "zerin" : Object.keys(THEMES).find((k) => THEMES[k] === t)}" style="background:${t.bg};color:${t.text}">
-            <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;height:160px;padding:20px">
-              <span style="color:${t.accent}">${App.ic(t.icon,46)}</span>
-              <span style="border:1px solid ${t.accent};color:${t.accent};border-radius:99px;padding:2px 12px;font-size:9px;font-weight:800;letter-spacing:1px">${t.tier.toUpperCase()}</span></div>
-            <div style="border-top:1px solid ${t.border};background:rgba(0,0,0,.08);padding:18px">
+          <a class="tpl-item" href="/d/demo-${Object.keys(THEMES).find((k) => THEMES[k] === t)}" style="background:${t.bg};color:${t.text}">
+            <div class="tpl-prev">
+              <div class="scene">${App.scene(t)}</div>
+              <span class="prev-badge" style="border-color:${t.accent};color:${t.accent};background:rgba(0,0,0,.18)">${t.tier === "gold" ? "PRO" : t.tier.toUpperCase()}</span>
+              <div class="prev-center">
+                <span style="color:${t.accent};opacity:.9">${App.ic(t.icon, 26)}</span>
+                <div class="display glowname" style="color:${t.accent};font-size:24px;line-height:1.4">${lang === "ar" ? "آلان و دلڤين" : "ئالان و دلڤین"}</div>
+                <div style="display:flex;align-items:center;gap:8px;opacity:.7"><span style="height:1px;width:34px;background:${t.border}"></span><span style="color:${t.accent};font-size:11px">${t.ornament}</span><span style="height:1px;width:34px;background:${t.border}"></span></div>
+                <span class="prev-tap" style="border-color:${t.border};color:${t.accent};background:${t.soft}">${(t.tap && t.tap[lang]) || App.DICTS[lang].tapToOpen}</span>
+              </div>
+            </div>
+            <div style="border-top:1px solid ${t.border};background:rgba(0,0,0,.08);padding:18px;position:relative;z-index:3">
               <h3 style="color:${t.accent};font-size:15px">${t.names[lang]}</h3>
               <p style="font-size:11px;line-height:1.8;opacity:.8;margin-top:6px">${t.desc[lang]}</p>
               <p style="color:${t.accent};font-size:11px;font-weight:700;margin-top:10px">${s.prev}</p></div></a>`).join("")}</div></section>
@@ -334,7 +341,8 @@ App.ICONS = {
   rings: '<circle cx="9" cy="14.5" r="5.5"/><circle cx="15" cy="9.5" r="5.5"/>',
   crown: '<path d="M3 17.5h18M4.5 17.5L3 8l5.6 3.8L12 5l3.4 6.8L21 8l-1.5 9.5z"/>',
   gem: '<path d="M7 3h10l4 6-9 12L3 9z"/><path d="M3 9h18M9.5 3L12 9l2.5-6M12 21L9.5 9M12 21l2.5-12"/>',
-  bloom: '<circle cx="12" cy="9" r="4.5"/><path d="M12 13.5V21M9 18.5h6"/>',
+  bloom: '<circle cx="12" cy="12" r="2.4"/><circle cx="12" cy="6.2" r="2.9"/><circle cx="17.3" cy="9.7" r="2.9"/><circle cx="15.4" cy="15.9" r="2.9"/><circle cx="8.6" cy="15.9" r="2.9"/><circle cx="6.7" cy="9.7" r="2.9"/>',
+  bird: '<path d="M3 11c3.2-4.5 6.3-4.5 9-.5 2.7-4 5.8-4 9 .5"/>',
   star: '<path d="M12 3l2.7 5.6 6.3.9-4.5 4.4 1 6.1-5.5-3-5.5 3 1-6.1L3 9.5l6.3-.9z"/>',
   leaf: '<path d="M5 19C5 9.5 12.5 4 20 4c0 8.5-4.5 15-13 15z"/><path d="M5 19c2.5-5.5 6.5-9 11-11"/>',
   moon: '<path d="M20 13.5A8.5 8.5 0 1 1 10.5 4a7 7 0 0 0 9.5 9.5z"/>',
@@ -438,12 +446,14 @@ App.scene = function (t) {
       '<div class="cloud" style="width:44vw;height:12vh;bottom:6vh;left:-6vw;animation-duration:11s"></div>' +
       '<div class="cloud" style="width:36vw;height:10vh;bottom:16vh;right:-4vw;animation-duration:14s"></div>' +
       '<div class="cloud" style="width:30vw;height:8vh;bottom:2vh;left:36vw;animation-duration:9s"></div>' +
+      '<span class="bird" style="top:16%;color:rgba(238,210,255,.5);animation-duration:20s">' + App.ic("bird", 20) + '</span>' +
       petals(["#e8bfff", "#d3a6f5"], 10);
   if (id === "swan")
     return '<div class="archdeco" style="color:rgba(185,143,78,.6)">' + App.ic("heart", 120) + '</div><div class="lakeline"></div>' +
-      '<span class="dove" style="top:18%;left:16%;animation-duration:7s">' + App.ic("heart", 16) + '</span>' +
-      '<span class="dove" style="top:12%;right:20%;animation-duration:9s">' + App.ic("heart", 12) + '</span>' +
-      petals(["#e8cfa0", "#dcbd88"], 10);
+      '<span class="bird" style="top:14%;color:rgba(120,95,60,.65);animation-duration:16s">' + App.ic("bird", 26) + '</span>' +
+      '<span class="bird" style="top:22%;color:rgba(120,95,60,.5);animation-duration:22s;animation-delay:4s">' + App.ic("bird", 18) + '</span>' +
+      '<span class="bird" style="top:9%;color:rgba(120,95,60,.4);animation-duration:19s;animation-delay:9s">' + App.ic("bird", 14) + '</span>' +
+      petals(["#e8cfa0", "#dcbd88"], 8);
   if (id === "fanar") {
     let l = "";
     for (let i = 0; i < 9; i++)
