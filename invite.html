@@ -180,7 +180,7 @@ window.App = (function () {
       fEventDate: "تاريخ ووقت الحفل", fDateText: "نص التاريخ (كما سيظهر)", fTimeText: "نص الوقت (كما سيظهر)",
       fCountdown: "إظهار العد التنازلي", fDua: "الدعاء / كلمة ختامية", fVenue: "اسم القاعة",
       fAddress: "العنوان", fMaps: "رابط خرائط كوكل", fMusic: "رابط الموسيقى (يوتيوب أو MP3)",
-      musicHint: "يشتغل تلقائياً بعد فتح الدعوة", fRsvpOn: "تفعيل تأكيد الحضور",
+      musicHint: "يبدأ تلقائياً من المقطع الحماسي — ولتحديد البداية بنفسك أضف t=45 لنهاية رابط اليوتيوب", fRsvpOn: "تفعيل تأكيد الحضور",
       fRsvpPhone: "رقم واتساب لاستقبال التأكيدات", phoneHint: "بصيغة دولية مثل 9647501234567",
       addItem: "+ أضف فقرة", timePh: "٧:٠٠ مساءً", labelPh: "استقبال الضيوف",
       saveBtn: "احفظ وانشر الدعوة ✨", savedOk: "تم الحفظ! دعوتك جاهزة",
@@ -452,15 +452,49 @@ App.ic = function (name, size) {
 App.ADMIN_CODE = "BITAQATY-2026";
 
 /* ===== ترميز الدعوة داخل الرابط (بدون سيرفر) ===== */
+function b64u(str) {
+  return btoa(unescape(encodeURIComponent(str))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+}
+function unb64u(str) {
+  return decodeURIComponent(escape(atob(str.replace(/-/g, "+").replace(/_/g, "/"))));
+}
 App.encode = function (inv) {
-  const json = JSON.stringify(inv);
-  return "v1." + btoa(unescape(encodeURIComponent(json))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+  const yid = App.ytId(inv.musicUrl || "");
+  const tm = String(inv.musicUrl || "").match(/[?&#]t=(\d+)/);
+  const mu = yid ? "y:" + yid + (tm ? ":" + tm[1] : "") : (inv.musicUrl || "");
+  const ep = inv.eventDate ? Math.round(new Date(inv.eventDate).getTime() / 60000) : "";
+  const pr = (inv.program || []).map(function (p) { return p.time + "~" + p.label; }).join("|");
+  const a = [inv.code || "", (inv.tier || "classic")[0], inv.template || "", inv.lang || "ar",
+    inv.groom || "", inv.bride || "", inv.gLine || "", inv.bLine || "", inv.phrase || "", inv.dua || "",
+    ep, inv.dateText || "", inv.timeText || "", inv.showCountdown ? 1 : 0,
+    inv.venueName || "", inv.venueAddress || "", inv.mapsUrl || "", pr, mu,
+    inv.rsvpEnabled ? 1 : 0, inv.rsvpPhone || "", inv.customerName || ""];
+  return "v2." + b64u(JSON.stringify(a));
+};
+App.dataParam = function () {
+  const q = new URLSearchParams(location.search).get("d");
+  return App.decode(q || location.hash);
 };
 App.decode = function (hash) {
   let s = String(hash || "").replace(/^#/, "");
-  if (!s.startsWith("v1.")) return null;
-  s = s.slice(3).replace(/-/g, "+").replace(/_/g, "/");
-  try { return JSON.parse(decodeURIComponent(escape(atob(s)))); } catch { return null; }
+  try {
+    if (s.startsWith("v2.")) {
+      const a = JSON.parse(unb64u(s.slice(3)));
+      const tier = a[1] === "v" ? "vip" : a[1] === "g" ? "gold" : "classic";
+      let mu = a[18] || "";
+      const ym = mu.match(/^y:([\w-]{11})(?::(\d+))?$/);
+      if (ym) mu = "https://youtu.be/" + ym[1] + (ym[2] ? "?t=" + ym[2] : "");
+      return { code: a[0], tier: tier, template: a[2], lang: a[3], groom: a[4], bride: a[5],
+        gLine: a[6], bLine: a[7], phrase: a[8], dua: a[9],
+        eventDate: a[10] ? new Date(a[10] * 60000).toISOString() : "",
+        dateText: a[11], timeText: a[12], showCountdown: !!a[13],
+        venueName: a[14], venueAddress: a[15], mapsUrl: a[16],
+        program: a[17] ? a[17].split("|").map(function (x) { const i = x.indexOf("~"); return { time: x.slice(0, i), label: x.slice(i + 1) }; }) : [],
+        musicUrl: mu, rsvpEnabled: !!a[19], rsvpPhone: a[20], customerName: a[21] || "" };
+    }
+    if (s.startsWith("v1.")) return JSON.parse(unb64u(s.slice(3)));
+  } catch (e) {}
+  return null;
 };
 App.newInvite = function (p) {
   return { code: p.code || "", tier: p.tier || "classic", template: p.template || "rose",
@@ -565,7 +599,7 @@ App.initInvite = function () {
   const root = $("#root");
   const code = pathParam();
   const guest = qs("guest");
-  let inv = App.decode(location.hash);
+  let inv = App.dataParam();
   if (!inv && code.indexOf("demo-") === 0) inv = App.demoInvite(code);
   if (!inv) {
     root.innerHTML = '<div class="center-page"><div style="font-size:56px">🔍</div><h1 class="gold-text" style="font-size:22px">' + dict("ar").notFound + '</h1><a href="/" style="color:#e9c05e;margin-top:20px;font-size:13px">بطاقتي VIP · الرئيسية</a></div>';
@@ -650,14 +684,56 @@ App.initInvite = function () {
       '<a href="/" style="color:' + t.accent + ';font-size:11px;opacity:.5">بطاقتي VIP · bitaqaty.vip</a></footer>');
   root.appendChild(main);
 
-  let vidPlayed = false, openedFlag = false;
+  let vidPlayed = false, openedFlag = false, musicStarted = false;
+  function startMusic() {
+    if (musicStarted || !inv.musicUrl) return;
+    musicStarted = true;
+    const id = ytId(inv.musicUrl);
+    const tm = String(inv.musicUrl).match(/[?&#]t=(?:(\d+)m)?(\d+)s?(?:\D|$)/);
+    let start = tm ? (+(tm[1] || 0)) * 60 + (+tm[2]) : null;
+    let audio = null, ifr = null, muted = false;
+    if (id) {
+      if (start === null) start = 35;
+      ifr = el("iframe", { class: "yt-hidden", allow: "autoplay", src: "https://www.youtube.com/embed/" + id + "?autoplay=1&loop=1&playlist=" + id + "&start=" + start });
+      document.body.appendChild(ifr);
+    } else {
+      audio = el("audio", { src: inv.musicUrl, loop: "" });
+      document.body.appendChild(audio);
+      audio.addEventListener("loadedmetadata", function () {
+        const st = start !== null ? start : (audio.duration > 75 ? 30 : 0);
+        try { audio.currentTime = st; } catch (e) {}
+      });
+      audio.play().catch(function () {});
+    }
+    const btn = el("button", { class: "music-btn", style: "background:" + t.soft + ";border:1px solid " + t.border + ";color:" + t.accent }, App.ic("music", 20));
+    btn.addEventListener("click", function () {
+      muted = !muted;
+      btn.innerHTML = App.ic(muted ? "mute" : "music", 20);
+      if (audio) { audio.muted = muted; if (!muted) audio.play().catch(function () {}); }
+      if (ifr) { if (muted) { ifr.remove(); } else { document.body.appendChild(ifr); } }
+    });
+    document.body.appendChild(btn);
+  }
   cover.addEventListener("click", function () {
+    startMusic();
     if (vid && !vidPlayed) {
       vidPlayed = true;
       center.classList.add("center-hide");
       vid.play().catch(function () { openNow(); });
       vid.addEventListener("ended", openNow);
       setTimeout(openNow, 10800);
+      const ov = el("div", { class: "vid-overlay" });
+      cover.appendChild(ov);
+      setTimeout(function () {
+        ov.innerHTML = '<p class="vo-line" style="font-size:14px;letter-spacing:1px">' + d.youAreInvited + '</p>';
+      }, 1300);
+      setTimeout(function () {
+        ov.innerHTML += '<h2 class="vo-line display" style="font-size:34px;line-height:1.5;margin:0">' + groom + " " + d.and + " " + bride + '</h2>' +
+          '<div class="vo-line vo-orna"><span></span><i style="font-size:12px">' + t.ornament + '</i><span></span></div>';
+      }, 3400);
+      setTimeout(function () {
+        if (dateText) ov.innerHTML += '<p class="vo-line" style="font-size:15px;font-weight:600">' + dateText + (timeText ? " · " + timeText : "") + '</p>';
+      }, 5800);
       return;
     }
     openNow();
@@ -673,26 +749,6 @@ App.initInvite = function () {
       nodes.forEach(function (n, i) { setTimeout(function () { n.classList.add("shown"); }, i * 130); });
     }, 700);
     setTimeout(function () { cover.remove(); }, 2400);
-    if (inv.musicUrl) {
-      const id = ytId(inv.musicUrl);
-      let audio = null, ifr = null, muted = false;
-      if (id) {
-        ifr = el("iframe", { class: "yt-hidden", allow: "autoplay", src: "https://www.youtube.com/embed/" + id + "?autoplay=1&loop=1&playlist=" + id });
-        document.body.appendChild(ifr);
-      } else {
-        audio = el("audio", { src: inv.musicUrl, loop: "" });
-        document.body.appendChild(audio);
-        audio.play().catch(function () {});
-      }
-      const btn = el("button", { class: "music-btn", style: "background:" + t.soft + ";border:1px solid " + t.border + ";color:" + t.accent }, App.ic("music", 20));
-      btn.addEventListener("click", function () {
-        muted = !muted;
-        btn.innerHTML = App.ic(muted ? "mute" : "music", 20);
-        if (audio) { audio.muted = muted; if (!muted) audio.play().catch(function () {}); }
-        if (ifr) { if (muted) ifr.remove(); else document.body.appendChild(ifr); }
-      });
-      document.body.appendChild(btn);
-    }
     const cd = $("#cd");
     if (cd) countdown(inv.eventDate, d, cd, t.accent, t.border);
   }
@@ -702,7 +758,7 @@ App.initInvite = function () {
 App.initEdit = function () {
   const { THEMES, TIERS, LANG_NAMES, $, esc, dict } = App;
   const root = $("#root");
-  let inv = App.decode(location.hash);
+  let inv = App.dataParam();
   if (!inv) {
     root.innerHTML = '<div class="center-page"><div style="font-size:56px">🔍</div><p style="font-size:17px">' + dict("ar").notFound + '</p></div>';
     return;
@@ -710,7 +766,7 @@ App.initEdit = function () {
   let saved = false;
 
   function guestLink() {
-    return location.origin + "/d/" + encodeURIComponent(inv.code || "dawat") + "#" + App.encode(inv);
+    return location.origin + "/d/" + encodeURIComponent(inv.code || "dawat") + "?d=" + App.encode(inv);
   }
   function waLink() {
     const t = THEMES[inv.template];
@@ -804,7 +860,7 @@ App.initEdit = function () {
     $("#save").addEventListener("click", function () {
       collect();
       saved = true;
-      history.replaceState(null, "", location.pathname + "#" + App.encode(inv));
+      history.replaceState(null, "", location.pathname + "?d=" + App.encode(inv));
       render();
       window.scrollTo(0, document.body.scrollHeight);
     });
@@ -900,7 +956,7 @@ App.initAdmin = function () {
       if (!code) code = "dawat-" + Math.random().toString(36).slice(2, 7);
       const inv = App.newInvite({ code: code, tier: tierSel.value, template: tplSel.value,
         lang: $("#nLang").value, customerName: $("#nName").value });
-      const editUrl = location.origin + "/edit/" + code + "#" + App.encode(inv);
+      const editUrl = location.origin + "/edit/" + code + "?d=" + App.encode(inv);
       const phone = ($("#nPhone").value || "").replace(/\D/g, "");
       const reg2 = loadReg();
       reg2.unshift({ code: code, name: $("#nName").value, phone: phone, tier: tierSel.value, editUrl: editUrl, at: Date.now() });
