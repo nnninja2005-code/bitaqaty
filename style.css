@@ -120,3 +120,62 @@ select option { background: #241c10; }
 .cta-box { border: 1px solid rgba(233,192,94,.3); background: linear-gradient(180deg, rgba(233,192,94,.1), transparent); border-radius: 40px; padding: 44px 28px; text-align: center; }
 .land-footer { position: relative; z-index: 10; border-top: 1px solid rgba(233,192,94,.15); padding: 30px 0; text-align: center; margin-top: 40px; }
 @media (max-width: 480px) { .grid2 { grid-template-columns: 1fr; } .cd-cell { width: 64px; } }
+
+/* ===== مشاهد متحركة (Scenes) ===== */
+.scene { position: fixed; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
+.rays { position: absolute; top: -45%; left: 50%; width: 160vmax; height: 160vmax; margin-left: -80vmax;
+  background: conic-gradient(from 0deg, transparent 0 14deg, rgba(255,222,150,.07) 14deg 20deg, transparent 20deg 42deg, rgba(255,222,150,.05) 42deg 48deg, transparent 48deg 76deg, rgba(255,222,150,.06) 76deg 82deg, transparent 82deg 120deg, rgba(255,222,150,.05) 120deg 126deg, transparent 126deg 160deg, rgba(255,222,150,.06) 160deg 166deg, transparent 166deg 205deg, rgba(255,222,150,.05) 205deg 211deg, transparent 211deg 250deg, rgba(255,222,150,.06) 250deg 256deg, transparent 256deg 300deg, rgba(255,222,150,.05) 300deg 306deg, transparent 306deg 360deg);
+  animation: spinSlow 60s linear infinite; }
+@keyframes spinSlow { to { transform: rotate(360deg) } }
+.spot { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 70vw; height: 85vh;
+  background: radial-gradient(45% 55% at 50% 0%, rgba(255,232,175,.30), transparent 72%); animation: spotPulse 4.5s ease-in-out infinite; }
+@keyframes spotPulse { 0%,100% { opacity: .75 } 50% { opacity: 1 } }
+.drape { position: absolute; top: 0; bottom: 0; width: 26vw; }
+.drape-l { left: 0; background: linear-gradient(90deg, #4a1420 0%, #6b1f30 45%, rgba(107,31,48,0) 100%);
+  box-shadow: inset 40px 0 70px rgba(0,0,0,.55); border-radius: 0 40% 40% 0 / 0 12% 12% 0; }
+.drape-r { right: 0; background: linear-gradient(270deg, #4a1420 0%, #6b1f30 45%, rgba(107,31,48,0) 100%);
+  box-shadow: inset -40px 0 70px rgba(0,0,0,.55); border-radius: 40% 0 0 40% / 12% 0 0 12%; }
+.petal { position: fixed; top: -4%; width: 12px; height: 12px; border-radius: 78% 4% 62% 6%;
+  animation: fall linear infinite; opacity: .8; }
+.podium { position: absolute; bottom: -6vh; left: 50%; transform: translateX(-50%); width: 190px; height: 34vh;
+  background: linear-gradient(90deg, #b8ad9e 0%, #efe8dc 22%, #cfc4b3 50%, #f2ece1 78%, #b0a595 100%); border-radius: 95px 95px 0 0 / 26px 26px 0 0;
+  box-shadow: 0 -8px 40px rgba(0,0,0,.35), inset 0 14px 18px -10px rgba(255,255,255,.8); }
+.ringbox { position: absolute; bottom: calc(28vh + 12px); left: 50%; transform: translateX(-50%); width: 92px; height: 74px; }
+.boxbase { position: absolute; bottom: 0; width: 92px; height: 48px; border-radius: 16px 16px 20px 20px;
+  background: linear-gradient(160deg, #b3323f, #7e1f2c 70%); box-shadow: 0 14px 30px rgba(0,0,0,.45), inset 0 4px 8px rgba(255,255,255,.25); }
+.boxlid { position: absolute; bottom: 44px; width: 92px; height: 32px; border-radius: 16px 16px 8px 8px;
+  background: linear-gradient(160deg, #c23a48, #8c2432 70%); box-shadow: inset 0 4px 8px rgba(255,255,255,.28);
+  transform-origin: top center; transition: transform 1.4s cubic-bezier(.6,0,.3,1); }
+.ringjewel { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%) scale(.4); opacity: 0;
+  color: #ffe9b0; filter: drop-shadow(0 0 12px rgba(255,220,140,.9)); transition: all 1.6s ease .7s; }
+body.opened .boxlid { transform: translateY(-30px) rotateX(-125deg); }
+body.opened .ringjewel { opacity: 1; transform: translateX(-50%) translateY(-46px) scale(1); animation: floaty 4s ease-in-out 2.3s infinite; }
+.castle { position: absolute; bottom: 8vh; left: 50%; transform: translateX(-50%); opacity: .5; animation: floaty 9s ease-in-out infinite; }
+.cloud { position: absolute; background: rgba(255,255,255,.35); filter: blur(22px); border-radius: 50%; animation: drift ease-in-out infinite alternate; }
+@keyframes drift { from { transform: translateX(-6vw) } to { transform: translateX(6vw) } }
+.stardot { position: absolute; border-radius: 50%; background: #fff; animation: twinkle ease-in-out infinite; }
+@keyframes twinkle { 0%,100% { opacity: .15 } 50% { opacity: .95 } }
+.gatebar { position: absolute; top: 0; bottom: 0; width: 50%; z-index: 55;
+  background: repeating-linear-gradient(90deg, transparent 0 26px, rgba(214,178,94,.85) 26px 32px), linear-gradient(180deg, rgba(40,24,56,.4), rgba(40,24,56,.7));
+  transition: transform 2s cubic-bezier(.7,0,.3,1); backdrop-filter: blur(2px); }
+.gatebar::after { content: ""; position: absolute; top: 12%; left: 0; right: 0; height: 6px; background: rgba(214,178,94,.85); box-shadow: 0 26vh 0 rgba(214,178,94,.85), 0 52vh 0 rgba(214,178,94,.85); }
+.gate-l { right: 50%; border-left: 3px solid rgba(233,192,94,.9); }
+.gate-r { left: 50%; border-right: 3px solid rgba(233,192,94,.9); }
+.opened .gate-l { transform: translateX(102%); }
+.opened .gate-r { transform: translateX(-102%); }
+.lantern { position: absolute; bottom: -14%; width: 24px; height: 36px; border-radius: 8px 8px 11px 11px;
+  background: radial-gradient(60% 55% at 50% 45%, #ffdf9e, #e8a84c 75%, #b97a2e); box-shadow: 0 0 26px 8px rgba(255,196,100,.4);
+  animation: lanternUp linear infinite; }
+.lantern::before { content: ""; position: absolute; top: -5px; left: 8px; width: 8px; height: 5px; background: #8a5a22; border-radius: 3px 3px 0 0; }
+@keyframes lanternUp { 0% { transform: translateY(0) translateX(0); opacity: 0 } 8% { opacity: 1 } 50% { transform: translateY(-58vh) translateX(3vw) } 100% { transform: translateY(-118vh) translateX(-2vw); opacity: 0 } }
+.lakeline { position: absolute; bottom: 0; left: 0; right: 0; height: 22vh;
+  background: linear-gradient(180deg, transparent, rgba(185,143,78,.18) 30%, rgba(185,143,78,.3)); }
+.lakeline::after { content: ""; position: absolute; top: 28%; left: 10%; right: 10%; height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(255,235,190,.8), transparent); background-size: 200% auto; animation: shimmer 5s linear infinite; }
+.archdeco { position: absolute; top: 4vh; left: 50%; transform: translateX(-50%); opacity: .55; animation: floaty 8s ease-in-out infinite; }
+.dove { position: absolute; color: rgba(120,95,60,.5); animation: doveFly ease-in-out infinite alternate; }
+@keyframes doveFly { from { transform: translate(0,0) } to { transform: translate(5vw,-3vh) } }
+.slowzoom { animation: slowZoom 24s ease-in-out infinite alternate; }
+@keyframes slowZoom { from { transform: scale(1) } to { transform: scale(1.07) } }
+.glowname { animation: glowName 3.5s ease-in-out infinite; }
+@keyframes glowName { 0%,100% { text-shadow: 0 0 14px rgba(255,215,130,.25) } 50% { text-shadow: 0 0 30px rgba(255,215,130,.6) } }

@@ -32,7 +32,59 @@ window.App = (function () {
       bg: "radial-gradient(1200px 800px at 50% -20%,#1b2a5e,#101a40 50%,#070c22)",
       card: "linear-gradient(160deg,#141f4a,#182553)", text: "#eaf0ff",
       accent: "#ffd98a", soft: "rgba(255,217,138,.14)", border: "rgba(255,217,138,.4)", parts: ["✦","✧","⋆"] },
-    garden: { tier: "classic", emoji: "🌿", icon: "leaf", opening: "arch", ornament: "❁",
+    khatim: { tier: "vip", emoji: "💍", icon: "ring", opening: "box", ornament: "❖",
+    names: { ar: "الخاتم", bad: "گوستیرە", sor: "ئەنگوستیلە" },
+    desc: {
+      ar: "صندوق خاتم مخملي يُفتح تحت ضوء المسرح — لحظة العمر صارت دعوة",
+      bad: "سندوقێ گوستیرێ ب دەستێ تە ڤەدبیت — بن ڕۆناهیا سەحنەیێ",
+      sor: "سندوقی ئەنگوستیلە بە دەستت دەکرێتەوە — لەژێر ڕووناکی سەحنە",
+    },
+    tap: { ar: "المس الصندوق", bad: "دەست بدە سندوقی", sor: "دەست بنێ بە سندوقەکە" },
+    bg: "radial-gradient(1100px 750px at 50% -5%, #47141f 0%, #2a0d14 55%, #16060a 100%)",
+    card: "linear-gradient(160deg, #33101a, #401520)", text: "#f6e7d5",
+    accent: "#e9b95e", soft: "rgba(233,185,94,.15)", border: "rgba(233,185,94,.42)", parts: ["❀","✿"] },
+  qasr: { tier: "vip", emoji: "🏰", icon: "castle", opening: "gate", ornament: "✦",
+    names: { ar: "قصر الحكايات", bad: "قەسرا چیرۆکان", sor: "قەسری چیرۆکەکان" },
+    desc: {
+      ar: "بوابة ذهبية تنفتح على قصرٍ بين الغيوم — خطوبة من حكايات الأميرات",
+      bad: "دەرگەهەکێ زێڕین ل سەر قەسرەکا د ناڤ عەوران دا ڤەدبیت",
+      sor: "دەروازەیەکی زێڕین دەکرێتەوە بۆ قەسرێک لەنێو هەورەکاندا",
+    },
+    tap: { ar: "اضغط لفتح البوابة", bad: "دەست بدە بۆ ڤەکرنا دەرگەهی", sor: "دەست بنێ بۆ کردنەوەی دەروازەکە" },
+    bg: "radial-gradient(1200px 800px at 50% -10%, #5a3a78 0%, #3a2350 45%, #1d1330 100%)",
+    card: "linear-gradient(160deg, #2c1c42, #372450)", text: "#f4eaff",
+    accent: "#e8bfff", soft: "rgba(232,191,255,.13)", border: "rgba(232,191,255,.4)", parts: ["✦","❀","✧"] },
+  swan: { tier: "gold", emoji: "🦢", icon: "heart", opening: "arch", ornament: "❦",
+    names: { ar: "بحيرة البجع", bad: "گۆلا قوان", sor: "دەریاچەی قوو" },
+    desc: {
+      ar: "قوس مذهّب على بحيرة حالمة تتلألأ — رومانسية ملكية هادئة",
+      bad: "کەوانەکا زێڕین ل سەر گۆلەکا خەونین",
+      sor: "کەوانێکی زێڕین لەسەر دەریاچەیەکی خەونین",
+    },
+    bg: "radial-gradient(1100px 700px at 50% -10%, #fffdf7 0%, #f7eeda 45%, #ecdcbc 100%)",
+    card: "linear-gradient(160deg, #fffef9, #faf3e3)", text: "#5d4a2e",
+    accent: "#b98f4e", soft: "rgba(185,143,78,.12)", border: "rgba(185,143,78,.35)", parts: ["❀","✿"] },
+  fanar: { tier: "vip", emoji: "🏮", icon: "lantern", opening: "sky", ornament: "✧",
+    names: { ar: "ليلة الفوانيس", bad: "شەڤا فانۆسان", sor: "شەوی فانۆسەکان" },
+    desc: {
+      ar: "مئات الفوانيس تحلّق في سماء الليل احتفالاً بكما",
+      bad: "فانۆس د ئەسمانێ شەڤێ دا دفڕن بۆ شاهیا هەوە",
+      sor: "فانۆسەکان لە ئاسمانی شەودا دەفڕن بۆ ئاهەنگی ئێوە",
+    },
+    bg: "radial-gradient(1200px 800px at 50% -15%, #14384a 0%, #0c2430 50%, #051218 100%)",
+    card: "linear-gradient(160deg, #0f2d3d, #123646)", text: "#f0ead9",
+    accent: "#ffc873", soft: "rgba(255,200,115,.14)", border: "rgba(255,200,115,.4)", parts: ["✦","✧"] },
+  ward: { tier: "gold", emoji: "🌹", icon: "bloom", opening: "petals", ornament: "❁",
+    names: { ar: "مطر الورد", bad: "بارانا گوڵان", sor: "بارانی گوڵ" },
+    desc: {
+      ar: "مخمل عنّابي وشلال ورد لا يتوقف — دفء يليق بليلة العمر",
+      bad: "مەخمەلێ سۆر و بارانا گوڵان یا بێ ڕاوەستان",
+      sor: "مەخمەڵی سوور و بارانی گوڵی بێ وچان",
+    },
+    bg: "radial-gradient(1100px 750px at 50% -5%, #4d1a2b 0%, #33101c 55%, #1b0710 100%)",
+    card: "linear-gradient(160deg, #3d1424, #4a1a2c)", text: "#f7e6dc",
+    accent: "#e9c05e", soft: "rgba(233,192,94,.14)", border: "rgba(233,192,94,.42)", parts: ["❀","✿","❁"] },
+  garden: { tier: "classic", emoji: "🌿", icon: "leaf", opening: "arch", ornament: "❁",
       names: { ar: "الحديقة", bad: "باخچە", sor: "باخچە" },
       desc: { ar: "إكليل أزهار وخضرة ناعمة — عرس بنسمة ربيع", bad: "تاجێ گوڵان و کەسکاتی", sor: "تاجی گوڵ و سەوزایی" },
       bg: "radial-gradient(1100px 700px at 50% -10%,#fff,#f2f6ec 45%,#e2ecd8)",
@@ -42,8 +94,8 @@ window.App = (function () {
 
   const TIERS = {
     classic: { music: false, program: false, templates: ["rose","garden"] },
-    gold: { music: true, program: true, templates: ["rose","garden","starlit","royal"] },
-    vip: { music: true, program: true, templates: ["zerin","royal","rose","starlit","garden"] },
+    gold: { music: true, program: true, templates: ["rose","garden","starlit","royal","swan","ward"] },
+    vip: { music: true, program: true, templates: ["zerin","khatim","qasr","fanar","royal","swan","ward","starlit","rose","garden"] },
   };
 
   const LANG_NAMES = { ar: "العربية", bad: "کوردی (بادینی)", sor: "کوردی (سۆرانی)" };
@@ -299,7 +351,11 @@ App.ICONS = {
   lock: '<rect x="4.5" y="10.5" width="15" height="10" rx="2"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/>',
   send: '<path d="M21.5 2.5L11 13M21.5 2.5L15 21l-4-8-8.5-4z"/>',
   copy: '<rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/>',
-  trash: '<path d="M4 7h16M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M6 7l1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13"/>'
+  trash: '<path d="M4 7h16M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M6 7l1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13"/>',
+  ring: '<circle cx="12" cy="14.5" r="5.5"/><path d="M9.5 9L12 5l2.5 4M12 5l-1.5 4M12 5l1.5 4"/>',
+  castle: '<path d="M3 21h18M5 21V9l1.5-1.5V5H8v2h2.5V4H13v3h2.5V5H18v2.5L19 9v12"/><path d="M10 21v-5.5h4V21"/>',
+  heart: '<path d="M12 20.5S4 15.2 4 9.8A4.4 4.4 0 0 1 12 6.6a4.4 4.4 0 0 1 8 3.2c0 5.4-8 10.7-8 10.7z"/>',
+  lantern: '<rect x="8" y="6.5" width="8" height="11" rx="3.5"/><path d="M10.5 3.5h3M12 3.5v3M10.5 20.5h3M12 17.5v3"/>'
 };
 App.ic = function (name, size) {
   return '<svg width="' + (size || 24) + '" height="' + (size || 24) + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;display:inline-block">' + (App.ICONS[name] || "") + '</svg>';
@@ -333,7 +389,7 @@ App.isExpired = function (inv) {
 App.demoInvite = function (code) {
   const m = { "demo-zerin": ["zerin","ar","vip"], "demo-royal": ["royal","ar","gold"],
     "demo-rose": ["rose","ar","classic"], "demo-starlit": ["starlit","ar","gold"],
-    "demo-garden": ["garden","ar","classic"], "demo-zerin-bad": ["zerin","bad","vip"],
+    "demo-garden": ["garden","ar","classic"], "demo-khatim": ["khatim","ar","vip"], "demo-qasr": ["qasr","ar","vip"], "demo-swan": ["swan","ar","gold"], "demo-fanar": ["fanar","ar","vip"], "demo-ward": ["ward","ar","gold"], "demo-zerin-bad": ["zerin","bad","vip"],
     "demo-zerin-sor": ["zerin","sor","vip"] };
   if (!m[code]) return null;
   const [template, lang, tier] = m[code];
@@ -353,6 +409,54 @@ App.demoInvite = function (code) {
   return inv;
 };
 
+
+/* ===== المشاهد المتحركة لكل قالب ===== */
+App.scene = function (t) {
+  function petals(colors, n) {
+    let h = "";
+    for (let i = 0; i < n; i++) {
+      const c = colors[i % colors.length];
+      h += '<span class="petal" style="left:' + (Math.random() * 100) + '%;background:radial-gradient(60% 60% at 35% 35%, ' + c + ', ' + c + 'cc);animation-duration:' + (6 + Math.random() * 8) + 's;animation-delay:' + (Math.random() * 9) + 's;width:' + (9 + Math.random() * 8) + 'px;height:' + (9 + Math.random() * 8) + 'px"></span>';
+    }
+    return h;
+  }
+  function stars(n) {
+    let h = "";
+    for (let i = 0; i < n; i++) {
+      h += '<span class="stardot" style="left:' + (Math.random() * 100) + '%;top:' + (Math.random() * 55) + '%;width:' + (1.5 + Math.random() * 2.5) + 'px;height:' + (1.5 + Math.random() * 2.5) + 'px;animation-duration:' + (1.8 + Math.random() * 3) + 's;animation-delay:' + (Math.random() * 3) + 's"></span>';
+    }
+    return h;
+  }
+  const id = t.id;
+  if (id === "khatim")
+    return '<div class="rays"></div><div class="drape drape-l"></div><div class="drape drape-r"></div><div class="spot"></div>' +
+      '<div class="podium"></div><div class="ringbox"><div class="boxbase"></div><div class="boxlid"></div><div class="ringjewel">' + App.ic("ring", 30) + '</div></div>' +
+      petals(["#c4485a", "#a03248", "#d76a7a"], 16);
+  if (id === "qasr")
+    return stars(22) +
+      '<div class="castle" style="color:rgba(238,210,255,.55)">' + App.ic("castle", 150) + '</div>' +
+      '<div class="cloud" style="width:44vw;height:12vh;bottom:6vh;left:-6vw;animation-duration:11s"></div>' +
+      '<div class="cloud" style="width:36vw;height:10vh;bottom:16vh;right:-4vw;animation-duration:14s"></div>' +
+      '<div class="cloud" style="width:30vw;height:8vh;bottom:2vh;left:36vw;animation-duration:9s"></div>' +
+      petals(["#e8bfff", "#d3a6f5"], 10);
+  if (id === "swan")
+    return '<div class="archdeco" style="color:rgba(185,143,78,.6)">' + App.ic("heart", 120) + '</div><div class="lakeline"></div>' +
+      '<span class="dove" style="top:18%;left:16%;animation-duration:7s">' + App.ic("heart", 16) + '</span>' +
+      '<span class="dove" style="top:12%;right:20%;animation-duration:9s">' + App.ic("heart", 12) + '</span>' +
+      petals(["#e8cfa0", "#dcbd88"], 10);
+  if (id === "fanar") {
+    let l = "";
+    for (let i = 0; i < 9; i++)
+      l += '<span class="lantern" style="left:' + (5 + Math.random() * 90) + '%;animation-duration:' + (9 + Math.random() * 10) + 's;animation-delay:' + (Math.random() * 10) + 's;transform:scale(' + (0.6 + Math.random() * 0.7) + ')"></span>';
+    return stars(18) + '<div style="position:absolute;top:7vh;left:12vw;color:rgba(255,220,150,.7)" class="floaty">' + App.ic("moon", 54) + '</div>' + l;
+  }
+  if (id === "ward")
+    return '<div class="rays"></div><div class="spot" style="background:radial-gradient(45% 55% at 50% 0%, rgba(255,190,170,.16), transparent 72%)"></div>' +
+      petals(["#c4485a", "#e9c05e", "#a03248", "#d76a7a"], 26);
+  if (id === "starlit") return stars(26);
+  if (id === "royal" || id === "zerin") return '<div class="rays"></div>' + stars(10);
+  return "";
+};
 /* ===== صفحة الدعوة (الضيوف) ===== */
 App.initInvite = function () {
   const { THEMES, $, el, esc, dict, pathParam, qs, ytId, particles, countdown } = App;
@@ -385,12 +489,19 @@ App.initInvite = function () {
   const loc = inv.lang === "ar" ? "ar-IQ" : "ckb-IQ";
   const dateText = esc(inv.dateText) || (inv.eventDate ? new Date(inv.eventDate).toLocaleDateString(loc, { weekday: "long", year: "numeric", month: "long", day: "numeric" }) : "");
   const timeText = esc(inv.timeText) || (inv.eventDate ? new Date(inv.eventDate).toLocaleTimeString(loc, { hour: "numeric", minute: "2-digit" }) : "");
-  const coverIcon = App.ic(t.opening === "curtains" ? "gem" : t.opening === "sky" ? "moon" : t.opening === "arch" ? "leaf" : "envelope", 46);
+  const coverIcon = App.ic(t.opening === "curtains" ? "gem" : t.opening === "sky" ? "moon" : t.opening === "arch" ? "leaf" : t.opening === "box" ? "ring" : t.opening === "gate" ? "castle" : t.opening === "petals" ? "bloom" : "envelope", 46);
 
+  const sceneDiv = el("div", { class: "scene slowzoom" }, App.scene(t));
+  root.appendChild(sceneDiv);
   const cover = el("div", { class: "cover" });
   if (t.opening === "curtains") {
     cover.appendChild(el("div", { class: "curtain curtain-l" }));
     cover.appendChild(el("div", { class: "curtain curtain-r" }));
+  } else if (t.opening === "gate") {
+    cover.appendChild(el("div", { class: "gatebar gate-l" }));
+    cover.appendChild(el("div", { class: "gatebar gate-r" }));
+  } else if (t.opening === "box") {
+    /* المشهد نفسه هو الغلاف — لا حاجة لطبقة تغطية */
   } else {
     cover.appendChild(el("div", { class: "cover-bg cover-fade", style: "background:" + t.bg }));
   }
@@ -398,7 +509,7 @@ App.initInvite = function () {
     '<div class="seal pulse" style="background:' + t.soft + ';border:2px solid ' + t.border + ';color:' + t.accent + '">' + coverIcon + '</div>' +
     '<div><p class="display" style="color:' + t.accent + ';font-size:30px;margin:0">' + groom + " " + d.and + " " + bride + '</p>' +
     (guest ? '<p style="font-size:13px;opacity:.9;margin-top:10px">' + d.dearGuest + ': <b style="color:' + t.accent + '">' + esc(guest) + '</b></p>' : "") + '</div>' +
-    '<button class="btn" style="background:' + t.accent + ';color:#1c1508">' + d.tapToOpen + '</button>');
+    '<button class="btn" style="background:' + t.accent + ';color:#1c1508">' + ((t.tap && t.tap[inv.lang]) || d.tapToOpen) + '</button>');
   cover.appendChild(center);
   root.appendChild(cover);
 
@@ -407,7 +518,7 @@ App.initInvite = function () {
     '<section class="reveal" style="text-align:center">' +
       '<div class="seal" style="width:76px;height:76px;font-size:28px;margin:0 auto 18px;background:' + t.soft + ';border:1.5px solid ' + t.border + ';color:' + t.accent + '">' + App.ic("rings", 30) + '</div>' +
       '<p style="font-size:13px;opacity:.85">' + d.youAreInvited + '</p>' +
-      '<h1 class="display" style="color:' + t.accent + ';font-size:38px;line-height:1.5;margin:16px 0 0">' + groom + '<span style="font-size:22px;opacity:.8;margin:0 12px">' + d.and + '</span>' + bride + '</h1>' +
+      '<h1 class="display glowname" style="color:' + t.accent + ';font-size:38px;line-height:1.5;margin:16px 0 0">' + groom + '<span style="font-size:22px;opacity:.8;margin:0 12px">' + d.and + '</span>' + bride + '</h1>' +
       '<div class="orna"><span style="background:' + t.border + '"></span><i style="color:' + t.accent + '">' + t.ornament + '</i><span style="background:' + t.border + '"></span></div>' +
       '<p class="naskh" style="max-width:360px;margin:18px auto 0;font-size:17px;line-height:1.9;opacity:.95">' + phrase + '</p>' +
       (guest ? '<p style="margin-top:14px;font-size:13px">' + d.dearGuest + ': <b style="color:' + t.accent + '">' + esc(guest) + '</b></p>' : "") +
@@ -433,6 +544,7 @@ App.initInvite = function () {
 
   cover.addEventListener("click", function () {
     cover.classList.add("opened");
+    document.body.classList.add("opened");
     particles(root, t, 18);
     setTimeout(function () {
       var nodes = document.querySelectorAll(".reveal");
