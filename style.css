@@ -220,3 +220,22 @@ body.opened .ringjewel { opacity: 1; transform: translateX(-50%) translateY(-46p
 @keyframes voIn { 0% { opacity: 0; transform: translateY(26px) scale(.96); filter: blur(6px) } 100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0) } }
 .vo-orna { display: flex; align-items: center; gap: 10px; opacity: .9; }
 .vo-orna span { height: 1px; width: 44px; background: rgba(255,240,200,.8); display: block; }
+
+/* ===== فراشات تحلق ===== */
+.bfly { position: absolute; animation: bflyFly linear infinite; }
+.bfly svg { animation: flap .45s ease-in-out infinite alternate; }
+@keyframes flap { from { transform: scaleX(1) } to { transform: scaleX(.4) } }
+@keyframes bflyFly {
+  0% { transform: translate(-12vw, 18vh) rotate(8deg) }
+  25% { transform: translate(24vw, -5vh) rotate(-7deg) }
+  50% { transform: translate(58vw, 13vh) rotate(9deg) }
+  75% { transform: translate(86vw, -9vh) rotate(-7deg) }
+  100% { transform: translate(116vw, 5vh) rotate(7deg) }
+}
+.tpl-prev .bfly { position: absolute; }
+
+/* نصوص الفيديو — أوضح وأرقى */
+.vid-overlay { justify-content: center; padding: 0 26px; }
+.vid-overlay::before { content: ""; position: absolute; inset: 0; background: radial-gradient(70% 42% at 50% 46%, rgba(25,15,4,.34), transparent 75%); }
+.vid-overlay > * { position: relative; }
+.vo-line { animation: voIn 2s cubic-bezier(.16,.7,.26,1) both; }

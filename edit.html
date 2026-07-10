@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@300;400;500;600;700;800&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Aref+Ruqaa:wght@400;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="/style.css"><title>عدّل دعوتك · بطاقتي VIP</title></head>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@300;400;500;600;700;800&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Aref+Ruqaa:wght@400;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="/style.css"><title>لوحة التحكم · بطاقتي VIP</title><meta name="robots" content="noindex"></head>
 <body><div id="root"></div>
 <script>
 /* بطاقتي VIP — المنطق المشترك لكل الصفحات */
@@ -103,14 +103,14 @@ window.App = (function () {
     bg: "radial-gradient(1100px 750px at 50% -5%, #47141f 0%, #2a0d14 55%, #16060a 100%)",
     card: "linear-gradient(160deg, #33101a, #401520)", text: "#f6e7d5",
     accent: "#e9b95e", soft: "rgba(233,185,94,.15)", border: "rgba(233,185,94,.42)", fx: "petals", colors: ["#c4485a","#d76a7a"] },
-  qasr: { tier: "vip", emoji: "🏰", icon: "castle", opening: "gate", ornament: "✦",
+  qasr: { tier: "vip", emoji: "🏰", icon: "bfly", opening: "bflies", ornament: "✦",
     names: { ar: "قصر الحكايات", bad: "قەسرا چیرۆکان", sor: "قەسری چیرۆکەکان" },
     desc: {
-      ar: "بوابة ذهبية تنفتح على قصرٍ بين الغيوم — خطوبة من حكايات الأميرات",
+      ar: "فراشات ساحرة تحلّق نحو قصرٍ بين الغيوم — من حكايات الأميرات",
       bad: "دەرگەهەکێ زێڕین ل سەر قەسرەکا د ناڤ عەوران دا ڤەدبیت",
       sor: "دەروازەیەکی زێڕین دەکرێتەوە بۆ قەسرێک لەنێو هەورەکاندا",
     },
-    tap: { ar: "اضغط لفتح البوابة", bad: "دەست بدە بۆ ڤەکرنا دەرگەهی", sor: "دەست بنێ بۆ کردنەوەی دەروازەکە" },
+    tap: { ar: "المس الفراشات", bad: "دەست بدە پەپوولان", sor: "دەست بنێ بە پەپوولەکان" },
     bg: "radial-gradient(1200px 800px at 50% -10%, #5a3a78 0%, #3a2350 45%, #1d1330 100%)",
     card: "linear-gradient(160deg, #2c1c42, #372450)", text: "#f4eaff",
     accent: "#e8bfff", soft: "rgba(232,191,255,.13)", border: "rgba(232,191,255,.4)", fx: "petals", colors: ["#e8bfff","#d3a6f5"] },
@@ -442,7 +442,8 @@ App.ICONS = {
   ring: '<circle cx="12" cy="14.5" r="5.5"/><path d="M9.5 9L12 5l2.5 4M12 5l-1.5 4M12 5l1.5 4"/>',
   castle: '<path d="M3 21h18M5 21V9l1.5-1.5V5H8v2h2.5V4H13v3h2.5V5H18v2.5L19 9v12"/><path d="M10 21v-5.5h4V21"/>',
   heart: '<path d="M12 20.5S4 15.2 4 9.8A4.4 4.4 0 0 1 12 6.6a4.4 4.4 0 0 1 8 3.2c0 5.4-8 10.7-8 10.7z"/>',
-  lantern: '<rect x="8" y="6.5" width="8" height="11" rx="3.5"/><path d="M10.5 3.5h3M12 3.5v3M10.5 20.5h3M12 17.5v3"/>'
+  lantern: '<rect x="8" y="6.5" width="8" height="11" rx="3.5"/><path d="M10.5 3.5h3M12 3.5v3M10.5 20.5h3M12 17.5v3"/>',
+  bfly: '<path d="M12 7.5v10"/><path d="M12 10.5C9 4.5 3 4.5 3 8.7c0 3.4 5 4.9 9 3.3M12 10.5c3-6 9-6 9-1.8 0 3.4-5 4.9-9 3.3"/><path d="M12 13c-3-.4-6.8 1.6-6.3 4.4.4 2.5 4.3 2 6.3-.9M12 13c3-.4 6.8 1.6 6.3 4.4-.4 2.5-4.3 2-6.3-.9"/><path d="M10.5 5.5L12 7.5l1.5-2"/>'
 };
 App.ic = function (name, size) {
   return '<svg width="' + (size || 24) + '" height="' + (size || 24) + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;display:inline-block">' + (App.ICONS[name] || "") + '</svg>';
@@ -544,6 +545,18 @@ App.ring = function (size) {
     '<path d="M25 18.5h14M32 8v19.5" stroke="rgba(120,170,220,.55)" stroke-width="1"/>' +
     '<path d="M18 8l2.2 2.2M46 8l-2.2 2.2M32 2.5v3" stroke="#ffe9b0" stroke-width="1.6" stroke-linecap="round"/></svg>';
 };
+
+/* فراشات محلقة */
+App.bflies = function (n, big) {
+  const colors = ["#e8bfff", "#f3d1ff", "#ffd98a", "#d3a6f5"];
+  let h = "";
+  for (let i = 0; i < n; i++) {
+    const c = colors[i % colors.length];
+    const size = big ? 26 + Math.random() * 30 : 14 + Math.random() * 14;
+    h += '<span class="bfly" style="top:' + (Math.random() * 70) + '%;color:' + c + ';animation-duration:' + (10 + Math.random() * 14) + 's;animation-delay:-' + (Math.random() * 14) + 's;filter:drop-shadow(0 0 6px ' + c + '55)">' + App.ic("bfly", size) + '</span>';
+  }
+  return h;
+};
 /* ===== المشاهد المتحركة لكل قالب ===== */
 App.scene = function (t) {
   function petals(colors, n) {
@@ -572,7 +585,7 @@ App.scene = function (t) {
       '<div class="cloud" style="width:44vw;height:12vh;bottom:6vh;left:-6vw;animation-duration:11s"></div>' +
       '<div class="cloud" style="width:36vw;height:10vh;bottom:16vh;right:-4vw;animation-duration:14s"></div>' +
       '<div class="cloud" style="width:30vw;height:8vh;bottom:2vh;left:36vw;animation-duration:9s"></div>' +
-      '<span class="bird" style="top:16%;color:rgba(238,210,255,.5);animation-duration:20s">' + App.ic("bird", 20) + '</span>' +
+      App.bflies(4, false) +
       petals(["#e8bfff", "#d3a6f5"], 10);
   if (id === "swan")
     return '<div class="archdeco" style="color:rgba(185,143,78,.6)">' + App.ic("heart", 120) + '</div><div class="lakeline"></div>' +
@@ -594,12 +607,18 @@ App.scene = function (t) {
   return "";
 };
 /* ===== صفحة الدعوة (الضيوف) ===== */
-App.initInvite = function () {
+App.initInvite = async function () {
   const { THEMES, $, el, esc, dict, pathParam, qs, ytId, particles, countdown } = App;
   const root = $("#root");
   const code = pathParam();
   const guest = qs("guest");
-  let inv = App.dataParam();
+  let inv = App.dataParam(), srvExpired = null;
+  if (!inv && code && code.indexOf("demo-") !== 0) {
+    try {
+      const r = await fetch("/api/invites?code=" + encodeURIComponent(code) + "&view=1");
+      if (r.ok) { const j = await r.json(); inv = j.invite; srvExpired = j.expired; }
+    } catch (e) {}
+  }
   if (!inv && code.indexOf("demo-") === 0) inv = App.demoInvite(code);
   if (!inv) {
     root.innerHTML = '<div class="center-page"><div style="font-size:56px">🔍</div><h1 class="gold-text" style="font-size:22px">' + dict("ar").notFound + '</h1><a href="/" style="color:#e9c05e;margin-top:20px;font-size:13px">بطاقتي VIP · الرئيسية</a></div>';
@@ -608,7 +627,7 @@ App.initInvite = function () {
   const d = dict(inv.lang);
   const t = THEMES[inv.template] || THEMES.zerin;
 
-  if (App.isExpired(inv)) {
+  if (srvExpired !== null ? srvExpired : App.isExpired(inv)) {
     root.innerHTML = '<div class="center-page"><div style="font-size:56px">🕊️</div>' +
       '<h1 class="display gold-text" style="font-size:26px;margin:18px 0 0">' + d.expiredTitle + '</h1>' +
       '<p style="max-width:340px;opacity:.75;font-size:14px;line-height:1.9">' + d.expiredBody + '</p>' +
@@ -622,7 +641,7 @@ App.initInvite = function () {
   const groom = esc(inv.groom || "—"), bride = esc(inv.bride || "—");
   const phrase = esc(inv.phrase) || d.defaultPhrase;
   const dua = esc(inv.dua) || d.defaultDua;
-  const loc = inv.lang === "ar" ? "ar-IQ" : "ckb-IQ";
+  const loc = inv.lang === "ar" ? "ar-IQ-u-nu-latn" : "ckb-IQ-u-nu-latn";
   const dateText = esc(inv.dateText) || (inv.eventDate ? new Date(inv.eventDate).toLocaleDateString(loc, { weekday: "long", year: "numeric", month: "long", day: "numeric" }) : "");
   const timeText = esc(inv.timeText) || (inv.eventDate ? new Date(inv.eventDate).toLocaleTimeString(loc, { hour: "numeric", minute: "2-digit" }) : "");
   const coverIcon = App.ic(t.opening === "curtains" ? "gem" : t.opening === "sky" ? "moon" : t.opening === "arch" ? "leaf" : t.opening === "box" ? "ring" : t.opening === "gate" ? "castle" : t.opening === "petals" ? "bloom" : "envelope", 46);
@@ -632,15 +651,15 @@ App.initInvite = function () {
   const cover = el("div", { class: "cover" });
   let vid = null;
   if (t.video) {
-    vid = el("video", { class: "cover-video", src: t.video, playsinline: "", preload: "auto" });
+    vid = el("video", { class: "cover-video cover-fade", src: t.video, playsinline: "", preload: "auto" });
     vid.muted = true;
     cover.appendChild(vid);
   } else if (t.opening === "curtains") {
     cover.appendChild(el("div", { class: "curtain curtain-l" }));
     cover.appendChild(el("div", { class: "curtain curtain-r" }));
-  } else if (t.opening === "gate") {
-    cover.appendChild(el("div", { class: "gatebar gate-l" }));
-    cover.appendChild(el("div", { class: "gatebar gate-r" }));
+  } else if (t.opening === "bflies") {
+    cover.appendChild(el("div", { class: "cover-bg cover-fade", style: "background:" + t.bg }));
+    cover.appendChild(el("div", { class: "cover-fade", style: "position:absolute;inset:0" }, App.bflies(13, true)));
   } else if (t.opening === "box") {
     /* المشهد نفسه هو الغلاف — لا حاجة لطبقة تغطية */
   } else {
@@ -721,19 +740,23 @@ App.initInvite = function () {
       center.classList.add("center-hide");
       vid.play().catch(function () { openNow(); });
       vid.addEventListener("ended", openNow);
-      setTimeout(openNow, 10800);
+      vid.addEventListener("timeupdate", function () {
+        if (vid.duration && vid.currentTime > vid.duration - 0.7) openNow();
+      });
+      setTimeout(openNow, 11500);
       const ov = el("div", { class: "vid-overlay" });
       cover.appendChild(ov);
       setTimeout(function () {
-        ov.innerHTML = '<p class="vo-line" style="font-size:14px;letter-spacing:1px">' + d.youAreInvited + '</p>';
-      }, 1300);
+        ov.innerHTML = '<p class="vo-line" style="font-size:15px;letter-spacing:.5px;font-weight:600;opacity:.95">' + d.youAreInvited + '</p>';
+      }, 1400);
       setTimeout(function () {
-        ov.innerHTML += '<h2 class="vo-line display" style="font-size:34px;line-height:1.5;margin:0">' + groom + " " + d.and + " " + bride + '</h2>' +
-          '<div class="vo-line vo-orna"><span></span><i style="font-size:12px">' + t.ornament + '</i><span></span></div>';
-      }, 3400);
+        ov.innerHTML += '<h2 class="vo-line display glowname" style="font-size:40px;line-height:1.55;margin:6px 0 0">' + groom + '</h2>' +
+          '<div class="vo-line vo-orna"><span></span><i style="font-size:13px">' + d.and + '</i><span></span></div>' +
+          '<h2 class="vo-line display glowname" style="font-size:40px;line-height:1.55;margin:0">' + bride + '</h2>';
+      }, 3300);
       setTimeout(function () {
-        if (dateText) ov.innerHTML += '<p class="vo-line" style="font-size:15px;font-weight:600">' + dateText + (timeText ? " · " + timeText : "") + '</p>';
-      }, 5800);
+        if (dateText) ov.innerHTML += '<p class="vo-line" style="font-size:16px;font-weight:700;margin-top:10px;letter-spacing:.5px">' + dateText + (timeText ? " · " + timeText : "") + '</p>';
+      }, 6300);
       return;
     }
     openNow();
@@ -755,10 +778,18 @@ App.initInvite = function () {
 };
 
 /* ===== صفحة التعديل (الزبون) — بدون سيرفر ===== */
-App.initEdit = function () {
+App.initEdit = async function () {
   const { THEMES, TIERS, LANG_NAMES, $, esc, dict } = App;
   const root = $("#root");
-  let inv = App.dataParam();
+  const editKey = App.qs("key");
+  let inv = null, serverMode = false;
+  if (editKey) {
+    try {
+      const r = await fetch("/api/invites?code=" + encodeURIComponent(App.pathParam()) + "&key=" + encodeURIComponent(editKey));
+      if (r.ok) { inv = (await r.json()).invite; serverMode = true; }
+    } catch (e) {}
+  }
+  if (!inv) inv = App.dataParam();
   if (!inv) {
     root.innerHTML = '<div class="center-page"><div style="font-size:56px">🔍</div><p style="font-size:17px">' + dict("ar").notFound + '</p></div>';
     return;
@@ -766,6 +797,7 @@ App.initEdit = function () {
   let saved = false;
 
   function guestLink() {
+    if (serverMode) return location.origin + "/d/" + encodeURIComponent(inv.code);
     return location.origin + "/d/" + encodeURIComponent(inv.code || "dawat") + "?d=" + App.encode(inv);
   }
   function waLink() {
@@ -857,10 +889,21 @@ App.initEdit = function () {
     const ap = $("#addProg");
     if (ap) ap.addEventListener("click", function () { collect(); inv.program.push({ time: "", label: "" }); render(); });
     document.querySelectorAll(".p-del").forEach(function (b) { b.addEventListener("click", function () { collect(); inv.program.splice(+b.parentElement.dataset.i, 1); render(); }); });
-    $("#save").addEventListener("click", function () {
+    $("#save").addEventListener("click", async function () {
       collect();
-      saved = true;
-      history.replaceState(null, "", location.pathname + "?d=" + App.encode(inv));
+      if (serverMode) {
+        const btn = $("#save");
+        btn.disabled = true; btn.textContent = "...";
+        try {
+          const r = await fetch("/api/invites", { method: "PUT", headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(Object.assign({}, inv, { editKey: editKey })) });
+          if (r.ok) { inv = (await r.json()).invite; saved = true; }
+        } catch (e) {}
+        btn.disabled = false;
+      } else {
+        saved = true;
+        history.replaceState(null, "", location.pathname + "?d=" + App.encode(inv));
+      }
       render();
       window.scrollTo(0, document.body.scrollHeight);
     });
@@ -871,12 +914,14 @@ App.initEdit = function () {
   render();
 };
 
-/* ===== لوحة التحكم (الأدمن) — احترافية مع سجل الدعوات ===== */
+/* ===== لوحة التحكم — وضع السيرفر (روابط قصيرة + تعديل الباقة) مع وضع احتياطي ===== */
 App.initAdmin = function () {
   const { THEMES, TIERS, LANG_NAMES, $, esc } = App;
   const root = $("#root");
   const PRICES = { vip: "٩٩,٠٠٠ د.ع", gold: "٦٥,٠٠٠ د.ع", classic: "٢٥,٠٠٠ د.ع" };
   const TIER_AR = { vip: "VIP", gold: "احترافي", classic: "عادي" };
+  let serverMode = false, adminCode = "", invites = [];
+  const H = function () { return { "Content-Type": "application/json", "x-admin-code": adminCode }; };
 
   function loadReg() { try { return JSON.parse(localStorage.getItem("bq_invites") || "[]"); } catch (e) { return []; } }
   function saveReg(r) { localStorage.setItem("bq_invites", JSON.stringify(r)); }
@@ -890,57 +935,110 @@ App.initAdmin = function () {
       '<button class="btn-gold" id="go" style="max-width:300px;margin-top:14px">دخول</button>' +
       '<p id="err" style="color:#f87171;font-size:13px;margin-top:14px"></p></div>';
     const pw = $("#pw");
-    const go = function () {
-      if (pw.value.trim() === App.ADMIN_CODE) mainView();
+    const go = async function () {
+      adminCode = pw.value.trim();
+      try {
+        const r = await fetch("/api/invites?list=1", { headers: H() });
+        if (r.status === 200) { invites = (await r.json()).invites; serverMode = true; mainView(); return; }
+        if (r.status === 401) { $("#err").textContent = "رمز التحكم غير صحيح"; return; }
+      } catch (e) {}
+      /* لا يوجد API — الوضع الاحتياطي */
+      if (adminCode === App.ADMIN_CODE) mainView();
       else $("#err").textContent = "رمز التحكم غير صحيح";
     };
     $("#go").addEventListener("click", go);
     pw.addEventListener("keydown", function (e) { if (e.key === "Enter") go(); });
   }
 
-  function regRow(r, i) {
+  async function refresh() {
+    if (!serverMode) { mainView(); return; }
+    try {
+      const r = await fetch("/api/invites?list=1", { headers: H() });
+      if (r.ok) invites = (await r.json()).invites;
+    } catch (e) {}
+    mainView();
+  }
+
+  function isExp(inv) {
+    if (!inv.active) return true;
+    if (!inv.eventDate) return false;
+    return Date.now() > new Date(inv.eventDate).getTime() + 2 * 864e5;
+  }
+
+  function srvRow(inv) {
+    const origin = location.origin;
+    const exp = isExp(inv);
+    const t = THEMES[inv.template] || {};
+    const tc = inv.tier === "vip" ? "#e9c05e" : inv.tier === "gold" ? "#d9a941" : "#a8b0c0";
+    const sc = exp ? "#f87171" : inv.published ? "#34d399" : "#fbbf24";
+    const editUrl = origin + "/edit/" + inv.code + "?key=" + inv.editKey;
+    const guestUrl = origin + "/d/" + inv.code;
+    return '<div class="inv-row" data-code="' + esc(inv.code) + '">' +
+      '<div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">' +
+        '<b style="color:#f2d998" dir="ltr">' + esc(inv.code) + '</b>' +
+        '<span class="badge" style="border-color:' + tc + ';color:' + tc + '">' + TIER_AR[inv.tier] + ' · ' + PRICES[inv.tier] + '</span>' +
+        '<span class="badge" style="border-color:' + sc + ';color:' + sc + '">' + (exp ? "مغلقة" : inv.published ? "منشورة" : "بانتظار الزبون") + '</span>' +
+        (inv.customerName ? '<span style="font-size:11px;opacity:.7">' + esc(inv.customerName) + '</span>' : "") +
+        (inv.groom ? '<span style="font-size:11px;opacity:.7">— ' + esc(inv.groom) + ' و ' + esc(inv.bride) + '</span>' : "") +
+      '</div>' +
+      '<div class="inv-actions">' +
+        '<button class="btn-ghost sm" data-a="copyg">' + App.ic("copy", 12) + ' رابط الدعوة</button>' +
+        '<button class="btn-ghost sm" data-a="copye">' + App.ic("copy", 12) + ' رابط التعديل</button>' +
+        '<a class="btn-ghost sm" target="_blank" rel="noreferrer" href="' + guestUrl + '">معاينة ↗</a>' +
+        '<a class="btn-ghost sm" target="_blank" rel="noreferrer" href="https://wa.me/' + (inv.customerPhone || "") + '?text=' + encodeURIComponent("أهلاً " + (inv.customerName || "") + " 🤍\nرابط تعديل دعوتك:\n" + editUrl + "\n\nورابط الدعوة لضيوفكم:\n" + guestUrl + "\n\nبطاقتي VIP") + '">' + App.ic("send", 12) + ' إرسال</a>' +
+        '<select class="tier-sel" style="width:auto;padding:5px 10px;font-size:11px;border-radius:99px">' +
+          ["vip", "gold", "classic"].map(function (x) { return '<option value="' + x + '" ' + (inv.tier === x ? "selected" : "") + '>' + TIER_AR[x] + '</option>'; }).join("") +
+        '</select>' +
+        '<button class="btn-ghost sm" data-a="tog">' + (inv.active ? "إغلاق 🔒" : "فتح 🔓") + '</button>' +
+        '<button class="btn-ghost sm danger" data-a="del">حذف</button>' +
+      '</div></div>';
+  }
+
+  function localRow(r, i) {
     const tc = r.tier === "vip" ? "#e9c05e" : r.tier === "gold" ? "#d9a941" : "#a8b0c0";
-    const date = new Date(r.at).toLocaleDateString("ar-IQ", { day: "numeric", month: "short" });
     return '<div class="inv-row">' +
       '<div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">' +
         '<b style="color:#f2d998" dir="ltr">' + esc(r.code) + '</b>' +
-        '<span class="badge" style="border-color:' + tc + ';color:' + tc + '">' + TIER_AR[r.tier] + ' · ' + PRICES[r.tier] + '</span>' +
-        (r.name ? '<span style="font-size:11px;opacity:.7">' + esc(r.name) + '</span>' : "") +
-        '<span style="font-size:10px;opacity:.5">' + date + '</span></div>' +
+        '<span class="badge" style="border-color:' + tc + ';color:' + tc + '">' + TIER_AR[r.tier] + '</span>' +
+        (r.name ? '<span style="font-size:11px;opacity:.7">' + esc(r.name) + '</span>' : "") + '</div>' +
       '<div class="inv-actions">' +
-        '<button class="btn-ghost sm" data-a="copy" data-i="' + i + '">' + App.ic("copy", 13) + ' نسخ رابط التعديل</button>' +
-        '<a class="btn-ghost sm" target="_blank" rel="noreferrer" href="https://wa.me/' + (r.phone || "") + '?text=' + encodeURIComponent("أهلاً " + (r.name || "") + " 🤍\nهذا رابط تعديل دعوتك — افتحه واكتب معلومات حفلكم ثم اضغط حفظ:\n" + r.editUrl + "\n\nبطاقتي VIP") + '">' + App.ic("send", 13) + ' إرسال للزبون</a>' +
-        '<button class="btn-ghost sm danger" data-a="del" data-i="' + i + '">' + App.ic("trash", 13) + ' حذف</button>' +
+        '<button class="btn-ghost sm" data-l="copy" data-i="' + i + '">نسخ رابط التعديل</button>' +
+        '<button class="btn-ghost sm danger" data-l="del" data-i="' + i + '">حذف</button>' +
       '</div></div>';
   }
 
   function mainView() {
-    const reg = loadReg();
-    root.innerHTML = '<div class="edit-wrap" style="max-width:720px">' +
+    const reg = serverMode ? [] : loadReg();
+    const count = serverMode ? invites.length : reg.length;
+    root.innerHTML = '<div class="edit-wrap" style="max-width:760px">' +
       '<header style="text-align:center;margin-bottom:26px">' +
         '<div class="seal" style="width:64px;height:64px;margin:0 auto 12px;background:rgba(233,192,94,.1);border:1px solid rgba(233,192,94,.4);color:#dfa93a">' + App.ic("crown", 28) + '</div>' +
         '<h1 class="display gold-text" style="font-size:28px;margin:0">لوحة التحكم</h1>' +
-        '<p style="font-size:12px;opacity:.6;margin-top:6px">إجمالي الدعوات المُنشأة: ' + reg.length + '</p></header>' +
+        '<p style="font-size:12px;opacity:.6;margin-top:6px">إجمالي الدعوات: ' + count +
+        (serverMode ? ' · <span style="color:#34d399">✓ روابط قصيرة مفعّلة</span>' : ' · <span style="color:#fbbf24">وضع احتياطي (روابط طويلة) — فعّل قاعدة البيانات للروابط القصيرة</span>') + '</p></header>' +
+      (serverMode ? '<div style="text-align:left;margin-bottom:14px"><button class="btn-ghost sm" id="rf">تحديث ↻</button></div>' : '') +
       '<section class="panel"><h2>' + App.ic("gem", 15) + ' إنشاء دعوة جديدة</h2>' +
         '<div class="grid2">' +
           '<label class="field"><span>كود الدعوة (بالإنكليزي، مثل ahmad-shilan)</span><input id="nCode" dir="ltr" placeholder="ahmad-shilan"></label>' +
           '<label class="field"><span>اسم الزبون</span><input id="nName" placeholder="أحمد"></label>' +
           '<label class="field"><span>رقم الزبون (واتساب)</span><input id="nPhone" dir="ltr" placeholder="9647501234567"></label>' +
           '<label class="field"><span>الفئة والسعر</span><select id="nTier">' +
-            '<option value="vip">VIP — ٩٩,٠٠٠ د.ع — كل القوالب + موسيقى + اسم الضيف</option>' +
-            '<option value="gold">احترافي — ٦٥,٠٠٠ د.ع — ٤ قوالب + موسيقى</option>' +
-            '<option value="classic">عادي — ٢٥,٠٠٠ د.ع — قالبان</option></select></label>' +
+            '<option value="vip">VIP — ٩٩,٠٠٠ د.ع</option>' +
+            '<option value="gold">احترافي — ٦٥,٠٠٠ د.ع</option>' +
+            '<option value="classic">عادي — ٢٥,٠٠٠ د.ع</option></select></label>' +
           '<label class="field"><span>القالب الافتراضي</span><select id="nTpl"></select></label>' +
           '<label class="field"><span>لغة الدعوة</span><select id="nLang">' +
             Object.keys(LANG_NAMES).map(function (l) { return '<option value="' + l + '">' + LANG_NAMES[l] + '</option>'; }).join("") + '</select></label>' +
         '</div>' +
         '<button class="btn-gold" id="mk" style="margin-top:16px">أنشئ الدعوة</button>' +
         '<div id="createdBox"></div></section>' +
-      '<section class="panel"><h2>' + App.ic("calendar", 15) + ' سجل دعواتي</h2><div id="reg">' +
-        (reg.length ? reg.map(regRow).join("") : '<p style="text-align:center;opacity:.5;padding:20px 0;font-size:13px">لا توجد دعوات بعد — أنشئ أول دعوة من الأعلى</p>') +
-      '</div><p style="font-size:10px;opacity:.45;margin-top:10px">السجل محفوظ في متصفحك هذا فقط — الروابط نفسها تعمل دائماً حتى لو مسحت السجل</p></section>' +
-      '<section class="panel"><h2>' + App.ic("chat", 15) + ' طريقة العمل</h2>' +
-        '<p style="font-size:13px;line-height:2.1;opacity:.8">1. أنشئ الدعوة واختر الفئة حسب ما دفع الزبون<br>2. أرسل <b style="color:#f2d998">رابط التعديل</b> للزبون بزر الإرسال<br>3. الزبون يكتب معلومات حفله ويحفظ — تصلك التفاصيل مع <b style="color:#f2d998">رابط الدعوة النهائي</b> على واتسابك تلقائياً<br>4. الرابط النهائي يوزعه الزبون على ضيوفه — ويقفل تلقائياً بعد الحفل بيومين</p></section></div>';
+      '<section class="panel"><h2>' + App.ic("calendar", 15) + ' دعواتي</h2><div id="list">' +
+        (serverMode
+          ? (invites.length ? invites.map(srvRow).join("") : '<p style="text-align:center;opacity:.5;padding:20px 0;font-size:13px">لا توجد دعوات بعد</p>')
+          : (reg.length ? reg.map(localRow).join("") : '<p style="text-align:center;opacity:.5;padding:20px 0;font-size:13px">لا توجد دعوات بعد</p>')) +
+      '</div>' +
+      (serverMode ? '<p style="font-size:10px;opacity:.5;margin-top:10px">غيّر الباقة من القائمة مباشرة — تُحفظ فوراً ويتغير ما يراه الزبون في محرره</p>' : '') +
+      '</section></div>';
 
     const tplSel = $("#nTpl"), tierSel = $("#nTier");
     function fillTpl() {
@@ -950,35 +1048,82 @@ App.initAdmin = function () {
     }
     fillTpl();
     tierSel.addEventListener("change", fillTpl);
+    const rf = $("#rf");
+    if (rf) rf.addEventListener("click", refresh);
 
-    $("#mk").addEventListener("click", function () {
+    $("#mk").addEventListener("click", async function () {
       let code = ($("#nCode").value || "").trim().toLowerCase().replace(/[^a-z0-9-]/g, "");
-      if (!code) code = "dawat-" + Math.random().toString(36).slice(2, 7);
-      const inv = App.newInvite({ code: code, tier: tierSel.value, template: tplSel.value,
-        lang: $("#nLang").value, customerName: $("#nName").value });
-      const editUrl = location.origin + "/edit/" + code + "?d=" + App.encode(inv);
-      const phone = ($("#nPhone").value || "").replace(/\D/g, "");
-      const reg2 = loadReg();
-      reg2.unshift({ code: code, name: $("#nName").value, phone: phone, tier: tierSel.value, editUrl: editUrl, at: Date.now() });
-      saveReg(reg2);
-      const waTxt = "أهلاً " + ($("#nName").value || "") + " 🤍\nهذا رابط تعديل دعوتك — افتحه واكتب معلومات حفلكم ثم اضغط حفظ:\n" + editUrl + "\n\nبطاقتي VIP";
-      $("#createdBox").innerHTML = '<div class="created">' +
-        '<p style="color:#34d399;font-weight:700;margin:0 0 10px">تم إنشاء الدعوة «' + esc(code) + '» — ' + TIER_AR[tierSel.value] + ' ' + PRICES[tierSel.value] + '</p>' +
-        '<div class="linkrow"><span>رابط التعديل (للزبون):</span><code dir="ltr">' + editUrl + '</code><button id="cpE">نسخ</button></div>' +
-        '<a class="btn-wa" style="margin-top:10px" target="_blank" rel="noreferrer" href="https://wa.me/' + phone + '?text=' + encodeURIComponent(waTxt) + '">' + App.ic("send", 15) + ' أرسل الرابط للزبون</a></div>';
-      $("#cpE").addEventListener("click", function () { navigator.clipboard.writeText(editUrl); $("#cpE").textContent = "✓"; });
-      const regBox = $("#reg");
-      regBox.innerHTML = loadReg().map(regRow).join("");
-      bindReg();
+      const name = $("#nName").value, phone = ($("#nPhone").value || "").replace(/\D/g, "");
+      const origin = location.origin;
+      if (serverMode) {
+        const r = await fetch("/api/invites", { method: "POST", headers: H(),
+          body: JSON.stringify({ code: code, tier: tierSel.value, template: tplSel.value, lang: $("#nLang").value, customerName: name, customerPhone: phone }) });
+        if (r.ok) {
+          const inv = (await r.json()).invite;
+          const editUrl = origin + "/edit/" + inv.code + "?key=" + inv.editKey;
+          const guestUrl = origin + "/d/" + inv.code;
+          showCreated(inv.code, editUrl, guestUrl, name, phone);
+          refresh();
+        } else {
+          const j = await r.json().catch(function () { return {}; });
+          $("#createdBox").innerHTML = '<p class="notice" style="margin-top:12px">' + (j.error === "exists" ? "هذا الكود مستخدم — اختر كوداً آخر" : "حدث خطأ") + '</p>';
+        }
+      } else {
+        if (!code) code = "dawat-" + Math.random().toString(36).slice(2, 7);
+        const inv = App.newInvite({ code: code, tier: tierSel.value, template: tplSel.value, lang: $("#nLang").value, customerName: name });
+        const editUrl = origin + "/edit/" + code + "?d=" + App.encode(inv);
+        const reg2 = loadReg();
+        reg2.unshift({ code: code, name: name, phone: phone, tier: tierSel.value, editUrl: editUrl, at: Date.now() });
+        saveReg(reg2);
+        showCreated(code, editUrl, null, name, phone);
+        const list = $("#list");
+        list.innerHTML = loadReg().map(localRow).join("");
+        bindLocal();
+      }
     });
-    bindReg();
 
-    function bindReg() {
-      root.querySelectorAll("[data-a]").forEach(function (b) {
+    function showCreated(code, editUrl, guestUrl, name, phone) {
+      const waTxt = "أهلاً " + (name || "") + " 🤍\nهذا رابط تعديل دعوتك — افتحه واكتب معلومات حفلكم ثم اضغط حفظ:\n" + editUrl + (guestUrl ? "\n\nورابط الدعوة النهائي لضيوفكم:\n" + guestUrl : "") + "\n\nبطاقتي VIP";
+      $("#createdBox").innerHTML = '<div class="created">' +
+        '<p style="color:#34d399;font-weight:700;margin:0 0 10px">تم إنشاء الدعوة «' + esc(code) + '»</p>' +
+        '<div class="linkrow"><span>رابط التعديل:</span><code dir="ltr">' + editUrl + '</code><button data-c="' + esc(editUrl) + '">نسخ</button></div>' +
+        (guestUrl ? '<div class="linkrow"><span>رابط الدعوة:</span><code dir="ltr">' + guestUrl + '</code><button data-c="' + esc(guestUrl) + '">نسخ</button></div>' : '') +
+        '<a class="btn-wa" style="margin-top:10px" target="_blank" rel="noreferrer" href="https://wa.me/' + phone + '?text=' + encodeURIComponent(waTxt) + '">' + App.ic("send", 15) + ' أرسل للزبون</a></div>';
+      $("#createdBox").querySelectorAll("[data-c]").forEach(function (b) {
+        b.addEventListener("click", function () { navigator.clipboard.writeText(b.dataset.c); b.textContent = "✓"; });
+      });
+    }
+
+    if (serverMode) bindSrv(); else bindLocal();
+
+    function bindSrv() {
+      root.querySelectorAll(".inv-row").forEach(function (row) {
+        const code = row.dataset.code;
+        const inv = invites.find(function (x) { return x.code === code; });
+        if (!inv) return;
+        const origin = location.origin;
+        row.querySelectorAll("[data-a]").forEach(function (b) {
+          b.addEventListener("click", async function () {
+            const a = b.dataset.a;
+            if (a === "copyg") { navigator.clipboard.writeText(origin + "/d/" + code); b.innerHTML = "✓ نُسخ"; }
+            if (a === "copye") { navigator.clipboard.writeText(origin + "/edit/" + code + "?key=" + inv.editKey); b.innerHTML = "✓ نُسخ"; }
+            if (a === "tog") { await fetch("/api/invites", { method: "PUT", headers: H(), body: JSON.stringify({ code: code, active: !inv.active }) }); refresh(); }
+            if (a === "del") { if (confirm("حذف «" + code + "» نهائياً؟")) { await fetch("/api/invites?code=" + code, { method: "DELETE", headers: H() }); refresh(); } }
+          });
+        });
+        const sel = row.querySelector(".tier-sel");
+        sel.addEventListener("change", async function () {
+          await fetch("/api/invites", { method: "PUT", headers: H(), body: JSON.stringify({ code: code, tier: sel.value }) });
+          refresh();
+        });
+      });
+    }
+    function bindLocal() {
+      root.querySelectorAll("[data-l]").forEach(function (b) {
         b.addEventListener("click", function () {
           const i = +b.dataset.i, r = loadReg();
-          if (b.dataset.a === "copy") { navigator.clipboard.writeText(r[i].editUrl); b.innerHTML = "✓ نُسخ"; }
-          if (b.dataset.a === "del") { if (confirm("حذف «" + r[i].code + "» من السجل؟ (الرابط نفسه يبقى شغالاً)")) { r.splice(i, 1); saveReg(r); mainView(); } }
+          if (b.dataset.l === "copy") { navigator.clipboard.writeText(r[i].editUrl); b.textContent = "✓"; }
+          if (b.dataset.l === "del") { r.splice(i, 1); saveReg(r); mainView(); }
         });
       });
     }
@@ -987,6 +1132,6 @@ App.initAdmin = function () {
   loginView();
 };
 
-App.initEdit();
+App.initAdmin();
 </script>
 </body></html>
