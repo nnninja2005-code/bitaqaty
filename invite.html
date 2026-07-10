@@ -8,31 +8,31 @@ window.App = (function () {
   const WA_FALLBACK = "9647515193165";
 
   const THEMES = {
-    zerin: { tier: "vip", emoji: "👑", opening: "envelope", ornament: "❖",
+    zerin: { tier: "vip", emoji: "👑", icon: "crown", opening: "envelope", ornament: "❖",
       names: { ar: "زێرين الملكي VIP", bad: "زێڕینا شاهانە VIP", sor: "زێڕینی شاهانە VIP" },
       desc: { ar: "أسود وذهب خالص — فخامة لا تُنسى", bad: "ڕەش و زێڕ — لوکسیا نەژبیرکری", sor: "ڕەش و زێڕی بێگەرد — لوکسی لەبیرنەکراو" },
       bg: "radial-gradient(1200px 700px at 50% -10%,#2a2312,#14100c 55%,#0a0806)",
       card: "linear-gradient(160deg,#1c160e,#241c10)", text: "#f3e9d2",
       accent: "#e9c05e", soft: "rgba(233,192,94,.16)", border: "rgba(233,192,94,.45)", parts: ["✦","✧","❖"] },
-    royal: { tier: "gold", emoji: "🎭", opening: "curtains", ornament: "✦",
+    royal: { tier: "gold", emoji: "🎭", icon: "gem", opening: "curtains", ornament: "✦",
       names: { ar: "الملكي", bad: "شاهانە", sor: "شاهانە" },
       desc: { ar: "ستارة مسرح ملكية تنفتح على اسمَيكما", bad: "پەردەیا شانۆیا شاهانە ڤەدبیت", sor: "پەردەی شانۆی شاهانە دەکرێتەوە" },
       bg: "radial-gradient(1100px 700px at 50% -10%,#1a2350,#0b1026 60%,#070a1a)",
       card: "linear-gradient(160deg,#10173a,#151d45)", text: "#eef0ff",
       accent: "#e9c05e", soft: "rgba(233,192,94,.14)", border: "rgba(233,192,94,.4)", parts: ["✦","✧"] },
-    rose: { tier: "classic", emoji: "🌹", opening: "envelope", ornament: "✿",
+    rose: { tier: "classic", emoji: "🌹", icon: "bloom", opening: "envelope", ornament: "✿",
       names: { ar: "حُلم وردي", bad: "خەونا گوڵاڤی", sor: "خەونی گوڵاوی" },
       desc: { ar: "مظروف وردي يُفتح على رومانسية تخطف القلب", bad: "زەرفەکێ گوڵاڤی ب نازکی ڤەدبیت", sor: "زەرفێکی گوڵاوی بە نەرمی دەکرێتەوە" },
       bg: "radial-gradient(1100px 700px at 50% -10%,#fff,#fbeef0 45%,#f4dde2)",
       card: "linear-gradient(160deg,#fff,#fdf3f4)", text: "#5c2a35",
       accent: "#c46a7d", soft: "rgba(196,106,125,.12)", border: "rgba(196,106,125,.35)", parts: ["🌸","🌺","❀"] },
-    starlit: { tier: "gold", emoji: "✨", opening: "sky", ornament: "✧",
+    starlit: { tier: "gold", emoji: "✨", icon: "star", opening: "sky", ornament: "✧",
       names: { ar: "تحت النجوم", bad: "د بن ستێرکان دا", sor: "لەژێر ئەستێرەکاندا" },
       desc: { ar: "سماء ليل تتلألأ — لعرسٍ حالم تحت القمر", bad: "ئەسمانێ شەڤێ یێ پڕ ستێرک", sor: "ئاسمانی شەو پڕ لە ئەستێرە" },
       bg: "radial-gradient(1200px 800px at 50% -20%,#1b2a5e,#101a40 50%,#070c22)",
       card: "linear-gradient(160deg,#141f4a,#182553)", text: "#eaf0ff",
       accent: "#ffd98a", soft: "rgba(255,217,138,.14)", border: "rgba(255,217,138,.4)", parts: ["✦","✧","⋆"] },
-    garden: { tier: "classic", emoji: "🌿", opening: "arch", ornament: "❁",
+    garden: { tier: "classic", emoji: "🌿", icon: "leaf", opening: "arch", ornament: "❁",
       names: { ar: "الحديقة", bad: "باخچە", sor: "باخچە" },
       desc: { ar: "إكليل أزهار وخضرة ناعمة — عرس بنسمة ربيع", bad: "تاجێ گوڵان و کەسکاتی", sor: "تاجی گوڵ و سەوزایی" },
       bg: "radial-gradient(1100px 700px at 50% -10%,#fff,#f2f6ec 45%,#e2ecd8)",
@@ -180,14 +180,13 @@ App.initLanding = function () {
     ar: { kicker: "دعوات زفاف رقمية فاخرة", title: "ليلة العمر تستحق دعوة لا تُنسى",
       sub: "قوالب حيّة بأنميشن ساحر، عدّ تنازلي، خرائط، موسيقى، وتأكيد حضور عبر واتساب — بالعربية والكردية (بادينی و سۆرانی)",
       cta: "اطلب دعوتك الآن", demo: "شاهد القوالب حيّة", featsT: "لماذا بطاقتي VIP؟",
-      feats: [["👑","فخامة حقيقية","تصاميم ذهبية راقية تليق بأهم ليلة في حياتكم"],
-        ["🌐","ثلاث لغات","عربية، بادينية، وسورانية — بخطوط صحيحة بلا أي كسر"],
-        ["⏳","عدّ تنازلي حي","ضيوفكم يعيشون لحظة الانتظار معكم ثانية بثانية"],
-        ["📍","خرائط مباشرة","زر واحد يوصل ضيوفكم إلى باب القاعة"],
-        ["🎵","موسيقاكم الخاصة","أغنيتكم المفضلة تستقبل الضيوف عند فتح الدعوة"],
-        ["💌","تأكيد حضور واتساب","كل ضيف يؤكد حضوره برسالة واحدة"]],
-      tiersT: "الفئات", tiers: [["VIP 👑","كل القوالب + موسيقى + اسم الضيف على الدعوة + برنامج الحفل"],
-        ["ذهبية ✨","٤ قوالب + موسيقى + برنامج الحفل"],["عادية 🌹","قالبان أنيقان بكل الأساسيات"]],
+      feats: [["crown","فخامة حقيقية","تصاميم ذهبية راقية تليق بأهم ليلة في حياتكم"],
+        ["globe","ثلاث لغات","عربية، بادينية، وسورانية — بخطوط صحيحة بلا أي كسر"],
+        ["hourglass","عدّ تنازلي حي","ضيوفكم يعيشون لحظة الانتظار معكم ثانية بثانية"],
+        ["pin","خرائط مباشرة","زر واحد يوصل ضيوفكم إلى باب القاعة"],
+        ["music","موسيقاكم الخاصة","أغنيتكم المفضلة تستقبل الضيوف عند فتح الدعوة"],
+        ["chat","تأكيد حضور واتساب","كل ضيف يؤكد حضوره برسالة واحدة"]],
+      tiersT: "الفئات", tiers: [["VIP","٩٩,٠٠٠ د.ع","كل القوالب الخمسة + موسيقى خاصة + اسم الضيف على الدعوة + برنامج الحفل كامل","crown"],["احترافي","٦٥,٠٠٠ د.ع","٤ قوالب راقية + موسيقى + برنامج الحفل","gem"],["عادي","٢٥,٠٠٠ د.ع","قالبان أنيقان بكل الأساسيات","bloom"]],
       tplT: "قوالبنا — عيشها حيّة قبل أن تطلب", tplS: "اضغط أي قالب لتفتحه كما سيراه ضيوفك تماماً",
       prev: "معاينة حيّة ↗", orderT: "جاهز تحجز دعوتك؟", orderS: "راسلنا على واتساب — نجهّز لك رابطك الخاص خلال دقائق",
       orderB: "احجز عبر واتساب 📲", footer: "بطاقتي VIP — دعوات تُصنع بحب في كردستان",
@@ -195,14 +194,13 @@ App.initLanding = function () {
     bad: { kicker: "داوەتنامەیێن دیجیتال یێن لوکس", title: "شەڤا تەمەنی، داوەتنامەیەکا نەژبیرکری دڤێت",
       sub: "قالبێن زیندی ب ئانیمەیشنێن جوان، هژمارتنا پاشڤە، نەخشە، موزیک و دڵنیاکرنا ئامادەبوونێ ب واتسئاپێ — ب عەرەبی و کوردی (بادینی و سۆرانی)",
       cta: "نوکە داوا بکە", demo: "قالبان ب زیندی ببینە", featsT: "بۆچی بطاقتي VIP؟",
-      feats: [["👑","لوکسیا ڕاستەقینە","دیزاینێن زێڕین یێن هێژایی گرنگترین شەڤا ژیانا هەوە"],
-        ["🌐","سێ زمان","عەرەبی، بادینی و سۆرانی — ب فۆنتێن دروست بێ کێماسی"],
-        ["⏳","هژمارتنا پاشڤە","مێهڤانێن هەوە چرکە ب چرکە ل گەل هەوە چاڤەڕێ دبن"],
-        ["📍","نەخشەیا ڕاستەوخۆ","دوگمەیەک مێهڤانان دگهینیتە دەرگەهێ هۆلێ"],
-        ["🎵","موزیکا هەوە یا تایبەت","ستڕانا هەوە یا حەزژێکری مێهڤانان پێشوازی دکەت"],
-        ["💌","دڵنیاکرن ب واتسئاپێ","هەر مێهڤانەک ب پەیامەکێ ئامادەبوونا خۆ دڵنیا دکەت"]],
-      tiersT: "جۆر", tiers: [["VIP 👑","هەمی قالب + موزیک + ناڤێ مێهڤانی + بەرنامێ داوەتێ"],
-        ["زێڕین ✨","٤ قالب + موزیک + بەرنامێ داوەتێ"],["ئاسایی 🌹","دوو قالبێن جوان ب هەمی بنەڕەتیان"]],
+      feats: [["crown","لوکسیا ڕاستەقینە","دیزاینێن زێڕین یێن هێژایی گرنگترین شەڤا ژیانا هەوە"],
+        ["globe","سێ زمان","عەرەبی، بادینی و سۆرانی — ب فۆنتێن دروست بێ کێماسی"],
+        ["hourglass","هژمارتنا پاشڤە","مێهڤانێن هەوە چرکە ب چرکە ل گەل هەوە چاڤەڕێ دبن"],
+        ["pin","نەخشەیا ڕاستەوخۆ","دوگمەیەک مێهڤانان دگهینیتە دەرگەهێ هۆلێ"],
+        ["music","موزیکا هەوە یا تایبەت","ستڕانا هەوە یا حەزژێکری مێهڤانان پێشوازی دکەت"],
+        ["chat","دڵنیاکرن ب واتسئاپێ","هەر مێهڤانەک ب پەیامەکێ ئامادەبوونا خۆ دڵنیا دکەت"]],
+      tiersT: "جۆر", tiers: [["VIP","٩٩,٠٠٠ د.ع","هەمی ٥ قالب + موزیکا تایبەت + ناڤێ مێهڤانی ل سەر داوەتنامەیێ + بەرنامێ داوەتێ","crown"],["پیشەیی","٦٥,٠٠٠ د.ع","٤ قالبێن جوان + موزیک + بەرنامێ داوەتێ","gem"],["ئاسایی","٢٥,٠٠٠ د.ع","دوو قالبێن جوان ب هەمی بنەڕەتیان","bloom"]],
       tplT: "قالبێن مە — بەری داوا بکەی ب زیندی ببینە", tplS: "دەست بدە هەر قالبەکێ دا وەک مێهڤانێن تە ببینی",
       prev: "بەرچاڤکرنا زیندی ↗", orderT: "ئامادەیی داوەتنامەیا خۆ حجز بکەی؟",
       orderS: "پەیامەکێ ب واتسئاپێ بهنێرە — د چەند خولەکان دا لینکا تە ئامادە دکەین",
@@ -211,14 +209,13 @@ App.initLanding = function () {
     sor: { kicker: "بانگهێشتنامەی دیجیتاڵی لوکس", title: "شەوی تەمەن، بانگهێشتنامەیەکی لەبیرنەکراوی دەوێت",
       sub: "قاڵبی زیندوو بە ئانیمەیشنی سەرنجڕاکێش، کاتی ماوە، نەخشە، مۆسیقا و دڵنیاکردنەوەی ئامادەبوون بە واتسئاپ — بە عەرەبی و کوردی (بادینی و سۆرانی)",
       cta: "ئێستا داوا بکە", demo: "قاڵبەکان بە زیندوویی ببینە", featsT: "بۆچی بطاقتي VIP؟",
-      feats: [["👑","لوکسی ڕاستەقینە","دیزاینی زێڕینی شایستەی گرنگترین شەوی ژیانتان"],
-        ["🌐","سێ زمان","عەرەبی، بادینی و سۆرانی — بە فۆنتی دروست بێ کەموکوڕی"],
-        ["⏳","کاتی ماوە بە زیندوویی","میوانەکانتان چرکە بە چرکە لەگەڵتان چاوەڕێ دەکەن"],
-        ["📍","نەخشەی ڕاستەوخۆ","دوگمەیەک میوانان دەگەیەنێتە دەرگای هۆڵ"],
-        ["🎵","مۆسیقای تایبەتتان","گۆرانییە دڵخوازەکەتان پێشوازی لە میوانان دەکات"],
-        ["💌","دڵنیاکردنەوە بە واتسئاپ","هەر میوانێک بە نامەیەک ئامادەبوونی دڵنیا دەکاتەوە"]],
-      tiersT: "جۆرەکان", tiers: [["VIP 👑","هەموو قاڵبەکان + مۆسیقا + ناوی میوان + بەرنامەی ئاهەنگ"],
-        ["زێڕین ✨","٤ قاڵب + مۆسیقا + بەرنامەی ئاهەنگ"],["ئاسایی 🌹","دوو قاڵبی جوان بە هەموو بنەڕەتییەکان"]],
+      feats: [["crown","لوکسی ڕاستەقینە","دیزاینی زێڕینی شایستەی گرنگترین شەوی ژیانتان"],
+        ["globe","سێ زمان","عەرەبی، بادینی و سۆرانی — بە فۆنتی دروست بێ کەموکوڕی"],
+        ["hourglass","کاتی ماوە بە زیندوویی","میوانەکانتان چرکە بە چرکە لەگەڵتان چاوەڕێ دەکەن"],
+        ["pin","نەخشەی ڕاستەوخۆ","دوگمەیەک میوانان دەگەیەنێتە دەرگای هۆڵ"],
+        ["music","مۆسیقای تایبەتتان","گۆرانییە دڵخوازەکەتان پێشوازی لە میوانان دەکات"],
+        ["chat","دڵنیاکردنەوە بە واتسئاپ","هەر میوانێک بە نامەیەک ئامادەبوونی دڵنیا دەکاتەوە"]],
+      tiersT: "جۆرەکان", tiers: [["VIP","٩٩,٠٠٠ د.ع","هەموو ٥ قاڵبەکان + مۆسیقای تایبەت + ناوی میوان لەسەر بانگهێشتنامەکە + بەرنامەی ئاهەنگ","crown"],["پیشەیی","٦٥,٠٠٠ د.ع","٤ قاڵبی جوان + مۆسیقا + بەرنامەی ئاهەنگ","gem"],["ئاسایی","٢٥,٠٠٠ د.ع","دوو قاڵبی جوان بە هەموو بنەڕەتییەکان","bloom"]],
       tplT: "قاڵبەکانمان — پێش داواکردن بە زیندوویی بیانبینە", tplS: "دەست بنێ بە هەر قاڵبێک بۆ بینینی",
       prev: "پێشبینینی زیندوو ↗", orderT: "ئامادەیت بانگهێشتنامەکەت حجز بکەیت؟",
       orderS: "نامەیەک بە واتسئاپ بنێرە — لە چەند خولەکێکدا لینکی تایبەتت ئامادە دەکەین",
@@ -245,18 +242,18 @@ App.initLanding = function () {
           <a class="btn" style="background:linear-gradient(270deg,#a86f1c,#dfa93a,#a86f1c);color:#14100c" href="${waOrder}" target="_blank" rel="noreferrer">${s.cta}</a>
           <a class="btn" style="border:1px solid rgba(233,192,94,.5);color:#f9edcd" href="#templates">${s.demo}</a>
         </div>
-        <div class="seal floaty" style="width:96px;height:96px;font-size:36px;margin:56px auto 0;background:rgba(233,192,94,.1);border:1px solid rgba(233,192,94,.4)">💍</div>
+        <div class="seal floaty" style="width:96px;height:96px;margin:56px auto 0;background:rgba(233,192,94,.1);border:1px solid rgba(233,192,94,.4);color:#dfa93a">${App.ic("rings",42)}</div>
       </header>
       <section class="feats"><h2 class="display gold-text" style="font-size:30px;text-align:center">${s.featsT}</h2>
-        <div class="feat-grid">${s.feats.map((f) => `<div class="feat"><div style="font-size:30px">${f[0]}</div><h3 style="color:#f2d998;margin:12px 0 0;font-size:16px">${f[1]}</h3><p style="font-size:13px;line-height:1.8;opacity:.75;margin-top:8px">${f[2]}</p></div>`).join("")}</div></section>
+        <div class="feat-grid">${s.feats.map((f) => `<div class="feat"><div style="color:#dfa93a">${App.ic(f[0],30)}</div><h3 style="color:#f2d998;margin:12px 0 0;font-size:16px">${f[1]}</h3><p style="font-size:13px;line-height:1.8;opacity:.75;margin-top:8px">${f[2]}</p></div>`).join("")}</div></section>
       <section class="feats" style="max-width:860px"><h2 class="display gold-text" style="font-size:30px;text-align:center">${s.tiersT}</h2>
-        <div class="tier-grid">${s.tiers.map((t, i) => `<div class="tier${i === 0 ? " vip" : ""}"><h3 style="color:#f2d998;font-size:17px">${t[0]}</h3><p style="font-size:13px;line-height:1.8;opacity:.8;margin-top:12px">${t[1]}</p></div>`).join("")}</div></section>
+        <div class="tier-grid">${s.tiers.map((t, i) => `<div class="tier${i === 0 ? " vip" : ""}"><div style="color:#dfa93a">${App.ic(t[3],34)}</div><h3 style="color:#f2d998;font-size:18px;margin-top:10px">${t[0]}</h3><div class="display gold-text" style="font-size:27px;margin-top:8px">${t[1]}</div><p style="font-size:13px;line-height:1.8;opacity:.8;margin-top:10px">${t[2]}</p></div>`).join("")}</div></section>
       <section class="feats" id="templates"><h2 class="display gold-text" style="font-size:30px;text-align:center">${s.tplT}</h2>
         <p style="text-align:center;font-size:13px;opacity:.7;margin-top:10px">${s.tplS}</p>
         <div class="tpl-show">${Object.values(THEMES).map((t) => `
           <a class="tpl-item" href="/d/demo-${t === THEMES.zerin ? "zerin" : Object.keys(THEMES).find((k) => THEMES[k] === t)}" style="background:${t.bg};color:${t.text}">
             <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;height:160px;padding:20px">
-              <span style="font-size:44px">${t.emoji}</span>
+              <span style="color:${t.accent}">${App.ic(t.icon,46)}</span>
               <span style="border:1px solid ${t.accent};color:${t.accent};border-radius:99px;padding:2px 12px;font-size:9px;font-weight:800;letter-spacing:1px">${t.tier.toUpperCase()}</span></div>
             <div style="border-top:1px solid ${t.border};background:rgba(0,0,0,.08);padding:18px">
               <h3 style="color:${t.accent};font-size:15px">${t.names[lang]}</h3>
@@ -277,6 +274,35 @@ App.initLanding = function () {
     document.body.appendChild(App.el("span", { class: "fall",
       style: `left:${Math.random()*100}%;animation-duration:${8+Math.random()*10}s;animation-delay:${Math.random()*12}s;font-size:${8+Math.random()*11}px;color:#dfa93a;opacity:.45` }, "✦"));
   }
+};
+
+
+/* ===== أيقونات SVG احترافية ===== */
+App.ICONS = {
+  rings: '<circle cx="9" cy="14.5" r="5.5"/><circle cx="15" cy="9.5" r="5.5"/>',
+  crown: '<path d="M3 17.5h18M4.5 17.5L3 8l5.6 3.8L12 5l3.4 6.8L21 8l-1.5 9.5z"/>',
+  gem: '<path d="M7 3h10l4 6-9 12L3 9z"/><path d="M3 9h18M9.5 3L12 9l2.5-6M12 21L9.5 9M12 21l2.5-12"/>',
+  bloom: '<circle cx="12" cy="9" r="4.5"/><path d="M12 13.5V21M9 18.5h6"/>',
+  star: '<path d="M12 3l2.7 5.6 6.3.9-4.5 4.4 1 6.1-5.5-3-5.5 3 1-6.1L3 9.5l6.3-.9z"/>',
+  leaf: '<path d="M5 19C5 9.5 12.5 4 20 4c0 8.5-4.5 15-13 15z"/><path d="M5 19c2.5-5.5 6.5-9 11-11"/>',
+  moon: '<path d="M20 13.5A8.5 8.5 0 1 1 10.5 4a7 7 0 0 0 9.5 9.5z"/>',
+  envelope: '<rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3 8l9 6 9-6"/>',
+  calendar: '<rect x="3.5" y="5" width="17" height="16" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/>',
+  clock: '<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 3"/>',
+  pin: '<path d="M12 21.5S5 15.8 5 10.5a7 7 0 0 1 14 0c0 5.3-7 11-7 11z"/><circle cx="12" cy="10.5" r="2.5"/>',
+  venue: '<path d="M4 21h16M6 21v-8M10 21v-8M14 21v-8M18 21v-8M3 13h18M12 3.5L3.5 13h17z"/>',
+  music: '<path d="M9 18.5V6l11-2.5V16"/><circle cx="6.5" cy="18.5" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/>',
+  mute: '<path d="M9 18.5V6l11-2.5V16"/><circle cx="6.5" cy="18.5" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/><path d="M3 3l18 18"/>',
+  globe: '<circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5a13 13 0 0 1 0 17M12 3.5a13 13 0 0 0 0 17"/>',
+  hourglass: '<path d="M6.5 3h11M6.5 21h11M8 3v3.5l4 5.5 4-5.5V3M8 21v-3.5L12 12l4 5.5V21"/>',
+  chat: '<path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5H3.5l2-3.2A8.5 8.5 0 1 1 21 11.5z"/>',
+  lock: '<rect x="4.5" y="10.5" width="15" height="10" rx="2"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/>',
+  send: '<path d="M21.5 2.5L11 13M21.5 2.5L15 21l-4-8-8.5-4z"/>',
+  copy: '<rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/>',
+  trash: '<path d="M4 7h16M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M6 7l1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13"/>'
+};
+App.ic = function (name, size) {
+  return '<svg width="' + (size || 24) + '" height="' + (size || 24) + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;display:inline-block">' + (App.ICONS[name] || "") + '</svg>';
 };
 
 /* ===== رمز التحكم — غيّره من هنا ===== */
@@ -359,7 +385,7 @@ App.initInvite = function () {
   const loc = inv.lang === "ar" ? "ar-IQ" : "ckb-IQ";
   const dateText = esc(inv.dateText) || (inv.eventDate ? new Date(inv.eventDate).toLocaleDateString(loc, { weekday: "long", year: "numeric", month: "long", day: "numeric" }) : "");
   const timeText = esc(inv.timeText) || (inv.eventDate ? new Date(inv.eventDate).toLocaleTimeString(loc, { hour: "numeric", minute: "2-digit" }) : "");
-  const coverIcon = t.opening === "curtains" ? "🎭" : t.opening === "sky" ? "🌙" : t.opening === "arch" ? "🌿" : "💌";
+  const coverIcon = App.ic(t.opening === "curtains" ? "gem" : t.opening === "sky" ? "moon" : t.opening === "arch" ? "leaf" : "envelope", 46);
 
   const cover = el("div", { class: "cover" });
   if (t.opening === "curtains") {
@@ -379,7 +405,7 @@ App.initInvite = function () {
   const card = function (inner) { return '<section class="card reveal" style="background:' + t.card + ';border:1px solid ' + t.border + '">' + inner + '</section>'; };
   const main = el("main", { class: "invite-main" },
     '<section class="reveal" style="text-align:center">' +
-      '<div class="seal" style="width:76px;height:76px;font-size:28px;margin:0 auto 18px;background:' + t.soft + ';border:1.5px solid ' + t.border + '">💍</div>' +
+      '<div class="seal" style="width:76px;height:76px;font-size:28px;margin:0 auto 18px;background:' + t.soft + ';border:1.5px solid ' + t.border + ';color:' + t.accent + '">' + App.ic("rings", 30) + '</div>' +
       '<p style="font-size:13px;opacity:.85">' + d.youAreInvited + '</p>' +
       '<h1 class="display" style="color:' + t.accent + ';font-size:38px;line-height:1.5;margin:16px 0 0">' + groom + '<span style="font-size:22px;opacity:.8;margin:0 12px">' + d.and + '</span>' + bride + '</h1>' +
       '<div class="orna"><span style="background:' + t.border + '"></span><i style="color:' + t.accent + '">' + t.ornament + '</i><span style="background:' + t.border + '"></span></div>' +
@@ -388,12 +414,12 @@ App.initInvite = function () {
     '</section>' +
     (inv.showCountdown && inv.eventDate ? card('<h2 class="sec-title" style="color:' + t.accent + '">' + d.countdownTitle + '</h2><div class="cd" id="cd"></div>') : "") +
     (dateText || timeText ? '<section class="reveal grid2">' +
-      '<div class="card" style="background:' + t.card + ';border:1px solid ' + t.border + ';text-align:center"><div style="font-size:24px">📅</div><div class="lab">' + d.dateLabel + '</div><div class="val">' + dateText + '</div></div>' +
-      '<div class="card" style="background:' + t.card + ';border:1px solid ' + t.border + ';text-align:center"><div style="font-size:24px">🕰️</div><div class="lab">' + d.timeLabel + '</div><div class="val">' + timeText + '</div></div></section>' : "") +
-    (inv.venueName || inv.venueAddress ? card('<div style="text-align:center"><div style="font-size:24px">🏛️</div>' +
+      '<div class="card" style="background:' + t.card + ';border:1px solid ' + t.border + ';text-align:center"><div style="opacity:.85">' + App.ic("calendar", 24) + '</div><div class="lab">' + d.dateLabel + '</div><div class="val">' + dateText + '</div></div>' +
+      '<div class="card" style="background:' + t.card + ';border:1px solid ' + t.border + ';text-align:center"><div style="opacity:.85">' + App.ic("clock", 24) + '</div><div class="lab">' + d.timeLabel + '</div><div class="val">' + timeText + '</div></div></section>' : "") +
+    (inv.venueName || inv.venueAddress ? card('<div style="text-align:center"><div style="opacity:.85">' + App.ic("venue", 26) + '</div>' +
       (inv.venueName ? '<div class="lab">' + d.venueLabel + '</div><div style="color:' + t.accent + ';font-size:18px;font-weight:700;margin-top:4px">' + esc(inv.venueName) + '</div>' : "") +
       (inv.venueAddress ? '<div style="margin-top:8px;font-size:14px;opacity:.9">' + esc(inv.venueAddress) + '</div>' : "") +
-      (inv.mapsUrl ? '<a class="btn" style="background:' + t.accent + ';color:#1c1508;margin-top:16px" href="' + esc(inv.mapsUrl) + '" target="_blank" rel="noreferrer">📍 ' + d.openMap + '</a>' : "") + '</div>') : "") +
+      (inv.mapsUrl ? '<a class="btn" style="background:' + t.accent + ';color:#1c1508;margin-top:16px" href="' + esc(inv.mapsUrl) + '" target="_blank" rel="noreferrer">' + App.ic("pin", 15) + ' ' + d.openMap + '</a>' : "") + '</div>') : "") +
     (inv.program && inv.program.length ? card('<h2 class="sec-title" style="color:' + t.accent + '">' + d.programTitle + '</h2>' +
       '<div class="prog">' + inv.program.map(function (p) { return '<div class="prog-row"><span class="prog-time" style="background:' + t.soft + ';color:' + t.accent + ';border:1px solid ' + t.border + '">' + esc(p.time) + '</span><span style="font-size:14px">' + esc(p.label) + '</span></div>'; }).join("") + '</div>') : "") +
     '<section class="reveal" style="text-align:center"><p class="naskh" style="max-width:360px;margin:0 auto;font-size:15px;line-height:1.9;opacity:.9">' + dua + '</p></section>' +
@@ -424,10 +450,10 @@ App.initInvite = function () {
         document.body.appendChild(audio);
         audio.play().catch(function () {});
       }
-      const btn = el("button", { class: "music-btn", style: "background:" + t.soft + ";border:1px solid " + t.border + ";color:" + t.accent }, "🎵");
+      const btn = el("button", { class: "music-btn", style: "background:" + t.soft + ";border:1px solid " + t.border + ";color:" + t.accent }, App.ic("music", 20));
       btn.addEventListener("click", function () {
         muted = !muted;
-        btn.textContent = muted ? "🔇" : "🎵";
+        btn.innerHTML = App.ic(muted ? "mute" : "music", 20);
         if (audio) { audio.muted = muted; if (!muted) audio.play().catch(function () {}); }
         if (ifr) { if (muted) ifr.remove(); else document.body.appendChild(ifr); }
       });
@@ -479,14 +505,14 @@ App.initEdit = function () {
 
     root.innerHTML = '<div class="edit-wrap">' +
       '<header style="text-align:center;margin-bottom:28px">' +
-        '<div class="seal" style="width:64px;height:64px;font-size:24px;margin:0 auto 12px;background:rgba(233,192,94,.1);border:1px solid rgba(233,192,94,.4)">💍</div>' +
+        '<div class="seal" style="width:64px;height:64px;font-size:24px;margin:0 auto 12px;background:rgba(233,192,94,.1);border:1px solid rgba(233,192,94,.4);color:#dfa93a">' + App.ic("rings", 26) + '</div>' +
         '<h1 class="display gold-text" style="font-size:28px;margin:0">' + d.editTitle + '</h1>' +
         '<p style="font-size:13px;opacity:.7;margin:8px 0 12px">' + d.editSubtitle + '</p>' +
         '<span style="border:1px solid ' + tierColor + ';color:' + tierColor + ';border-radius:99px;padding:4px 16px;font-size:11px;font-weight:800">' + (inv.tier || "").toUpperCase() + ' · ' + esc(inv.code) + '</span></header>' +
       '<section class="panel"><h2>' + d.secTemplate + '</h2><div class="tpl-grid">' +
         f.templates.map(function (tid) { const t = THEMES[tid]; const act = inv.template === tid;
           return '<button type="button" class="tpl-card' + (act ? " act" : "") + '" data-tpl="' + tid + '" style="background:' + t.bg + ';color:' + t.text + ';border-color:' + (act ? t.accent : "transparent") + '">' +
-            '<div style="font-size:24px">' + t.emoji + '</div><div style="font-size:11px;font-weight:700;margin-top:4px">' + t.names[inv.lang] + '</div></button>'; }).join("") +
+            '<div style="color:' + t.accent + '">' + App.ic(t.icon, 26) + '</div><div style="font-size:11px;font-weight:700;margin-top:4px">' + t.names[inv.lang] + '</div></button>'; }).join("") +
       '</div></section>' +
       '<section class="panel"><h2>' + d.secBasics + '</h2>' +
         '<label class="field"><span>' + d.fLang + '</span><select data-k="lang">' +
@@ -554,14 +580,19 @@ App.initEdit = function () {
   render();
 };
 
-/* ===== لوحة التحكم (الأدمن) — بدون سيرفر ===== */
+/* ===== لوحة التحكم (الأدمن) — احترافية مع سجل الدعوات ===== */
 App.initAdmin = function () {
   const { THEMES, TIERS, LANG_NAMES, $, esc } = App;
   const root = $("#root");
+  const PRICES = { vip: "٩٩,٠٠٠ د.ع", gold: "٦٥,٠٠٠ د.ع", classic: "٢٥,٠٠٠ د.ع" };
+  const TIER_AR = { vip: "VIP", gold: "احترافي", classic: "عادي" };
+
+  function loadReg() { try { return JSON.parse(localStorage.getItem("bq_invites") || "[]"); } catch (e) { return []; } }
+  function saveReg(r) { localStorage.setItem("bq_invites", JSON.stringify(r)); }
 
   function loginView() {
     root.innerHTML = '<div class="center-page">' +
-      '<div class="seal" style="width:80px;height:80px;font-size:30px;background:rgba(233,192,94,.1);border:1px solid rgba(233,192,94,.4)">🔐</div>' +
+      '<div class="seal" style="width:80px;height:80px;background:rgba(233,192,94,.1);border:1px solid rgba(233,192,94,.4);color:#dfa93a">' + App.ic("lock", 32) + '</div>' +
       '<h1 class="display gold-text" style="font-size:30px;margin:16px 0 0">لوحة التحكم</h1>' +
       '<p style="font-size:13px;opacity:.6">بطاقتي VIP — الدخول بالرمز السري فقط</p>' +
       '<input id="pw" type="password" placeholder="رمز التحكم" dir="ltr" style="margin-top:22px;max-width:300px;text-align:center;border-radius:99px">' +
@@ -570,43 +601,65 @@ App.initAdmin = function () {
     const pw = $("#pw");
     const go = function () {
       if (pw.value.trim() === App.ADMIN_CODE) mainView();
-      else $("#err").textContent = "رمز التحكم غير صحيح ❌";
+      else $("#err").textContent = "رمز التحكم غير صحيح";
     };
     $("#go").addEventListener("click", go);
     pw.addEventListener("keydown", function (e) { if (e.key === "Enter") go(); });
   }
 
+  function regRow(r, i) {
+    const tc = r.tier === "vip" ? "#e9c05e" : r.tier === "gold" ? "#d9a941" : "#a8b0c0";
+    const date = new Date(r.at).toLocaleDateString("ar-IQ", { day: "numeric", month: "short" });
+    return '<div class="inv-row">' +
+      '<div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">' +
+        '<b style="color:#f2d998" dir="ltr">' + esc(r.code) + '</b>' +
+        '<span class="badge" style="border-color:' + tc + ';color:' + tc + '">' + TIER_AR[r.tier] + ' · ' + PRICES[r.tier] + '</span>' +
+        (r.name ? '<span style="font-size:11px;opacity:.7">' + esc(r.name) + '</span>' : "") +
+        '<span style="font-size:10px;opacity:.5">' + date + '</span></div>' +
+      '<div class="inv-actions">' +
+        '<button class="btn-ghost sm" data-a="copy" data-i="' + i + '">' + App.ic("copy", 13) + ' نسخ رابط التعديل</button>' +
+        '<a class="btn-ghost sm" target="_blank" rel="noreferrer" href="https://wa.me/' + (r.phone || "") + '?text=' + encodeURIComponent("أهلاً " + (r.name || "") + " 🤍\nهذا رابط تعديل دعوتك — افتحه واكتب معلومات حفلكم ثم اضغط حفظ:\n" + r.editUrl + "\n\nبطاقتي VIP") + '">' + App.ic("send", 13) + ' إرسال للزبون</a>' +
+        '<button class="btn-ghost sm danger" data-a="del" data-i="' + i + '">' + App.ic("trash", 13) + ' حذف</button>' +
+      '</div></div>';
+  }
+
   function mainView() {
-    root.innerHTML = '<div class="edit-wrap" style="max-width:680px">' +
-      '<header style="text-align:center;margin-bottom:24px">' +
+    const reg = loadReg();
+    root.innerHTML = '<div class="edit-wrap" style="max-width:720px">' +
+      '<header style="text-align:center;margin-bottom:26px">' +
+        '<div class="seal" style="width:64px;height:64px;margin:0 auto 12px;background:rgba(233,192,94,.1);border:1px solid rgba(233,192,94,.4);color:#dfa93a">' + App.ic("crown", 28) + '</div>' +
         '<h1 class="display gold-text" style="font-size:28px;margin:0">لوحة التحكم</h1>' +
-        '<p style="font-size:12px;opacity:.6;margin-top:6px">أنشئ دعوة، وأرسل رابط التعديل للزبون — يكتب معلوماته وتصلك على الواتساب</p></header>' +
-      '<section class="panel"><h2>➕ إنشاء دعوة جديدة</h2>' +
+        '<p style="font-size:12px;opacity:.6;margin-top:6px">إجمالي الدعوات المُنشأة: ' + reg.length + '</p></header>' +
+      '<section class="panel"><h2>' + App.ic("gem", 15) + ' إنشاء دعوة جديدة</h2>' +
         '<div class="grid2">' +
           '<label class="field"><span>كود الدعوة (بالإنكليزي، مثل ahmad-shilan)</span><input id="nCode" dir="ltr" placeholder="ahmad-shilan"></label>' +
           '<label class="field"><span>اسم الزبون</span><input id="nName" placeholder="أحمد"></label>' +
           '<label class="field"><span>رقم الزبون (واتساب)</span><input id="nPhone" dir="ltr" placeholder="9647501234567"></label>' +
-          '<label class="field"><span>الفئة</span><select id="nTier">' +
-            '<option value="vip">VIP 👑 — كل القوالب + موسيقى</option>' +
-            '<option value="gold">ذهبية ✨ — ٤ قوالب + موسيقى</option>' +
-            '<option value="classic">عادية 🌹 — قالبان</option></select></label>' +
+          '<label class="field"><span>الفئة والسعر</span><select id="nTier">' +
+            '<option value="vip">VIP — ٩٩,٠٠٠ د.ع — كل القوالب + موسيقى + اسم الضيف</option>' +
+            '<option value="gold">احترافي — ٦٥,٠٠٠ د.ع — ٤ قوالب + موسيقى</option>' +
+            '<option value="classic">عادي — ٢٥,٠٠٠ د.ع — قالبان</option></select></label>' +
           '<label class="field"><span>القالب الافتراضي</span><select id="nTpl"></select></label>' +
           '<label class="field"><span>لغة الدعوة</span><select id="nLang">' +
             Object.keys(LANG_NAMES).map(function (l) { return '<option value="' + l + '">' + LANG_NAMES[l] + '</option>'; }).join("") + '</select></label>' +
         '</div>' +
-        '<button class="btn-gold" id="mk" style="margin-top:16px">أنشئ الدعوة ✨</button>' +
+        '<button class="btn-gold" id="mk" style="margin-top:16px">أنشئ الدعوة</button>' +
         '<div id="createdBox"></div></section>' +
-      '<section class="panel"><h2>💡 طريقة العمل</h2>' +
-        '<p style="font-size:13px;line-height:2;opacity:.8">1. أنشئ الدعوة واختر الفئة والقالب<br>2. أرسل <b>رابط التعديل</b> للزبون بزر الواتساب<br>3. الزبون يكتب معلومات حفله ويضغط حفظ — تصلك التفاصيل مع <b>رابط الدعوة النهائي</b> على واتسابك تلقائياً<br>4. الرابط النهائي يوزعه الزبون على ضيوفه — ويقفل تلقائياً بعد الحفل بيومين 🔒</p></section></div>';
+      '<section class="panel"><h2>' + App.ic("calendar", 15) + ' سجل دعواتي</h2><div id="reg">' +
+        (reg.length ? reg.map(regRow).join("") : '<p style="text-align:center;opacity:.5;padding:20px 0;font-size:13px">لا توجد دعوات بعد — أنشئ أول دعوة من الأعلى</p>') +
+      '</div><p style="font-size:10px;opacity:.45;margin-top:10px">السجل محفوظ في متصفحك هذا فقط — الروابط نفسها تعمل دائماً حتى لو مسحت السجل</p></section>' +
+      '<section class="panel"><h2>' + App.ic("chat", 15) + ' طريقة العمل</h2>' +
+        '<p style="font-size:13px;line-height:2.1;opacity:.8">1. أنشئ الدعوة واختر الفئة حسب ما دفع الزبون<br>2. أرسل <b style="color:#f2d998">رابط التعديل</b> للزبون بزر الإرسال<br>3. الزبون يكتب معلومات حفله ويحفظ — تصلك التفاصيل مع <b style="color:#f2d998">رابط الدعوة النهائي</b> على واتسابك تلقائياً<br>4. الرابط النهائي يوزعه الزبون على ضيوفه — ويقفل تلقائياً بعد الحفل بيومين</p></section></div>';
 
     const tplSel = $("#nTpl"), tierSel = $("#nTier");
     function fillTpl() {
       tplSel.innerHTML = TIERS[tierSel.value].templates.map(function (tid) {
-        return '<option value="' + tid + '">' + THEMES[tid].emoji + " " + THEMES[tid].names.ar + '</option>';
+        return '<option value="' + tid + '">' + THEMES[tid].names.ar + '</option>';
       }).join("");
     }
     fillTpl();
     tierSel.addEventListener("change", fillTpl);
+
     $("#mk").addEventListener("click", function () {
       let code = ($("#nCode").value || "").trim().toLowerCase().replace(/[^a-z0-9-]/g, "");
       if (!code) code = "dawat-" + Math.random().toString(36).slice(2, 7);
@@ -614,13 +667,30 @@ App.initAdmin = function () {
         lang: $("#nLang").value, customerName: $("#nName").value });
       const editUrl = location.origin + "/edit/" + code + "#" + App.encode(inv);
       const phone = ($("#nPhone").value || "").replace(/\D/g, "");
-      const waTxt = "أهلاً " + ($("#nName").value || "") + " 🤍\nهذا رابط تعديل دعوتك — افتحه واكتب معلومات حفلكم ثم اضغط حفظ:\n" + editUrl + "\n\nبطاقتي VIP ✨";
+      const reg2 = loadReg();
+      reg2.unshift({ code: code, name: $("#nName").value, phone: phone, tier: tierSel.value, editUrl: editUrl, at: Date.now() });
+      saveReg(reg2);
+      const waTxt = "أهلاً " + ($("#nName").value || "") + " 🤍\nهذا رابط تعديل دعوتك — افتحه واكتب معلومات حفلكم ثم اضغط حفظ:\n" + editUrl + "\n\nبطاقتي VIP";
       $("#createdBox").innerHTML = '<div class="created">' +
-        '<p style="color:#34d399;font-weight:700;margin:0 0 10px">✓ تم إنشاء الدعوة «' + esc(code) + '»</p>' +
+        '<p style="color:#34d399;font-weight:700;margin:0 0 10px">تم إنشاء الدعوة «' + esc(code) + '» — ' + TIER_AR[tierSel.value] + ' ' + PRICES[tierSel.value] + '</p>' +
         '<div class="linkrow"><span>رابط التعديل (للزبون):</span><code dir="ltr">' + editUrl + '</code><button id="cpE">نسخ</button></div>' +
-        '<a class="btn-wa" style="margin-top:10px" target="_blank" rel="noreferrer" href="https://wa.me/' + phone + '?text=' + encodeURIComponent(waTxt) + '">أرسل الرابط للزبون 📲</a></div>';
+        '<a class="btn-wa" style="margin-top:10px" target="_blank" rel="noreferrer" href="https://wa.me/' + phone + '?text=' + encodeURIComponent(waTxt) + '">' + App.ic("send", 15) + ' أرسل الرابط للزبون</a></div>';
       $("#cpE").addEventListener("click", function () { navigator.clipboard.writeText(editUrl); $("#cpE").textContent = "✓"; });
+      const regBox = $("#reg");
+      regBox.innerHTML = loadReg().map(regRow).join("");
+      bindReg();
     });
+    bindReg();
+
+    function bindReg() {
+      root.querySelectorAll("[data-a]").forEach(function (b) {
+        b.addEventListener("click", function () {
+          const i = +b.dataset.i, r = loadReg();
+          if (b.dataset.a === "copy") { navigator.clipboard.writeText(r[i].editUrl); b.innerHTML = "✓ نُسخ"; }
+          if (b.dataset.a === "del") { if (confirm("حذف «" + r[i].code + "» من السجل؟ (الرابط نفسه يبقى شغالاً)")) { r.splice(i, 1); saveReg(r); mainView(); } }
+        });
+      });
+    }
   }
 
   loginView();
