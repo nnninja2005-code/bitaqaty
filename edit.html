@@ -13,25 +13,25 @@ window.App = (function () {
       desc: { ar: "أسود وذهب خالص — فخامة لا تُنسى", bad: "ڕەش و زێڕ — لوکسیا نەژبیرکری", sor: "ڕەش و زێڕی بێگەرد — لوکسی لەبیرنەکراو" },
       bg: "radial-gradient(1200px 700px at 50% -10%,#2a2312,#14100c 55%,#0a0806)",
       card: "linear-gradient(160deg,#1c160e,#241c10)", text: "#f3e9d2",
-      accent: "#e9c05e", soft: "rgba(233,192,94,.16)", border: "rgba(233,192,94,.45)", parts: ["✦","✧","❖"] },
+      accent: "#e9c05e", soft: "rgba(233,192,94,.16)", border: "rgba(233,192,94,.45)", fx: "sparks", colors: ["#e9c05e","#fff3cf"] },
     royal: { tier: "gold", emoji: "🎭", icon: "gem", opening: "curtains", ornament: "✦",
       names: { ar: "الملكي", bad: "شاهانە", sor: "شاهانە" },
       desc: { ar: "ستارة مسرح ملكية تنفتح على اسمَيكما", bad: "پەردەیا شانۆیا شاهانە ڤەدبیت", sor: "پەردەی شانۆی شاهانە دەکرێتەوە" },
       bg: "radial-gradient(1100px 700px at 50% -10%,#1a2350,#0b1026 60%,#070a1a)",
       card: "linear-gradient(160deg,#10173a,#151d45)", text: "#eef0ff",
-      accent: "#e9c05e", soft: "rgba(233,192,94,.14)", border: "rgba(233,192,94,.4)", parts: ["✦","✧"] },
+      accent: "#e9c05e", soft: "rgba(233,192,94,.14)", border: "rgba(233,192,94,.4)", fx: "sparks", colors: ["#e9c05e","#aebcff"] },
     rose: { tier: "classic", emoji: "🌹", icon: "bloom", opening: "envelope", ornament: "✿",
       names: { ar: "حُلم وردي", bad: "خەونا گوڵاڤی", sor: "خەونی گوڵاوی" },
       desc: { ar: "مظروف وردي يُفتح على رومانسية تخطف القلب", bad: "زەرفەکێ گوڵاڤی ب نازکی ڤەدبیت", sor: "زەرفێکی گوڵاوی بە نەرمی دەکرێتەوە" },
       bg: "radial-gradient(1100px 700px at 50% -10%,#fff,#fbeef0 45%,#f4dde2)",
       card: "linear-gradient(160deg,#fff,#fdf3f4)", text: "#5c2a35",
-      accent: "#c46a7d", soft: "rgba(196,106,125,.12)", border: "rgba(196,106,125,.35)", parts: ["🌸","🌺","❀"] },
+      accent: "#c46a7d", soft: "rgba(196,106,125,.12)", border: "rgba(196,106,125,.35)", fx: "petals", colors: ["#e88ba1","#f0aab9","#d76a8a"] },
     starlit: { tier: "gold", emoji: "✨", icon: "star", opening: "sky", ornament: "✧",
       names: { ar: "تحت النجوم", bad: "د بن ستێرکان دا", sor: "لەژێر ئەستێرەکاندا" },
       desc: { ar: "سماء ليل تتلألأ — لعرسٍ حالم تحت القمر", bad: "ئەسمانێ شەڤێ یێ پڕ ستێرک", sor: "ئاسمانی شەو پڕ لە ئەستێرە" },
       bg: "radial-gradient(1200px 800px at 50% -20%,#1b2a5e,#101a40 50%,#070c22)",
       card: "linear-gradient(160deg,#141f4a,#182553)", text: "#eaf0ff",
-      accent: "#ffd98a", soft: "rgba(255,217,138,.14)", border: "rgba(255,217,138,.4)", parts: ["✦","✧","⋆"] },
+      accent: "#ffd98a", soft: "rgba(255,217,138,.14)", border: "rgba(255,217,138,.4)", fx: "sparks", colors: ["#ffd98a","#cfe0ff"] },
     khatim: { tier: "vip", emoji: "💍", icon: "ring", opening: "box", ornament: "❖",
     names: { ar: "الخاتم", bad: "گوستیرە", sor: "ئەنگوستیلە" },
     desc: {
@@ -42,7 +42,7 @@ window.App = (function () {
     tap: { ar: "المس الصندوق", bad: "دەست بدە سندوقی", sor: "دەست بنێ بە سندوقەکە" },
     bg: "radial-gradient(1100px 750px at 50% -5%, #47141f 0%, #2a0d14 55%, #16060a 100%)",
     card: "linear-gradient(160deg, #33101a, #401520)", text: "#f6e7d5",
-    accent: "#e9b95e", soft: "rgba(233,185,94,.15)", border: "rgba(233,185,94,.42)", parts: ["❀","✿"] },
+    accent: "#e9b95e", soft: "rgba(233,185,94,.15)", border: "rgba(233,185,94,.42)", fx: "petals", colors: ["#c4485a","#d76a7a"] },
   qasr: { tier: "vip", emoji: "🏰", icon: "castle", opening: "gate", ornament: "✦",
     names: { ar: "قصر الحكايات", bad: "قەسرا چیرۆکان", sor: "قەسری چیرۆکەکان" },
     desc: {
@@ -53,7 +53,7 @@ window.App = (function () {
     tap: { ar: "اضغط لفتح البوابة", bad: "دەست بدە بۆ ڤەکرنا دەرگەهی", sor: "دەست بنێ بۆ کردنەوەی دەروازەکە" },
     bg: "radial-gradient(1200px 800px at 50% -10%, #5a3a78 0%, #3a2350 45%, #1d1330 100%)",
     card: "linear-gradient(160deg, #2c1c42, #372450)", text: "#f4eaff",
-    accent: "#e8bfff", soft: "rgba(232,191,255,.13)", border: "rgba(232,191,255,.4)", parts: ["✦","❀","✧"] },
+    accent: "#e8bfff", soft: "rgba(232,191,255,.13)", border: "rgba(232,191,255,.4)", fx: "petals", colors: ["#e8bfff","#d3a6f5"] },
   swan: { tier: "gold", emoji: "🦢", icon: "heart", opening: "arch", ornament: "❦",
     names: { ar: "بحيرة البجع", bad: "گۆلا قوان", sor: "دەریاچەی قوو" },
     desc: {
@@ -63,7 +63,7 @@ window.App = (function () {
     },
     bg: "radial-gradient(1100px 700px at 50% -10%, #fffdf7 0%, #f7eeda 45%, #ecdcbc 100%)",
     card: "linear-gradient(160deg, #fffef9, #faf3e3)", text: "#5d4a2e",
-    accent: "#b98f4e", soft: "rgba(185,143,78,.12)", border: "rgba(185,143,78,.35)", parts: ["❀","✿"] },
+    accent: "#b98f4e", soft: "rgba(185,143,78,.12)", border: "rgba(185,143,78,.35)", fx: "petals", colors: ["#e8cfa0","#dcbd88"] },
   fanar: { tier: "vip", emoji: "🏮", icon: "lantern", opening: "sky", ornament: "✧",
     names: { ar: "ليلة الفوانيس", bad: "شەڤا فانۆسان", sor: "شەوی فانۆسەکان" },
     desc: {
@@ -73,7 +73,7 @@ window.App = (function () {
     },
     bg: "radial-gradient(1200px 800px at 50% -15%, #14384a 0%, #0c2430 50%, #051218 100%)",
     card: "linear-gradient(160deg, #0f2d3d, #123646)", text: "#f0ead9",
-    accent: "#ffc873", soft: "rgba(255,200,115,.14)", border: "rgba(255,200,115,.4)", parts: ["✦","✧"] },
+    accent: "#ffc873", soft: "rgba(255,200,115,.14)", border: "rgba(255,200,115,.4)", fx: "sparks", colors: ["#ffc873","#ffe7bd"] },
   ward: { tier: "gold", emoji: "🌹", icon: "bloom", opening: "petals", ornament: "❁",
     names: { ar: "مطر الورد", bad: "بارانا گوڵان", sor: "بارانی گوڵ" },
     desc: {
@@ -83,13 +83,13 @@ window.App = (function () {
     },
     bg: "radial-gradient(1100px 750px at 50% -5%, #4d1a2b 0%, #33101c 55%, #1b0710 100%)",
     card: "linear-gradient(160deg, #3d1424, #4a1a2c)", text: "#f7e6dc",
-    accent: "#e9c05e", soft: "rgba(233,192,94,.14)", border: "rgba(233,192,94,.42)", parts: ["❀","✿","❁"] },
+    accent: "#e9c05e", soft: "rgba(233,192,94,.14)", border: "rgba(233,192,94,.42)", fx: "petals", colors: ["#c4485a","#e9c05e","#d76a7a"] },
   garden: { tier: "classic", emoji: "🌿", icon: "leaf", opening: "arch", ornament: "❁",
       names: { ar: "الحديقة", bad: "باخچە", sor: "باخچە" },
       desc: { ar: "إكليل أزهار وخضرة ناعمة — عرس بنسمة ربيع", bad: "تاجێ گوڵان و کەسکاتی", sor: "تاجی گوڵ و سەوزایی" },
       bg: "radial-gradient(1100px 700px at 50% -10%,#fff,#f2f6ec 45%,#e2ecd8)",
       card: "linear-gradient(160deg,#fff,#f6faf1)", text: "#33432c",
-      accent: "#6f8f5a", soft: "rgba(111,143,90,.12)", border: "rgba(111,143,90,.35)", parts: ["🍃","❀","✿"] },
+      accent: "#6f8f5a", soft: "rgba(111,143,90,.12)", border: "rgba(111,143,90,.35)", fx: "petals", colors: ["#9ec27e","#c9e0b4","#7ea55e"] },
   };
 
   const TIERS = {
@@ -116,7 +116,7 @@ window.App = (function () {
       editTitle: "عدّل تفاصيل دعوتك", editSubtitle: "غيّر التفاصيل كما تريد — ثم احفظ وأرسل لنا التأكيد",
       secTemplate: "القالب", secBasics: "الأساسيات", secDateTime: "التاريخ والوقت", secTexts: "النصوص",
       secVenue: "القاعة", secProgram: "برنامج الحفل", secMusic: "الموسيقى (اختياري)", secRsvp: "تأكيد الحضور",
-      fLang: "لغة الدعوة", fGroom: "اسم العريس", fBride: "اسم العروس", fPhrase: "العبارة تحت الأسماء",
+      fLang: "لغة الدعوة", fGroom: "اسم العريس", fBride: "اسم العروس", fGLine: "سطر تحت اسم العريس (مثال: نجل الحاج أحمد)", fBLine: "سطر تحت اسم العروس (مثال: كريمة الحاج علي)", fPhrase: "العبارة تحت الأسماء",
       fEventDate: "تاريخ ووقت الحفل", fDateText: "نص التاريخ (كما سيظهر)", fTimeText: "نص الوقت (كما سيظهر)",
       fCountdown: "إظهار العد التنازلي", fDua: "الدعاء / كلمة ختامية", fVenue: "اسم القاعة",
       fAddress: "العنوان", fMaps: "رابط خرائط كوكل", fMusic: "رابط الموسيقى (يوتيوب أو MP3)",
@@ -142,7 +142,7 @@ window.App = (function () {
       editTitle: "پێزانینێن داوەتا خۆ بگهۆڕە", editSubtitle: "پێزانینان بگهۆڕە — پاشی خەزن بکە و بۆ مە بهنێرە",
       secTemplate: "قالب", secBasics: "بنەڕەتی", secDateTime: "مێژوو و دەم", secTexts: "نڤیسین",
       secVenue: "هۆل", secProgram: "بەرنامێ داوەتێ", secMusic: "موزیک (دلخواز)", secRsvp: "دڵنیاکرنا ئامادەبوونێ",
-      fLang: "زمانێ داوەتنامەیێ", fGroom: "ناڤێ زاڤای", fBride: "ناڤێ بویکێ", fPhrase: "پەیڤ د بن ناڤان دا",
+      fLang: "زمانێ داوەتنامەیێ", fGroom: "ناڤێ زاڤای", fBride: "ناڤێ بویکێ", fGLine: "ڕێزا بن ناڤێ زاڤای (وەک: کوڕێ حاجی ئەحمەد)", fBLine: "ڕێزا بن ناڤێ بویکێ (وەک: کچا حاجی عەلی)", fPhrase: "پەیڤ د بن ناڤان دا",
       fEventDate: "مێژوو و دەمێ داوەتێ", fDateText: "نڤیسینا مێژووێ", fTimeText: "نڤیسینا دەمی",
       fCountdown: "هژمارتنا پاشڤە نیشان بدە", fDua: "دوعا / پەیڤا دوماهیێ", fVenue: "ناڤێ هۆلێ",
       fAddress: "ناڤ و نیشان", fMaps: "لینکا گوگڵ ماپس", fMusic: "لینکا موزیکێ (یوتیوب یان MP3)",
@@ -168,7 +168,7 @@ window.App = (function () {
       editTitle: "وردەکارییەکانی بانگهێشتنامەکەت بگۆڕە", editSubtitle: "وردەکارییەکان بگۆڕە — پاشان پاشەکەوتی بکە",
       secTemplate: "قاڵب", secBasics: "بنەڕەتییەکان", secDateTime: "ڕێکەوت و کات", secTexts: "دەقەکان",
       secVenue: "هۆڵ", secProgram: "بەرنامەی ئاهەنگ", secMusic: "مۆسیقا (ئارەزوومەندانە)", secRsvp: "دڵنیاکردنەوەی ئامادەبوون",
-      fLang: "زمانی بانگهێشتنامەکە", fGroom: "ناوی زاوا", fBride: "ناوی بووک", fPhrase: "دەستەواژە لەژێر ناوەکان",
+      fLang: "زمانی بانگهێشتنامەکە", fGroom: "ناوی زاوا", fBride: "ناوی بووک", fGLine: "دێڕ لەژێر ناوی زاوا (وەک: کوڕی حاجی ئەحمەد)", fBLine: "دێڕ لەژێر ناوی بووک (وەک: کچی حاجی عەلی)", fPhrase: "دەستەواژە لەژێر ناوەکان",
       fEventDate: "ڕێکەوت و کاتی ئاهەنگ", fDateText: "دەقی ڕێکەوت", fTimeText: "دەقی کات",
       fCountdown: "پیشاندانی کاتی ماوە", fDua: "دوعا / وشەی کۆتایی", fVenue: "ناوی هۆڵ",
       fAddress: "ناونیشان", fMaps: "لینکی گووگڵ ماپس", fMusic: "لینکی مۆسیقا (یوتیوب یان MP3)",
@@ -202,11 +202,21 @@ window.App = (function () {
   }
 
   function particles(container, theme, n) {
+    const type = theme.fx || "sparks";
+    const colors = theme.colors || [theme.accent];
     for (let i = 0; i < (n || 16); i++) {
-      const p = el("span", { class: "fall",
-        style: `left:${Math.random()*100}%;animation-duration:${7+Math.random()*9}s;animation-delay:${Math.random()*10}s;font-size:${10+Math.random()*15}px;color:${theme.accent};opacity:.6` },
-        theme.parts[i % theme.parts.length]);
-      container.appendChild(p);
+      const c = colors[i % colors.length];
+      let st = "left:" + Math.random() * 100 + "%;animation-duration:" + (6 + Math.random() * 9) + "s;animation-delay:" + Math.random() * 10 + "s;";
+      let cls = "spark";
+      if (type === "petals") {
+        cls = "petal";
+        const w = 9 + Math.random() * 9;
+        st += "background:radial-gradient(60% 60% at 35% 35%, " + c + ", " + c + "cc);width:" + w + "px;height:" + w + "px;";
+      } else {
+        const w = 3.5 + Math.random() * 3.5;
+        st += "background:" + c + ";box-shadow:0 0 " + (8 + Math.random() * 8) + "px 2px " + c + ";width:" + w + "px;height:" + w + "px;";
+      }
+      container.appendChild(el("span", { class: cls, style: st }));
     }
   }
 
@@ -240,7 +250,7 @@ App.initLanding = function () {
         ["chat","تأكيد حضور واتساب","كل ضيف يؤكد حضوره برسالة واحدة"]],
       tiersT: "الفئات", tiers: [["VIP","٩٩,٠٠٠ د.ع","كل القوالب الخمسة + موسيقى خاصة + اسم الضيف على الدعوة + برنامج الحفل كامل","crown"],["احترافي","٦٥,٠٠٠ د.ع","٤ قوالب راقية + موسيقى + برنامج الحفل","gem"],["عادي","٢٥,٠٠٠ د.ع","قالبان أنيقان بكل الأساسيات","bloom"]],
       tplT: "قوالبنا — عيشها حيّة قبل أن تطلب", tplS: "اضغط أي قالب لتفتحه كما سيراه ضيوفك تماماً",
-      prev: "معاينة حيّة ↗", orderT: "جاهز تحجز دعوتك؟", orderS: "راسلنا على واتساب — نجهّز لك رابطك الخاص خلال دقائق",
+      prev: "معاينة حيّة", tplOrder: "اطلب هذا القالب", ordMsg: ["🎉 مرحباً! أريد أطلب دعوة إلكترونية من بطاقتي VIP", "المناسبة: زفاف", "القالب", "الباقة"], pkg: { vip: "VIP", gold: "احترافي", classic: "عادي" }, orderT: "جاهز تحجز دعوتك؟", orderS: "راسلنا على واتساب — نجهّز لك رابطك الخاص خلال دقائق",
       orderB: "احجز عبر واتساب 📲", footer: "بطاقتي VIP — دعوات تُصنع بحب في كردستان",
       wa: "مرحباً 🌟 أريد حجز دعوة زفاف من بطاقتي VIP" },
     bad: { kicker: "داوەتنامەیێن دیجیتال یێن لوکس", title: "شەڤا تەمەنی، داوەتنامەیەکا نەژبیرکری دڤێت",
@@ -254,7 +264,7 @@ App.initLanding = function () {
         ["chat","دڵنیاکرن ب واتسئاپێ","هەر مێهڤانەک ب پەیامەکێ ئامادەبوونا خۆ دڵنیا دکەت"]],
       tiersT: "جۆر", tiers: [["VIP","٩٩,٠٠٠ د.ع","هەمی ٥ قالب + موزیکا تایبەت + ناڤێ مێهڤانی ل سەر داوەتنامەیێ + بەرنامێ داوەتێ","crown"],["پیشەیی","٦٥,٠٠٠ د.ع","٤ قالبێن جوان + موزیک + بەرنامێ داوەتێ","gem"],["ئاسایی","٢٥,٠٠٠ د.ع","دوو قالبێن جوان ب هەمی بنەڕەتیان","bloom"]],
       tplT: "قالبێن مە — بەری داوا بکەی ب زیندی ببینە", tplS: "دەست بدە هەر قالبەکێ دا وەک مێهڤانێن تە ببینی",
-      prev: "بەرچاڤکرنا زیندی ↗", orderT: "ئامادەیی داوەتنامەیا خۆ حجز بکەی؟",
+      prev: "بەرچاڤکرنا زیندی", tplOrder: "ڤی قالبی داوا بکە", ordMsg: ["🎉 سڵاڤ! دخوازم داوەتنامەیەکا ئەلیکترۆنی ژ بطاقتي VIP داوا بکەم", "بۆنە: داوەتا زەماوەندێ", "قالب", "پاکێج"], pkg: { vip: "VIP", gold: "پیشەیی", classic: "ئاسایی" }, orderT: "ئامادەیی داوەتنامەیا خۆ حجز بکەی؟",
       orderS: "پەیامەکێ ب واتسئاپێ بهنێرە — د چەند خولەکان دا لینکا تە ئامادە دکەین",
       orderB: "ب واتسئاپێ حجز بکە 📲", footer: "بطاقتي VIP — داوەتنامە ب ئەڤینێ ل کوردستانێ دهێنە چێکرن",
       wa: "سڵاڤ 🌟 دخوازم داوەتنامەیەکا زەماوەندێ ژ بطاقتي VIP حجز بکەم" },
@@ -269,7 +279,7 @@ App.initLanding = function () {
         ["chat","دڵنیاکردنەوە بە واتسئاپ","هەر میوانێک بە نامەیەک ئامادەبوونی دڵنیا دەکاتەوە"]],
       tiersT: "جۆرەکان", tiers: [["VIP","٩٩,٠٠٠ د.ع","هەموو ٥ قاڵبەکان + مۆسیقای تایبەت + ناوی میوان لەسەر بانگهێشتنامەکە + بەرنامەی ئاهەنگ","crown"],["پیشەیی","٦٥,٠٠٠ د.ع","٤ قاڵبی جوان + مۆسیقا + بەرنامەی ئاهەنگ","gem"],["ئاسایی","٢٥,٠٠٠ د.ع","دوو قاڵبی جوان بە هەموو بنەڕەتییەکان","bloom"]],
       tplT: "قاڵبەکانمان — پێش داواکردن بە زیندوویی بیانبینە", tplS: "دەست بنێ بە هەر قاڵبێک بۆ بینینی",
-      prev: "پێشبینینی زیندوو ↗", orderT: "ئامادەیت بانگهێشتنامەکەت حجز بکەیت؟",
+      prev: "پێشبینینی زیندوو", tplOrder: "ئەم قاڵبە داوا بکە", ordMsg: ["🎉 سڵاو! دەمەوێت بانگهێشتنامەیەکی ئەلیکترۆنی لە بطاقتي VIP داوا بکەم", "بۆنە: ئاهەنگی زەماوەند", "قاڵب", "پاکێج"], pkg: { vip: "VIP", gold: "پیشەیی", classic: "ئاسایی" }, orderT: "ئامادەیت بانگهێشتنامەکەت حجز بکەیت؟",
       orderS: "نامەیەک بە واتسئاپ بنێرە — لە چەند خولەکێکدا لینکی تایبەتت ئامادە دەکەین",
       orderB: "بە واتسئاپ حجز بکە 📲", footer: "بطاقتي VIP — بانگهێشتنامە بە خۆشەویستی لە کوردستان دروست دەکرێن",
       wa: "سڵاو 🌟 دەمەوێت بانگهێشتنامەیەکی زەماوەند لە بطاقتي VIP حجز بکەم" },
@@ -302,22 +312,30 @@ App.initLanding = function () {
         <div class="tier-grid">${s.tiers.map((t, i) => `<div class="tier${i === 0 ? " vip" : ""}"><div style="color:#dfa93a">${App.ic(t[3],34)}</div><h3 style="color:#f2d998;font-size:18px;margin-top:10px">${t[0]}</h3><div class="display gold-text" style="font-size:27px;margin-top:8px">${t[1]}</div><p style="font-size:13px;line-height:1.8;opacity:.8;margin-top:10px">${t[2]}</p></div>`).join("")}</div></section>
       <section class="feats" id="templates"><h2 class="display gold-text" style="font-size:30px;text-align:center">${s.tplT}</h2>
         <p style="text-align:center;font-size:13px;opacity:.7;margin-top:10px">${s.tplS}</p>
-        <div class="tpl-show">${Object.values(THEMES).map((t) => `
-          <a class="tpl-item" href="/d/demo-${Object.keys(THEMES).find((k) => THEMES[k] === t)}" style="background:${t.bg};color:${t.text}">
+        <div class="tpl-show">${Object.values(THEMES).map((t) => {
+          const key = Object.keys(THEMES).find((k) => THEMES[k] === t);
+          const price = t.tier === "vip" ? "٩٩,٠٠٠" : t.tier === "gold" ? "٦٥,٠٠٠" : "٢٥,٠٠٠";
+          const ordWa = "https://wa.me/" + App.WA_FALLBACK + "?text=" + encodeURIComponent(s.ordMsg[0] + "\n" + s.ordMsg[1] + "\n" + s.ordMsg[2] + ": " + t.names[lang] + "\n" + s.ordMsg[3] + ": " + s.pkg[t.tier] + " — " + price + " د.ع");
+          return `
+          <div class="tpl-item" style="background:${t.bg};color:${t.text}">
+            <a href="/d/demo-${key}" style="display:block;text-decoration:none;color:inherit">
             <div class="tpl-prev">
               <div class="scene">${App.scene(t)}</div>
               <span class="prev-badge" style="border-color:${t.accent};color:${t.accent};background:rgba(0,0,0,.18)">${t.tier === "gold" ? "PRO" : t.tier.toUpperCase()}</span>
               <div class="prev-center">
-                <span style="color:${t.accent};opacity:.9">${App.ic(t.icon, 26)}</span>
-                <div class="display glowname" style="color:${t.accent};font-size:24px;line-height:1.4">${lang === "ar" ? "آلان و دلڤين" : "ئالان و دلڤین"}</div>
+                <div class="display glowname" style="color:${t.accent};font-size:24px;line-height:1.4;margin-top:6px">${lang === "ar" ? "آلان و دلڤين" : "ئالان و دلڤین"}</div>
                 <div style="display:flex;align-items:center;gap:8px;opacity:.7"><span style="height:1px;width:34px;background:${t.border}"></span><span style="color:${t.accent};font-size:11px">${t.ornament}</span><span style="height:1px;width:34px;background:${t.border}"></span></div>
                 <span class="prev-tap" style="border-color:${t.border};color:${t.accent};background:${t.soft}">${(t.tap && t.tap[lang]) || App.DICTS[lang].tapToOpen}</span>
               </div>
-            </div>
-            <div style="border-top:1px solid ${t.border};background:rgba(0,0,0,.08);padding:18px;position:relative;z-index:3">
-              <h3 style="color:${t.accent};font-size:15px">${t.names[lang]}</h3>
+            </div></a>
+            <div style="border-top:1px solid ${t.border};background:rgba(0,0,0,.08);padding:16px;position:relative;z-index:3">
+              <div style="display:flex;justify-content:space-between;align-items:center"><h3 style="color:${t.accent};font-size:15px">${t.names[lang]}</h3><span class="display" style="color:${t.accent};font-size:15px">${price} د.ع</span></div>
               <p style="font-size:11px;line-height:1.8;opacity:.8;margin-top:6px">${t.desc[lang]}</p>
-              <p style="color:${t.accent};font-size:11px;font-weight:700;margin-top:10px">${s.prev}</p></div></a>`).join("")}</div></section>
+              <div class="order-btns">
+                <a style="background:${t.accent};color:#1c1508" target="_blank" rel="noreferrer" href="${ordWa}">${s.tplOrder}</a>
+                <a style="border:1px solid ${t.border};color:${t.accent}" href="/d/demo-${key}">${s.prev} ↗</a>
+              </div></div></div>`;
+        }).join("")}</div></section>
       <section class="feats" style="max-width:620px"><div class="cta-box">
         <h2 class="display gold-text" style="font-size:28px">${s.orderT}</h2>
         <p style="font-size:13px;opacity:.75;margin-top:14px">${s.orderS}</p>
@@ -385,7 +403,7 @@ App.decode = function (hash) {
 };
 App.newInvite = function (p) {
   return { code: p.code || "", tier: p.tier || "classic", template: p.template || "rose",
-    lang: p.lang || "ar", customerName: p.customerName || "", groom: "", bride: "",
+    lang: p.lang || "ar", customerName: p.customerName || "", groom: "", bride: "", gLine: "", bLine: "",
     phrase: "", dua: "", eventDate: "", dateText: "", timeText: "", showCountdown: true,
     venueName: "", venueAddress: "", mapsUrl: "", program: [], musicUrl: "",
     rsvpEnabled: true, rsvpPhone: "" };
@@ -418,6 +436,19 @@ App.demoInvite = function (code) {
 };
 
 
+
+/* خاتم ذهبي واقعي بتدرجات */
+App.ring = function (size) {
+  const id = "g" + Math.floor(Math.random() * 1e6);
+  return '<svg width="' + size + '" height="' + size + '" viewBox="0 0 64 64" style="vertical-align:middle">' +
+    '<defs><linearGradient id="' + id + 'a" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff0c0"/><stop offset=".45" stop-color="#e9b95e"/><stop offset="1" stop-color="#9a6b22"/></linearGradient>' +
+    '<linearGradient id="' + id + 'b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#a8d8ff"/></linearGradient></defs>' +
+    '<circle cx="32" cy="40" r="15" fill="none" stroke="url(#' + id + 'a)" stroke-width="6"/>' +
+    '<circle cx="32" cy="40" r="15" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="1.6" stroke-dasharray="10 84"/>' +
+    '<path d="M25 18.5L32 8l7 10.5-7 9z" fill="url(#' + id + 'b)" stroke="#e8f4ff" stroke-width="1"/>' +
+    '<path d="M25 18.5h14M32 8v19.5" stroke="rgba(120,170,220,.55)" stroke-width="1"/>' +
+    '<path d="M18 8l2.2 2.2M46 8l-2.2 2.2M32 2.5v3" stroke="#ffe9b0" stroke-width="1.6" stroke-linecap="round"/></svg>';
+};
 /* ===== المشاهد المتحركة لكل قالب ===== */
 App.scene = function (t) {
   function petals(colors, n) {
@@ -438,7 +469,7 @@ App.scene = function (t) {
   const id = t.id;
   if (id === "khatim")
     return '<div class="rays"></div><div class="drape drape-l"></div><div class="drape drape-r"></div><div class="spot"></div>' +
-      '<div class="podium"></div><div class="ringbox"><div class="boxbase"></div><div class="boxlid"></div><div class="ringjewel">' + App.ic("ring", 30) + '</div></div>' +
+      '<div class="podium"></div><div class="ringbox"><div class="boxbase"></div><div class="boxlid"></div><div class="ringjewel">' + App.ring(44) + '</div></div>' +
       petals(["#c4485a", "#a03248", "#d76a7a"], 16);
   if (id === "qasr")
     return stars(22) +
@@ -526,9 +557,10 @@ App.initInvite = function () {
   const card = function (inner) { return '<section class="card reveal" style="background:' + t.card + ';border:1px solid ' + t.border + '">' + inner + '</section>'; };
   const main = el("main", { class: "invite-main" },
     '<section class="reveal" style="text-align:center">' +
-      '<div class="seal" style="width:76px;height:76px;font-size:28px;margin:0 auto 18px;background:' + t.soft + ';border:1.5px solid ' + t.border + ';color:' + t.accent + '">' + App.ic("rings", 30) + '</div>' +
+      '<div class="seal" style="width:76px;height:76px;font-size:28px;margin:0 auto 18px;background:' + t.soft + ';border:1.5px solid ' + t.border + ';color:' + t.accent + '">' + App.ring(46) + '</div>' +
       '<p style="font-size:13px;opacity:.85">' + d.youAreInvited + '</p>' +
       '<h1 class="display glowname" style="color:' + t.accent + ';font-size:38px;line-height:1.5;margin:16px 0 0">' + groom + '<span style="font-size:22px;opacity:.8;margin:0 12px">' + d.and + '</span>' + bride + '</h1>' +
+      ((inv.gLine || inv.bLine) ? '<div style="margin-top:12px;font-size:12.5px;opacity:.85;line-height:2.1">' + (inv.gLine ? '<div>' + esc(inv.gLine) + '</div>' : '') + (inv.bLine ? '<div>' + esc(inv.bLine) + '</div>' : '') + '</div>' : '') +
       '<div class="orna"><span style="background:' + t.border + '"></span><i style="color:' + t.accent + '">' + t.ornament + '</i><span style="background:' + t.border + '"></span></div>' +
       '<p class="naskh" style="max-width:360px;margin:18px auto 0;font-size:17px;line-height:1.9;opacity:.95">' + phrase + '</p>' +
       (guest ? '<p style="margin-top:14px;font-size:13px">' + d.dearGuest + ': <b style="color:' + t.accent + '">' + esc(guest) + '</b></p>' : "") +
@@ -603,7 +635,7 @@ App.initEdit = function () {
   function waLink() {
     const t = THEMES[inv.template];
     const lines = ["✨ دعوة جديدة جاهزة — بطاقتي VIP", "الكود: " + inv.code, "الفئة: " + (inv.tier || "").toUpperCase(),
-      "القالب: " + t.names.ar, "العريس: " + inv.groom, "العروس: " + inv.bride,
+      "القالب: " + t.names.ar, "العريس: " + inv.groom, inv.gLine ? "أهل العريس: " + inv.gLine : "", "العروس: " + inv.bride, inv.bLine ? "أهل العروس: " + inv.bLine : "",
       "التاريخ: " + (inv.dateText || inv.eventDate), "الوقت: " + inv.timeText,
       "القاعة: " + inv.venueName, "العنوان: " + inv.venueAddress,
       inv.mapsUrl ? "الخريطة: " + inv.mapsUrl : "", inv.musicUrl ? "الموسيقى: " + inv.musicUrl : "",
@@ -641,6 +673,7 @@ App.initEdit = function () {
           Object.keys(LANG_NAMES).map(function (l) { return '<option value="' + l + '" ' + (inv.lang === l ? "selected" : "") + '>' + LANG_NAMES[l] + '</option>'; }).join("") +
         '</select></label>' +
         '<div class="grid2">' + inp("groom", d.fGroom, inv.groom) + inp("bride", d.fBride, inv.bride) + '</div>' +
+        inp("gLine", d.fGLine, inv.gLine || "") + inp("bLine", d.fBLine, inv.bLine || "") +
         area("phrase", d.fPhrase, inv.phrase, d.defaultPhrase) + '</section>' +
       '<section class="panel"><h2>' + d.secDateTime + '</h2>' +
         '<label class="field"><span>' + d.fEventDate + '</span><input type="datetime-local" data-k="eventDate" value="' + (inv.eventDate ? inv.eventDate.slice(0, 16) : "") + '"></label>' +

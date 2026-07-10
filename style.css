@@ -200,3 +200,9 @@ body.opened .ringjewel { opacity: 1; transform: translateX(-50%) translateY(-46p
 @keyframes flyAcross { from { left: -12% } to { left: 108% } }
 @keyframes birdBob { from { transform: translateY(0) } to { transform: translateY(-6px) } }
 .tpl-prev .bird { position: absolute; }
+
+/* شرارات ذهبية بدل الرموز */
+.spark { position: fixed; top: -3%; width: 5px; height: 5px; border-radius: 50%; animation: fall linear infinite; opacity: .85; }
+.tpl-prev .spark { position: absolute; }
+.order-btns { display: flex; gap: 8px; margin-top: 12px; }
+.order-btns > * { flex: 1; text-align: center; border-radius: 99px; padding: 10px 6px; font-size: 11px; font-weight: 800; text-decoration: none; }
