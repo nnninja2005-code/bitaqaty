@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@300;400;500;600;700;800&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Aref+Ruqaa:wght@400;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="/style.css?v=5"><title>دعوة زفاف · بطاقتي VIP</title></head>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@300;400;500;600;700;800&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Aref+Ruqaa:wght@400;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="/style.css?v=6"><title>دعوة زفاف · بطاقتي VIP</title></head>
 <body><div id="root"></div>
 <script>
 /* بطاقتي VIP — المنطق المشترك لكل الصفحات */
@@ -457,7 +457,10 @@ App.FB_URL = "https://bitaqaty-6d4cf-default-rtdb.europe-west1.firebasedatabase.
 App.fbGet = async function (code) {
   const r = await fetch(App.FB_URL + "/invites/" + encodeURIComponent(code) + ".json");
   if (!r.ok) throw 0;
-  return r.json();
+  const v = await r.json();
+  /* فايربيس يحذف القوائم الفارغة — نعيدها */
+  if (v && !Array.isArray(v.program)) v.program = [];
+  return v;
 };
 App.fbPut = async function (inv) {
   const r = await fetch(App.FB_URL + "/invites/" + encodeURIComponent(inv.code) + ".json",
@@ -469,7 +472,9 @@ App.fbList = async function () {
   const r = await fetch(App.FB_URL + "/invites.json");
   if (!r.ok) throw 0;
   const all = await r.json();
-  return all ? Object.values(all).filter(function (x) { return x && x.code && !x.hidden; }) : [];
+  if (!all) return [];
+  return Object.values(all).filter(function (x) { return x && x.code && !x.hidden; })
+    .map(function (x) { if (!Array.isArray(x.program)) x.program = []; return x; });
 };
 
 /* ===== ترميز الدعوة داخل الرابط (بدون سيرفر) ===== */
