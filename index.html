@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@300;400;500;600;700;800&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Aref+Ruqaa:wght@400;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="/style.css"><title>بطاقتي VIP · دعوات زفاف رقمية فاخرة</title><meta name="description" content="منصة دعوات زفاف رقمية فاخرة بالعربية والكردية — قوالب فيديو حية، عد تنازلي، موسيقى، وتأكيد حضور عبر واتساب."></head>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@300;400;500;600;700;800&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Aref+Ruqaa:wght@400;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="/style.css?v=5"><title>بطاقتي VIP · دعوات زفاف رقمية فاخرة</title><meta name="description" content="منصة دعوات زفاف رقمية فاخرة بالعربية والكردية — قوالب فيديو حية، عد تنازلي، موسيقى، وتأكيد حضور عبر واتساب."></head>
 <body><div id="root"></div>
 <script>
 /* بطاقتي VIP — المنطق المشترك لكل الصفحات */
@@ -572,12 +572,12 @@ App.ring = function (size) {
 
 /* فراشات محلقة */
 App.bflies = function (n, big) {
-  const colors = ["#e8bfff", "#f3d1ff", "#ffd98a", "#d3a6f5"];
+  const colors = ["#e8bfff", "#f3d1ff", "#ffd98a", "#d3a6f5", "#ffc4e8"];
   let h = "";
   for (let i = 0; i < n; i++) {
     const c = colors[i % colors.length];
-    const size = big ? 26 + Math.random() * 30 : 14 + Math.random() * 14;
-    h += '<span class="bfly" style="top:' + (Math.random() * 70) + '%;color:' + c + ';animation-duration:' + (10 + Math.random() * 14) + 's;animation-delay:-' + (Math.random() * 14) + 's;filter:drop-shadow(0 0 6px ' + c + '55)">' + App.ic("bfly", size) + '</span>';
+    const size = big ? 34 + Math.random() * 52 : 16 + Math.random() * 16;
+    h += '<span class="bfly" style="top:' + (Math.random() * 78) + '%;color:' + c + ';animation-duration:' + (8 + Math.random() * 16) + 's;animation-delay:-' + (Math.random() * 16) + 's;filter:drop-shadow(0 0 14px ' + c + '99)">' + App.ic("bfly", size) + '</span>';
   }
   return h;
 };
@@ -680,7 +680,7 @@ App.initInvite = async function () {
     cover.appendChild(el("div", { class: "curtain curtain-r" }));
   } else if (t.opening === "bflies") {
     cover.appendChild(el("div", { class: "cover-bg cover-fade", style: "background:" + t.bg }));
-    cover.appendChild(el("div", { class: "cover-fade", style: "position:absolute;inset:0" }, App.bflies(13, true)));
+    cover.appendChild(el("div", { class: "cover-fade", style: "position:absolute;inset:0" }, App.bflies(26, true)));
   } else if (t.opening === "box") {
     /* المشهد نفسه هو الغلاف — لا حاجة لطبقة تغطية */
   } else {
@@ -765,19 +765,16 @@ App.initInvite = async function () {
         if (vid.duration && vid.currentTime > vid.duration - 0.7) openNow();
       });
       setTimeout(openNow, 11500);
-      const ov = el("div", { class: "vid-overlay" });
+      const ov = el("div", { class: "vid-overlay cover-fade" });
       cover.appendChild(ov);
-      setTimeout(function () {
-        ov.innerHTML = '<p class="vo-line" style="font-size:15px;letter-spacing:.5px;font-weight:600;opacity:.95">' + d.youAreInvited + '</p>';
-      }, 1400);
-      setTimeout(function () {
-        ov.innerHTML += '<h2 class="vo-line display glowname" style="font-size:40px;line-height:1.55;margin:6px 0 0">' + groom + '</h2>' +
-          '<div class="vo-line vo-orna"><span></span><i style="font-size:13px">' + d.and + '</i><span></span></div>' +
-          '<h2 class="vo-line display glowname" style="font-size:40px;line-height:1.55;margin:0">' + bride + '</h2>';
-      }, 3300);
-      setTimeout(function () {
-        if (dateText) ov.innerHTML += '<p class="vo-line" style="font-size:16px;font-weight:700;margin-top:10px;letter-spacing:.5px">' + dateText + (timeText ? " · " + timeText : "") + '</p>';
-      }, 6300);
+      function ovAdd(html, delay) {
+        setTimeout(function () { ov.appendChild(el("div", { class: "vo-line" }, html)); }, delay);
+      }
+      ovAdd('<p style="font-size:14px;letter-spacing:1px;font-weight:600;opacity:.95;margin:0">' + d.youAreInvited + '</p>', 1300);
+      ovAdd('<h2 class="display vo-gold" style="font-size:46px;line-height:1.6;margin:10px 0 0">' + groom + '</h2>', 3000);
+      ovAdd('<div class="vo-orna" style="justify-content:center;margin:4px 0"><span></span><i class="display" style="font-size:16px;color:#ffe9b8">' + d.and + '</i><span></span></div>', 3900);
+      ovAdd('<h2 class="display vo-gold" style="font-size:46px;line-height:1.6;margin:0">' + bride + '</h2>', 4500);
+      if (dateText) ovAdd('<p style="font-size:16px;font-weight:700;margin-top:14px;letter-spacing:.5px;color:#fff6e4">' + dateText + (timeText ? " · " + timeText : "") + '</p>', 6600);
       return;
     }
     openNow();
@@ -804,13 +801,21 @@ App.initEdit = async function () {
   const root = $("#root");
   const editKey = App.qs("key");
   let inv = null, serverMode = false;
+  let loadFailed = false;
   if (editKey) {
     try {
       const v = await App.fbGet(App.pathParam());
       if (v && v.editKey === editKey) { inv = v; serverMode = true; }
-    } catch (e) {}
+      else if (v) loadFailed = "key";
+    } catch (e) { loadFailed = "net"; }
   }
   if (!inv) inv = App.dataParam();
+  if (!inv && loadFailed) {
+    const d0 = dict("ar");
+    root.innerHTML = '<div class="center-page"><div style="font-size:56px">' + (loadFailed === "key" ? "🔐" : "📡") + '</div><p style="font-size:16px;max-width:340px;line-height:1.9">' +
+      (loadFailed === "key" ? d0.wrongKey : "تعذر الاتصال بقاعدة البيانات — تأكد من نشر قواعد Rules في Firebase ثم حدّث الصفحة") + '</p></div>';
+    return;
+  }
   if (!inv) {
     root.innerHTML = '<div class="center-page"><div style="font-size:56px">🔍</div><p style="font-size:17px">' + dict("ar").notFound + '</p></div>';
     return;

@@ -239,3 +239,12 @@ body.opened .ringjewel { opacity: 1; transform: translateX(-50%) translateY(-46p
 .vid-overlay::before { content: ""; position: absolute; inset: 0; background: radial-gradient(70% 42% at 50% 46%, rgba(25,15,4,.34), transparent 75%); }
 .vid-overlay > * { position: relative; }
 .vo-line { animation: voIn 2s cubic-bezier(.16,.7,.26,1) both; }
+
+/* أسماء ذهبية فوق الفيديو */
+.vo-gold {
+  background: linear-gradient(100deg, #b8873a, #ffe9a8 35%, #fffbe8 50%, #ffe9a8 65%, #b8873a);
+  background-size: 200% auto; -webkit-background-clip: text; background-clip: text; color: transparent;
+  animation: shimmer 5s linear infinite;
+  filter: drop-shadow(0 2px 14px rgba(40,25,5,.65));
+}
+.vid-overlay .vo-orna span { width: 52px; background: rgba(255,235,190,.85); }
