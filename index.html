@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@300;400;500;600;700;800&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Aref+Ruqaa:wght@400;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="/style.css"><title>بطاقتي VIP · دعوات زفاف رقمية فاخرة</title><meta name="description" content="منصة دعوات زفاف رقمية فاخرة بالعربية والكردية — قوالب حية متحركة، عد تنازلي، موسيقى، وتأكيد حضور عبر واتساب."></head>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@300;400;500;600;700;800&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Aref+Ruqaa:wght@400;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="/style.css"><title>بطاقتي VIP · دعوات زفاف رقمية فاخرة</title><meta name="description" content="منصة دعوات زفاف رقمية فاخرة بالعربية والكردية — قوالب فيديو حية، عد تنازلي، موسيقى، وتأكيد حضور عبر واتساب."></head>
 <body><div id="root"></div>
 <script>
 /* بطاقتي VIP — المنطق المشترك لكل الصفحات */
@@ -8,7 +8,67 @@ window.App = (function () {
   const WA_FALLBACK = "9647515193165";
 
   const THEMES = {
-    zerin: { tier: "vip", emoji: "👑", icon: "crown", opening: "envelope", ornament: "❖",
+    almas: { tier: "vip", emoji: "💎", icon: "gem", opening: "video", ornament: "❖",
+    video: "/v-almas.mp4", poster: "/p-almas.jpg",
+    names: { ar: "الماسة", bad: "ئەڵماس", sor: "ئەڵماس" },
+    desc: {
+      ar: "فيلم افتتاحي حقيقي: صندوق مخملي يُفتح عن ماسة تتلألأ بين البتلات",
+      bad: "فیلمەکێ ڕاستەقینە: سندوقێ مەخمەل ل سەر ئەڵماسەکێ ڤەدبیت",
+      sor: "فیلمێکی ڕاستەقینە: سندوقی مەخمەڵ لەسەر ئەڵماسێک دەکرێتەوە",
+    },
+    tap: { ar: "اضغط وشاهد الافتتاحية", bad: "دەست بدە و تەماشا بکە", sor: "دەست بنێ و تەماشا بکە" },
+    bg: "radial-gradient(1100px 700px at 50% -10%, #fffdf8 0%, #f6eedd 45%, #eadec4 100%)",
+    card: "linear-gradient(160deg, #fffefa, #f8f1e2)", text: "#655230",
+    accent: "#a8853f", soft: "rgba(168,133,63,.12)", border: "rgba(168,133,63,.35)", fx: "petals", colors: ["#f3e6cd","#e9d5ac"] },
+  qaea: { tier: "vip", emoji: "🏛️", icon: "venue", opening: "video", ornament: "✦",
+    video: "/v-qaea.mp4", poster: "/p-qaea.jpg",
+    names: { ar: "القاعة الملكية", bad: "هۆلا شاهانە", sor: "هۆڵی شاهانە" },
+    desc: {
+      ar: "افتتاحية سينمائية داخل قاعة ملكية بثرياتها الكريستالية وشموعها",
+      bad: "دەستپێکەکا سینەمایی د هۆلەکا شاهانە دا ب چرایێن کریستال",
+      sor: "دەستپێکێکی سینەمایی لەناو هۆڵێکی شاهانە بە چرا کریستاڵییەکان",
+    },
+    tap: { ar: "اضغط وشاهد الافتتاحية", bad: "دەست بدە و تەماشا بکە", sor: "دەست بنێ و تەماشا بکە" },
+    bg: "radial-gradient(1100px 700px at 50% -10%, #fffdf8 0%, #f5ecda 45%, #e7d9bc 100%)",
+    card: "linear-gradient(160deg, #fffefa, #f7f0e0) ", text: "#63512f",
+    accent: "#a8853f", soft: "rgba(168,133,63,.12)", border: "rgba(168,133,63,.35)", fx: "petals", colors: ["#f3e6cd","#ecd9b0"] },
+  hareer: { tier: "vip", emoji: "🎐", icon: "envelope", opening: "video", ornament: "✧",
+    video: "/v-hareer.mp4", poster: "/p-hareer.jpg",
+    names: { ar: "ستائر الحرير", bad: "پەردەیێن حەریری", sor: "پەردەی ئاوریشم" },
+    desc: {
+      ar: "ستائر حرير شفافة تنفرج على ضوء ذهبي وبتلات تتساقط — نعومة سينمائية",
+      bad: "پەردەیێن حەریری ل سەر ڕۆناهیا زێڕین ڤەدبن و گوڵ دبارن",
+      sor: "پەردەی ئاوریشمی لەسەر ڕووناکی زێڕین دەکرێنەوە و گوڵ دەبارێت",
+    },
+    tap: { ar: "اضغط وشاهد الافتتاحية", bad: "دەست بدە و تەماشا بکە", sor: "دەست بنێ و تەماشا بکە" },
+    bg: "radial-gradient(1100px 700px at 50% -10%, #fdfaf4 0%, #f3ead8 45%, #e6d8bd 100%)",
+    card: "linear-gradient(160deg, #fffef9, #f6efdf)", text: "#665336",
+    accent: "#ab8848", soft: "rgba(171,136,72,.12)", border: "rgba(171,136,72,.35)", fx: "petals", colors: ["#f5e9d2","#ebdab5"] },
+  warda: { tier: "vip", emoji: "🤍", icon: "bloom", opening: "video", ornament: "✿",
+    video: "/v-warda.mp4", poster: "/p-warda.jpg",
+    names: { ar: "الوردة البيضاء", bad: "گوڵا سپی", sor: "گوڵە سپییەکە" },
+    desc: {
+      ar: "وردة بيضاء تتفتح وخيوط نور ذهبية ترقص حولها — رومانسية خالصة",
+      bad: "گوڵەکا سپی ڤەدبیت و ڕشمەیێن ڕۆناهیێ ل دەورا وێ دگەڕن",
+      sor: "گوڵێکی سپی دەپشکوێت و دەزووی ڕووناکی بەدەوریدا سەما دەکەن",
+    },
+    tap: { ar: "اضغط وشاهد الافتتاحية", bad: "دەست بدە و تەماشا بکە", sor: "دەست بنێ و تەماشا بکە" },
+    bg: "radial-gradient(1100px 700px at 50% -10%, #fffcfa 0%, #faeee9 45%, #efdcd2 100%)",
+    card: "linear-gradient(160deg, #fffefd, #fbf1ec)", text: "#6e4a3f",
+    accent: "#bd8571", soft: "rgba(189,133,113,.12)", border: "rgba(189,133,113,.35)", fx: "petals", colors: ["#f6dfd6","#eecdc0","#f9ece6"] },
+  hikaya: { tier: "vip", emoji: "📖", icon: "heart", opening: "video", ornament: "❦",
+    video: "/v-hikaya.mp4", poster: "/p-hikaya.jpg",
+    names: { ar: "حكاية العمر", bad: "چیرۆکا تەمەنی", sor: "چیرۆکی تەمەن" },
+    desc: {
+      ar: "كتاب عتيق يُفتح بين البتلات والنجوم — وحكايتكما تبدأ من أول صفحة",
+      bad: "پەرتووکەکا کەڤن د ناڤ گوڵان دا ڤەدبیت — چیرۆکا هەوە دەست پێ دکەت",
+      sor: "پەڕتووکێکی کۆن لەنێو گوڵەکاندا دەکرێتەوە — چیرۆکی ئێوە دەست پێدەکات",
+    },
+    tap: { ar: "اضغط وافتح الحكاية", bad: "دەست بدە و چیرۆکێ ڤەکە", sor: "دەست بنێ و چیرۆکەکە بکەرەوە" },
+    bg: "radial-gradient(1100px 700px at 50% -10%, #fdfaf3 0%, #f4ecd9 45%, #e8dabd 100%)",
+    card: "linear-gradient(160deg, #fffef9, #f7f0de)", text: "#645231",
+    accent: "#a8853f", soft: "rgba(168,133,63,.12)", border: "rgba(168,133,63,.35)", fx: "petals", colors: ["#f4e8cf","#ecdcb8"] },
+  zerin: { tier: "vip", emoji: "👑", icon: "crown", opening: "envelope", ornament: "❖",
       names: { ar: "زێرين الملكي VIP", bad: "زێڕینا شاهانە VIP", sor: "زێڕینی شاهانە VIP" },
       desc: { ar: "أسود وذهب خالص — فخامة لا تُنسى", bad: "ڕەش و زێڕ — لوکسیا نەژبیرکری", sor: "ڕەش و زێڕی بێگەرد — لوکسی لەبیرنەکراو" },
       bg: "radial-gradient(1200px 700px at 50% -10%,#2a2312,#14100c 55%,#0a0806)",
@@ -95,7 +155,7 @@ window.App = (function () {
   const TIERS = {
     classic: { music: false, program: false, templates: ["rose","garden"] },
     gold: { music: true, program: true, templates: ["rose","garden","starlit","royal","swan","ward"] },
-    vip: { music: true, program: true, templates: ["zerin","khatim","qasr","fanar","royal","swan","ward","starlit","rose","garden"] },
+    vip: { music: true, program: true, templates: ["almas","qaea","hareer","warda","hikaya","zerin","khatim","qasr","fanar","royal","swan","ward","starlit","rose","garden"] },
   };
 
   const LANG_NAMES = { ar: "العربية", bad: "کوردی (بادینی)", sor: "کوردی (سۆرانی)" };
@@ -320,7 +380,8 @@ App.initLanding = function () {
           <div class="tpl-item" style="background:${t.bg};color:${t.text}">
             <a href="/d/demo-${key}" style="display:block;text-decoration:none;color:inherit">
             <div class="tpl-prev">
-              <div class="scene">${App.scene(t)}</div>
+              ${t.poster ? '<img class="prev-img" src="' + t.poster + '" alt="" loading="lazy"><div class="prev-grad"></div>' : '<div class="scene">' + App.scene(t) + '</div>'}
+              ${t.video ? '<span class="vid-badge">▶ VIDEO</span>' : ""}
               <span class="prev-badge" style="border-color:${t.accent};color:${t.accent};background:rgba(0,0,0,.18)">${t.tier === "gold" ? "PRO" : t.tier.toUpperCase()}</span>
               <div class="prev-center">
                 <div class="display glowname" style="color:${t.accent};font-size:24px;line-height:1.4;margin-top:6px">${lang === "ar" ? "آلان و دلڤين" : "ئالان و دلڤین"}</div>
@@ -415,7 +476,7 @@ App.isExpired = function (inv) {
 App.demoInvite = function (code) {
   const m = { "demo-zerin": ["zerin","ar","vip"], "demo-royal": ["royal","ar","gold"],
     "demo-rose": ["rose","ar","classic"], "demo-starlit": ["starlit","ar","gold"],
-    "demo-garden": ["garden","ar","classic"], "demo-khatim": ["khatim","ar","vip"], "demo-qasr": ["qasr","ar","vip"], "demo-swan": ["swan","ar","gold"], "demo-fanar": ["fanar","ar","vip"], "demo-ward": ["ward","ar","gold"], "demo-zerin-bad": ["zerin","bad","vip"],
+    "demo-garden": ["garden","ar","classic"], "demo-khatim": ["khatim","ar","vip"], "demo-almas": ["almas","ar","vip"], "demo-qaea": ["qaea","ar","vip"], "demo-hareer": ["hareer","ar","vip"], "demo-warda": ["warda","ar","vip"], "demo-hikaya": ["hikaya","ar","vip"], "demo-qasr": ["qasr","ar","vip"], "demo-swan": ["swan","ar","gold"], "demo-fanar": ["fanar","ar","vip"], "demo-ward": ["ward","ar","gold"], "demo-zerin-bad": ["zerin","bad","vip"],
     "demo-zerin-sor": ["zerin","sor","vip"] };
   if (!m[code]) return null;
   const [template, lang, tier] = m[code];
@@ -535,7 +596,12 @@ App.initInvite = function () {
   const sceneDiv = el("div", { class: "scene slowzoom" }, App.scene(t));
   root.appendChild(sceneDiv);
   const cover = el("div", { class: "cover" });
-  if (t.opening === "curtains") {
+  let vid = null;
+  if (t.video) {
+    vid = el("video", { class: "cover-video", src: t.video, playsinline: "", preload: "auto" });
+    vid.muted = true;
+    cover.appendChild(vid);
+  } else if (t.opening === "curtains") {
     cover.appendChild(el("div", { class: "curtain curtain-l" }));
     cover.appendChild(el("div", { class: "curtain curtain-r" }));
   } else if (t.opening === "gate") {
@@ -584,7 +650,21 @@ App.initInvite = function () {
       '<a href="/" style="color:' + t.accent + ';font-size:11px;opacity:.5">بطاقتي VIP · bitaqaty.vip</a></footer>');
   root.appendChild(main);
 
+  let vidPlayed = false, openedFlag = false;
   cover.addEventListener("click", function () {
+    if (vid && !vidPlayed) {
+      vidPlayed = true;
+      center.classList.add("center-hide");
+      vid.play().catch(function () { openNow(); });
+      vid.addEventListener("ended", openNow);
+      setTimeout(openNow, 10800);
+      return;
+    }
+    openNow();
+  });
+  function openNow() {
+    if (openedFlag) return;
+    openedFlag = true;
     cover.classList.add("opened");
     document.body.classList.add("opened");
     particles(root, t, 18);
@@ -615,7 +695,7 @@ App.initInvite = function () {
     }
     const cd = $("#cd");
     if (cd) countdown(inv.eventDate, d, cd, t.accent, t.border);
-  });
+  }
 };
 
 /* ===== صفحة التعديل (الزبون) — بدون سيرفر ===== */
