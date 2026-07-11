@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@300;400;500;600;700;800&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Aref+Ruqaa:wght@400;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="/style.css?v=9"><title>بطاقتي VIP · دعوات زفاف رقمية فاخرة</title></head>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://www.youtube.com"><link rel="preconnect" href="https://i.ytimg.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@300;400;500;600;700;800&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Aref+Ruqaa:wght@400;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="/style.css?v=9"><title>بطاقتي VIP · دعوات زفاف رقمية فاخرة</title></head>
 <body><div id="root"></div>
 <script>
 /* بطاقتي VIP — المنطق المشترك لكل الصفحات */
@@ -378,7 +378,7 @@ App.initLanding = function () {
           const ordWa = "https://wa.me/" + App.WA_FALLBACK + "?text=" + encodeURIComponent(s.ordMsg[0] + "\n" + s.ordMsg[1] + "\n" + s.ordMsg[2] + ": " + t.names[lang] + "\n" + s.ordMsg[3] + ": " + s.pkg[t.tier] + " — " + price + " د.ع");
           return `
           <div class="tpl-item" style="background:${t.bg};color:${t.text}">
-            <a href="/d/demo-${key}" style="display:block;text-decoration:none;color:inherit">
+            <a href="/d/demo-${key}?lang=${lang}" style="display:block;text-decoration:none;color:inherit">
             <div class="tpl-prev">
               ${t.poster ? '<img class="prev-img" src="' + t.poster + '" alt="" loading="lazy"><div class="prev-grad"></div>' : '<div class="scene">' + App.scene(t) + '</div>'}
               ${t.video ? '<span class="vid-badge">▶ VIDEO</span>' : ""}
@@ -394,7 +394,7 @@ App.initLanding = function () {
               <p style="font-size:11px;line-height:1.8;opacity:.8;margin-top:6px">${t.desc[lang]}</p>
               <div class="order-btns">
                 <a style="background:${t.accent};color:#1c1508" target="_blank" rel="noreferrer" href="${ordWa}">${s.tplOrder}</a>
-                <a style="border:1px solid ${t.border};color:${t.accent}" href="/d/demo-${key}">${s.prev} ↗</a>
+                <a style="border:1px solid ${t.border};color:${t.accent}" href="/d/demo-${key}?lang=${lang}">${s.prev} ↗</a>
               </div></div></div>`;
         }).join("")}</div></section>
       <section class="feats" style="max-width:620px"><div class="cta-box">
@@ -654,13 +654,14 @@ App.isExpired = function (inv) {
   if (!inv.eventDate) return false;
   return Date.now() > new Date(inv.eventDate).getTime() + 2 * 864e5;
 };
-App.demoInvite = function (code) {
+App.demoInvite = function (code, langOverride) {
   const m = { "demo-zerin": ["zerin","ar","vip"], "demo-royal": ["royal","ar","gold"],
     "demo-rose": ["rose","ar","classic"], "demo-starlit": ["starlit","ar","gold"],
     "demo-garden": ["garden","ar","classic"], "demo-khatim": ["khatim","ar","vip"], "demo-almas": ["almas","ar","vip"], "demo-qaea": ["qaea","ar","vip"], "demo-hareer": ["hareer","ar","vip"], "demo-warda": ["warda","ar","vip"], "demo-hikaya": ["hikaya","ar","vip"], "demo-qasr": ["qasr","ar","vip"], "demo-swan": ["swan","ar","gold"], "demo-fanar": ["fanar","ar","vip"], "demo-ward": ["ward","ar","gold"], "demo-zerin-bad": ["zerin","bad","vip"],
     "demo-zerin-sor": ["zerin","sor","vip"] };
   if (!m[code]) return null;
-  const [template, lang, tier] = m[code];
+  let [template, lang, tier] = m[code];
+  if (langOverride && App.DICTS[langOverride]) lang = langOverride;
   const d = new Date(); d.setDate(d.getDate() + 30); d.setHours(19, 0, 0, 0);
   const names = { ar: ["آلان","دلڤين"], bad: ["ئالان","دلڤین"], sor: ["ئالان","دلڤین"] };
   const prog = { ar: [["7:00","استقبال الضيوف"],["8:30","دخول العروسين"],["10:00","قطع الكيك"]],
@@ -762,7 +763,7 @@ App.initInvite = async function () {
   if (!inv && code && code.indexOf("demo-") !== 0) {
     try { inv = await App.fbGet(code); } catch (e) {}
   }
-  if (!inv && code.indexOf("demo-") === 0) inv = App.demoInvite(code);
+  if (!inv && code.indexOf("demo-") === 0) inv = App.demoInvite(code, App.qs("lang"));
   if (!inv) {
     root.innerHTML = '<div class="center-page"><div style="font-size:56px">🔍</div><h1 class="gold-text" style="font-size:22px">' + dict("ar").notFound + '</h1><a href="/" style="color:#e9c05e;margin-top:20px;font-size:13px">بطاقتي VIP · الرئيسية</a></div>';
     return;
@@ -862,6 +863,11 @@ App.initInvite = async function () {
   const musicId = App.ytId(inv.musicUrl || "");
   const _mtm = String(inv.musicUrl || "").match(/[?&#]t=(?:(\d+)m)?(\d+)s?(?:\D|$)/);
   const musicStartSec = _mtm ? (+(_mtm[1] || 0)) * 60 + (+_mtm[2]) : null;
+  function cleanupMusicListeners() {
+    document.removeEventListener("touchend", unlockMusic, true);
+    document.removeEventListener("touchstart", unlockMusic, true);
+    document.removeEventListener("click", unlockMusic, true);
+  }
   function musicBuild() {
     if (musicId) {
       const box = el("div", { class: "yt-hidden" });
@@ -870,11 +876,14 @@ App.initInvite = async function () {
       document.body.appendChild(box);
       App.loadYT().then(function (YT) {
         ytPlayer = new YT.Player(slot, {
-          width: "220", height: "124", videoId: musicId,
+          width: "320", height: "180", videoId: musicId,
           playerVars: { autoplay: 0, controls: 0, loop: 1, playlist: musicId, playsinline: 1, start: (musicStartSec === null ? 35 : musicStartSec), disablekb: 1, fs: 0, modestbranding: 1, rel: 0 },
           events: {
-            onReady: function (e) { ytReady = true; if (wantOn) { try { e.target.playVideo(); e.target.unMute(); e.target.setVolume(100); musicStarted = true; } catch (x) {} } },
-            onStateChange: function (e) { if (e.data === YT.PlayerState.ENDED) { try { e.target.playVideo(); } catch (x) {} } if (e.data === YT.PlayerState.PLAYING) { musicStarted = true; } }
+            onReady: function (e) { ytReady = true; if (wantOn) { try { e.target.playVideo(); e.target.unMute(); e.target.setVolume(100); } catch (x) {} } },
+            onStateChange: function (e) {
+              if (e.data === YT.PlayerState.PLAYING) { musicStarted = true; if (musicOn) { try { e.target.unMute(); e.target.setVolume(100); } catch (x) {} } cleanupMusicListeners(); }
+              if (e.data === YT.PlayerState.ENDED) { try { e.target.playVideo(); } catch (x) {} }
+            }
           }
         });
       });
@@ -882,6 +891,7 @@ App.initInvite = async function () {
       audioEl = el("audio", { loop: "", playsinline: "", preload: "auto" });
       audioEl.src = inv.musicUrl;
       document.body.appendChild(audioEl);
+      audioEl.addEventListener("playing", function () { musicStarted = true; cleanupMusicListeners(); });
       audioEl.addEventListener("loadedmetadata", function () {
         const st = musicStartSec !== null ? musicStartSec : (audioEl.duration > 75 ? 30 : 0);
         try { audioEl.currentTime = st; } catch (e) {}
@@ -892,25 +902,25 @@ App.initInvite = async function () {
     musicOn = on;
     if (musicBtn) musicBtn.innerHTML = App.ic(on ? "music" : "mute", 20);
     if (musicId) {
-      if (ytPlayer && ytReady) { try { if (on) { ytPlayer.playVideo(); ytPlayer.unMute(); ytPlayer.setVolume(100); musicStarted = true; } else { ytPlayer.pauseVideo(); } } catch (e) {} }
+      if (ytPlayer && ytReady) { try { if (on) { ytPlayer.playVideo(); ytPlayer.unMute(); ytPlayer.setVolume(100); } else { ytPlayer.pauseVideo(); } } catch (e) {} }
       else { wantOn = on; }
     }
-    if (audioEl) { if (on) { audioEl.muted = false; audioEl.play().then(function () { musicStarted = true; }).catch(function () {}); } else { audioEl.pause(); } }
+    if (audioEl) { if (on) { audioEl.muted = false; audioEl.play().catch(function () {}); } else { audioEl.pause(); } }
   }
   function showMusicBtn() {
     if (musicBtn || !(f.music && inv.musicUrl)) return;
-    musicBtn = el("button", { class: "music-btn", style: "background:" + t.soft + ";border:1px solid " + t.border + ";color:" + t.accent }, App.ic("music", 20));
-    musicBtn.addEventListener("click", function (ev) { ev.stopPropagation(); if (!musicStarted) { setMusic(true); } else { setMusic(!musicOn); } });
+    musicBtn = el("button", { class: "music-btn music-pulse", style: "background:" + t.soft + ";border:1px solid " + t.border + ";color:" + t.accent }, App.ic("music", 20));
+    musicBtn.addEventListener("click", function (ev) { ev.stopPropagation(); musicBtn.classList.remove("music-pulse"); if (!musicOn || !musicStarted) { setMusic(true); } else { setMusic(false); } });
     document.body.appendChild(musicBtn);
   }
   function unlockMusic() {
-    if (!musicOn || !musicStarted) setMusic(true);
+    if (!musicStarted) setMusic(true);
     showMusicBtn();
-    if (musicStarted) { document.removeEventListener("touchend", unlockMusic, true); document.removeEventListener("click", unlockMusic, true); }
   }
   if (f.music && inv.musicUrl) {
     musicBuild();
     document.addEventListener("touchend", unlockMusic, true);
+    document.addEventListener("touchstart", unlockMusic, true);
     document.addEventListener("click", unlockMusic, true);
   }
   cover.addEventListener("click", function () {
@@ -1081,7 +1091,7 @@ App.initEdit = async function () {
     if (gi) gi.addEventListener("change", async function () {
       const files = Array.prototype.slice.call(gi.files || []);
       collect(); galBusy = true; render();
-      for (const file of files) { if (galleryArr.length >= 12) break; try { var _du = await App.compressImg(file, 1100, 0.7); if (_du) galleryArr.push(_du); } catch (e) {} }
+      for (const file of files) { if (galleryArr.length >= 12) break; try { var _du = await App.compressImg(file, 1000, 0.62); if (_du) galleryArr.push(_du); } catch (e) {} }
       if (serverMode) { try { await App.fbPutGallery(inv.code, galleryArr); galSaved = true; } catch (e) { galSaved = false; } }
       galBusy = false; render();
     });
