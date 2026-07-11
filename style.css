@@ -84,7 +84,7 @@ select option { background: #241c10; }
 .tpl-card.act, .tpl-card:hover { opacity: 1; transform: scale(1.02); }
 .prog-edit { display: flex; gap: 8px; margin-bottom: 10px; }
 .p-del { flex-shrink: 0; border: 1px solid rgba(248,113,113,.4); background: none; color: #fca5a5; border-radius: 99px; width: 38px; cursor: pointer; }
-.actions { position: sticky; bottom: 14px; display: flex; flex-direction: column; gap: 10px; border: 1px solid rgba(233,192,94,.3); background: rgba(20,16,12,.92); backdrop-filter: blur(10px); border-radius: 24px; padding: 16px; }
+.actions { display: flex; flex-direction: column; gap: 10px; border: 1px solid rgba(233,192,94,.3); background: rgba(20,16,12,.92); backdrop-filter: blur(10px); border-radius: 24px; padding: 16px; }
 .btn-gold { width: 100%; border: 0; border-radius: 99px; padding: 14px; font-size: 14px; font-weight: 800; cursor: pointer; font-family: inherit; color: #14100c; background: linear-gradient(270deg, #a86f1c, #dfa93a, #a86f1c); }
 .btn-gold:disabled { opacity: .6; }
 .btn-wa { display: block; width: 100%; text-align: center; border-radius: 99px; padding: 14px; font-size: 14px; font-weight: 800; text-decoration: none; color: #fff; background: #25D366; }
