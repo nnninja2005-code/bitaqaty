@@ -60,7 +60,7 @@ body {
 .btn { display: inline-block; border: 0; border-radius: 99px; padding: 12px 30px; font-size: 14px; font-weight: 700; cursor: pointer; text-decoration: none; font-family: inherit; transition: transform .2s; }
 .btn:hover { transform: scale(1.05); }
 .music-btn { position: fixed; bottom: 20px; left: 20px; z-index: 40; width: 48px; height: 48px; border-radius: 50%; font-size: 18px; cursor: pointer; backdrop-filter: blur(6px); }
-.yt-hidden { position: fixed; bottom: 0; left: 0; width: 1px; height: 1px; opacity: 0; pointer-events: none; border: 0; }
+.yt-hidden { position: fixed; bottom: 0; left: 0; width: 1px; height: 1px; opacity: 0; pointer-events: none; border: 0; overflow: hidden; }
 
 /* المحرر + الأدمن */
 .edit-wrap { max-width: 620px; margin: 0 auto; padding: 40px 18px 80px; }
@@ -248,3 +248,16 @@ body.opened .ringjewel { opacity: 1; transform: translateX(-50%) translateY(-46p
   filter: drop-shadow(0 2px 14px rgba(40,25,5,.65));
 }
 .vid-overlay .vo-orna span { width: 52px; background: rgba(255,235,190,.85); }
+
+
+/* ===== معرض الصور + كشف الحاضرين (v8) ===== */
+.gal-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}
+.gal-grid img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:12px;cursor:pointer;display:block}
+.gal-edit{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}
+.gal-edit:empty{display:none}
+.gal-cell{position:relative}
+.gal-cell img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:12px;display:block}
+.gal-del{position:absolute;top:5px;inset-inline-end:5px;width:24px;height:24px;border-radius:50%;border:0;background:rgba(0,0,0,.6);color:#fff;cursor:pointer;font-size:12px;line-height:24px;padding:0}
+.gal-light{position:fixed;inset:0;background:rgba(0,0,0,.92);display:flex;align-items:center;justify-content:center;z-index:200;padding:20px;cursor:zoom-out}
+.gal-light img{max-width:100%;max-height:100%;border-radius:12px}
+.att-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 13px;border:1px solid rgba(233,192,94,.22);border-radius:10px;margin-top:6px;font-size:13px}

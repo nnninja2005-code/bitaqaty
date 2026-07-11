@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@300;400;500;600;700;800&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Aref+Ruqaa:wght@400;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="/style.css?v=7"><title>دعوة زفاف · بطاقتي VIP</title></head>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@300;400;500;600;700;800&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Aref+Ruqaa:wght@400;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="/style.css?v=8"><title>دعوة زفاف · بطاقتي VIP</title></head>
 <body><div id="root"></div>
 <script>
 /* بطاقتي VIP — المنطق المشترك لكل الصفحات */
@@ -153,9 +153,9 @@ window.App = (function () {
   };
 
   const TIERS = {
-    classic: { music: false, program: false, templates: ["rose","garden"] },
-    gold: { music: true, program: true, templates: ["rose","garden","starlit","royal","swan","ward"] },
-    vip: { music: true, program: true, templates: ["almas","qaea","hareer","warda","hikaya","zerin","khatim","qasr","fanar","royal","swan","ward","starlit","rose","garden"] },
+    classic: { music: false, program: false, countdown: false, rsvp: false, gallery: false, templates: ["rose","garden"] },
+    gold: { music: true, program: true, countdown: true, rsvp: true, gallery: true, templates: ["rose","garden","starlit","royal","swan","ward"] },
+    vip: { music: true, program: true, countdown: true, rsvp: true, gallery: true, templates: ["almas","qaea","hareer","warda","hikaya","zerin","khatim","qasr","fanar","royal","swan","ward","starlit","rose","garden"] },
   };
 
   const LANG_NAMES = { ar: "العربية", bad: "کوردی (بادینی)", sor: "کوردی (سۆرانی)" };
@@ -185,7 +185,7 @@ window.App = (function () {
       addItem: "+ أضف فقرة", timePh: "٧:٠٠ مساءً", labelPh: "استقبال الضيوف",
       saveBtn: "احفظ وانشر الدعوة ✨", savedOk: "تم الحفظ! دعوتك جاهزة",
       sendWA: "أرسل التفاصيل عبر واتساب 📲", previewBtn: "معاينة الدعوة ↗",
-      publishNote: "بعد الحفظ اضغط زر الواتساب لتصلنا تفاصيلك", wrongKey: "رابط التعديل غير صحيح — تواصل معنا" },
+      publishNote: "بعد الحفظ اضغط زر الواتساب لتصلنا تفاصيلك", wrongKey: "رابط التعديل غير صحيح — تواصل معنا", secGallery: "معرض الصور", secGalleryView: "صورنا", galleryHint: "أضف حتى ١٢ صورة — تظهر للضيوف داخل الدعوة", galleryAdd: "+ أضف صوراً", gallerySave: "احفظ الصور", gallerySaved: "تم حفظ الصور", galleryServerOnly: "متاح بعد نشر الدعوة", secAttendees: "كشف الحاضرين", attRefresh: "🔄 تحديث القائمة", attEmpty: "لا توجد تأكيدات بعد", attTotal: "إجمالي الحضور", attComing: "مؤكّد", attNo: "معتذر", rsvpNamePh: "اسمك الكريم", rsvpCount: "عدد الأشخاص", rsvpNo: "أعتذر عن الحضور", rsvpWa: "أو أكّد عبر واتساب", rsvpThanksYes: "شكراً لتأكيدك — بانتظارك 🤍", rsvpThanksNo: "شكراً لإعلامنا — سنفتقدك 🤍" },
     bad: { tapToOpen: "دەست بدە بۆ ڤەکرنا داوەتنامەیێ", youAreInvited: "هوین ب دلخۆشی دهێنە ڤەخواندن بۆ داوەتا",
       and: "و", dearGuest: "ڤەخواندنەکا تایبەت بۆ",
       defaultPhrase: "ب دلێن پڕ ژ کەیفخۆشی، هوین دهێنە ڤەخواندن بۆ شەڤا مە یا جوانترین",
@@ -211,7 +211,7 @@ window.App = (function () {
       addItem: "+ بڕگەیەکێ زێدە بکە", timePh: "٧:٠٠ ئێڤاری", labelPh: "پێشوازیا مێهڤانان",
       saveBtn: "خەزن بکە و بڵاڤ بکە ✨", savedOk: "هاتە خەزنکرن! داوەتنامەیا تە ئامادە یە",
       sendWA: "پێزانینان ب واتسئاپێ بهنێرە 📲", previewBtn: "بەرچاڤکرنا داوەتنامەیێ ↗",
-      publishNote: "پشتی خەزنکرنێ دوگمەیا واتسئاپێ بدە", wrongKey: "لینکا گهۆڕینێ نە دروست ە — پەیوەندیێ ب مە بکە" },
+      publishNote: "پشتی خەزنکرنێ دوگمەیا واتسئاپێ بدە", wrongKey: "لینکا گهۆڕینێ نە دروست ە — پەیوەندیێ ب مە بکە", secGallery: "گەلەریا وێنان", secGalleryView: "وێنێن مە", galleryHint: "هەتا ١٢ وێنە زێدە بکە — بۆ مێهڤانان دیار دبن", galleryAdd: "+ وێنە زێدە بکە", gallerySave: "وێنان خەزن بکە", gallerySaved: "وێنە هاتنە خەزنکرن", galleryServerOnly: "پشتی بڵاڤکرنا داوەتنامەیێ بەردەست دبیت", secAttendees: "لیستا ئامادەبووان", attRefresh: "🔄 نویکرنا لیستێ", attEmpty: "هێشتا دڵنیاکرن نینن", attTotal: "گشتیا ئامادەبووان", attComing: "دڵنیاکری", attNo: "ب عوزر", rsvpNamePh: "ناڤێ تە", rsvpCount: "ژمارا کەسان", rsvpNo: "ئەز نائێم", rsvpWa: "یان ب واتسئاپێ دڵنیا بکە", rsvpThanksYes: "سپاس بۆ دڵنیاکرنا تە — چاڤەڕێی تە ین 🤍", rsvpThanksNo: "سپاس بۆ ئاگەهکرنێ — بێریا تە دکەین 🤍" },
     sor: { tapToOpen: "دەست بنێ بۆ کردنەوەی بانگهێشتنامەکە", youAreInvited: "بە خۆشحاڵییەوە بانگهێشت دەکرێن بۆ ئاهەنگی زەماوەندی",
       and: "و", dearGuest: "بانگهێشتێکی تایبەت بۆ",
       defaultPhrase: "بە دڵێکی پڕ لە خۆشی، بانگهێشتتان دەکەین بۆ جوانترین شەومان",
@@ -237,7 +237,7 @@ window.App = (function () {
       addItem: "+ بڕگەیەک زیاد بکە", timePh: "٧:٠٠ ئێوارە", labelPh: "پێشوازی میوانان",
       saveBtn: "پاشەکەوت بکە و بڵاوی بکەرەوە ✨", savedOk: "پاشەکەوت کرا! بانگهێشتنامەکەت ئامادەیە",
       sendWA: "وردەکارییەکان بە واتسئاپ بنێرە 📲", previewBtn: "پێشبینینی بانگهێشتنامەکە ↗",
-      publishNote: "دوای پاشەکەوتکردن دوگمەی واتسئاپەکە دابگرە", wrongKey: "لینکی دەستکاری هەڵەیە — پەیوەندیمان پێوە بکە" },
+      publishNote: "دوای پاشەکەوتکردن دوگمەی واتسئاپەکە دابگرە", wrongKey: "لینکی دەستکاری هەڵەیە — پەیوەندیمان پێوە بکە", secGallery: "گەلەری وێنەکان", secGalleryView: "وێنەکانمان", galleryHint: "تا ١٢ وێنە زیاد بکە — بۆ میوانان پیشان دەدرێن", galleryAdd: "+ وێنە زیاد بکە", gallerySave: "وێنەکان پاشەکەوت بکە", gallerySaved: "وێنەکان پاشەکەوت کران", galleryServerOnly: "دوای بڵاوکردنەوەی بانگهێشتنامەکە بەردەستە", secAttendees: "لیستی ئامادەبووان", attRefresh: "🔄 نوێکردنەوەی لیست", attEmpty: "هێشتا هیچ دڵنیاکردنەوەیەک نییە", attTotal: "کۆی ئامادەبووان", attComing: "دڵنیاکراو", attNo: "بە بیانوو", rsvpNamePh: "ناوی تۆ", rsvpCount: "ژمارەی کەسان", rsvpNo: "نایەم", rsvpWa: "یان بە واتسئاپ دڵنیا بکەرەوە", rsvpThanksYes: "سوپاس بۆ دڵنیاکردنەوەت — چاوەڕێت دەکەین 🤍", rsvpThanksNo: "سوپاس بۆ ئاگادارکردنەوە — بیرت دەکەین 🤍" },
   };
 
   const $ = (s, r) => (r || document).querySelector(s);
@@ -417,6 +417,11 @@ App.initLanding = function () {
 
 /* ===== أيقونات SVG احترافية ===== */
 App.ICONS = {
+  image: '<rect x="3" y="4.5" width="18" height="15" rx="2"/><circle cx="8.5" cy="10" r="1.8"/><path d="M4 18l5-5 3.5 3.5L16 13l4 5"/>',
+  camera: '<path d="M4 8.5h3L8.5 6h7L17 8.5h3a1 1 0 0 1 1 1v8.5a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.3"/>',
+  users: '<circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-5.6 6-5.6s6 2.3 6 5.6"/><path d="M16.5 5.2a3.2 3.2 0 0 1 0 6M21 20c0-2.9-1.7-5-4.2-5.5"/>',
+  gift: '<rect x="3.5" y="9" width="17" height="11" rx="1.5"/><path d="M3.5 13h17M12 9v11M12 9S9.5 3.5 7 5.5 12 9 12 9zM12 9s2.5-5.5 5-3.5S12 9 12 9z"/>',
+  check: '<path d="M4 12.5l5 5 11-11"/>',
   rings: '<circle cx="9" cy="14.5" r="5.5"/><circle cx="15" cy="9.5" r="5.5"/>',
   crown: '<path d="M3 17.5h18M4.5 17.5L3 8l5.6 3.8L12 5l3.4 6.8L21 8l-1.5 9.5z"/>',
   gem: '<path d="M7 3h10l4 6-9 12L3 9z"/><path d="M3 9h18M9.5 3L12 9l2.5-6M12 21L9.5 9M12 21l2.5-12"/>',
@@ -475,6 +480,100 @@ App.fbList = async function () {
   if (!all) return [];
   return Object.values(all).filter(function (x) { return x && x.code && !x.hidden; })
     .map(function (x) { if (!Array.isArray(x.program)) x.program = []; return x; });
+};
+
+/* ===== المعرض والحضور — مسارات منفصلة ===== */
+App.fbGetGallery = async function (code) {
+  try { const r = await fetch(App.FB_URL + "/gallery/" + encodeURIComponent(code) + ".json"); if (!r.ok) return []; const v = await r.json(); return Array.isArray(v) ? v : (v ? Object.values(v) : []); } catch (e) { return []; }
+};
+App.fbPutGallery = async function (code, arr) {
+  const r = await fetch(App.FB_URL + "/gallery/" + encodeURIComponent(code) + ".json", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(arr || []) });
+  if (!r.ok) throw 0; return r.json();
+};
+App.fbAddRsvp = async function (code, obj) {
+  const r = await fetch(App.FB_URL + "/rsvps/" + encodeURIComponent(code) + ".json", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(obj) });
+  if (!r.ok) throw 0; return r.json();
+};
+App.fbGetRsvps = async function (code) {
+  try { const r = await fetch(App.FB_URL + "/rsvps/" + encodeURIComponent(code) + ".json"); if (!r.ok) return []; const v = await r.json(); return v ? Object.keys(v).map(function (k) { var o = v[k] || {}; o._id = k; return o; }) : []; } catch (e) { return []; }
+};
+/* تحميل واجهة يوتيوب مرة واحدة — لتشغيل الموسيقى على آيفون/سفاري */
+App.loadYT = function () {
+  if (App._ytP) return App._ytP;
+  App._ytP = new Promise(function (resolve) {
+    if (window.YT && window.YT.Player) return resolve(window.YT);
+    var prev = window.onYouTubeIframeAPIReady;
+    window.onYouTubeIframeAPIReady = function () { if (typeof prev === "function") { try { prev(); } catch (e) {} } resolve(window.YT); };
+    var sc = document.createElement("script"); sc.src = "https://www.youtube.com/iframe_api"; document.head.appendChild(sc);
+  });
+  return App._ytP;
+};
+/* فرض حدود الباقة على البيانات */
+App.capInv = function (inv) {
+  var f = App.TIERS[inv.tier] || App.TIERS.classic;
+  if (!f.music) inv.musicUrl = "";
+  if (!f.countdown) inv.showCountdown = false;
+  if (!f.rsvp) inv.rsvpEnabled = false;
+  if (!f.program) inv.program = [];
+  return inv;
+};
+/* ضغط الصور داخل المتصفح قبل الرفع */
+App.compressImg = function (file, max, q) {
+  return new Promise(function (resolve, reject) {
+    var img = new Image();
+    img.onload = function () {
+      var w = img.width, h = img.height;
+      if (w > h && w > max) { h = Math.round(h * max / w); w = max; }
+      else if (h >= w && h > max) { w = Math.round(w * max / h); h = max; }
+      var c = document.createElement("canvas"); c.width = w; c.height = h;
+      c.getContext("2d").drawImage(img, 0, 0, w, h);
+      resolve(c.toDataURL("image/jpeg", q || 0.72));
+    };
+    img.onerror = reject;
+    var rd = new FileReader(); rd.onload = function (e) { img.src = e.target.result; }; rd.onerror = reject; rd.readAsDataURL(file);
+  });
+};
+/* عرض معرض الصور داخل الدعوة */
+App.loadInviteGallery = async function (code, t, d) {
+  if (!code) return;
+  var arr = [];
+  try { arr = await App.fbGetGallery(code); } catch (e) {}
+  if (!arr || !arr.length) return;
+  var grid = document.getElementById("galGrid"), sec = document.getElementById("galSec");
+  if (!grid || !sec) return;
+  grid.innerHTML = arr.map(function (src) { return '<div class="gal-cell"><img loading="lazy" src="' + src + '" style="border:1px solid ' + t.border + '"></div>'; }).join("");
+  sec.style.display = "";
+  grid.querySelectorAll("img").forEach(function (im) {
+    im.addEventListener("click", function () {
+      var ov = document.createElement("div"); ov.className = "gal-light";
+      var big = document.createElement("img"); big.src = im.src; ov.appendChild(big);
+      ov.addEventListener("click", function () { ov.remove(); });
+      document.body.appendChild(ov);
+    });
+  });
+};
+/* استقبال تأكيد الحضور من الضيف */
+App.bindRsvp = function (inv, code, d, t, guest) {
+  var yes = document.getElementById("rsvpYes"), no = document.getElementById("rsvpNo");
+  if (!yes && !no) return;
+  var done = false;
+  function showThanks(msg) {
+    var form = document.getElementById("rsvpForm"), th = document.getElementById("rsvpThanks");
+    if (form) form.style.display = "none";
+    if (th) { th.textContent = msg; th.style.display = ""; }
+  }
+  try { var prev = localStorage.getItem("bq_rsvp_" + code); if (prev) { done = true; showThanks(prev === "no" ? d.rsvpThanksNo : d.rsvpThanksYes); } } catch (e) {}
+  function submit(attending) {
+    if (done) return; done = true;
+    var nm = (document.getElementById("rsvpName") || {}).value || guest || "";
+    var cnt = parseInt((document.getElementById("rsvpCount") || {}).value, 10) || 1;
+    var rec = { name: nm, count: attending ? cnt : 0, attending: attending, at: new Date().toISOString() };
+    if (code) { App.fbAddRsvp(code, rec).catch(function () {}); }
+    try { localStorage.setItem("bq_rsvp_" + code, attending ? "yes" : "no"); } catch (e) {}
+    showThanks(attending ? d.rsvpThanksYes : d.rsvpThanksNo);
+  }
+  if (yes) yes.addEventListener("click", function () { submit(true); });
+  if (no) no.addEventListener("click", function () { submit(false); });
 };
 
 /* ===== ترميز الدعوة داخل الرابط (بدون سيرفر) ===== */
@@ -667,6 +766,7 @@ App.initInvite = async function () {
   const groom = esc(inv.groom || "—"), bride = esc(inv.bride || "—");
   const phrase = esc(inv.phrase) || d.defaultPhrase;
   const dua = esc(inv.dua) || d.defaultDua;
+  const f = App.TIERS[inv.tier] || App.TIERS.classic;
   const loc = inv.lang === "ar" ? "ar-IQ-u-nu-latn" : "ckb-IQ-u-nu-latn";
   const dateText = esc(inv.dateText) || (inv.eventDate ? new Date(inv.eventDate).toLocaleDateString(loc, { weekday: "long", year: "numeric", month: "long", day: "numeric" }) : "");
   const timeText = esc(inv.timeText) || (inv.eventDate ? new Date(inv.eventDate).toLocaleTimeString(loc, { hour: "numeric", minute: "2-digit" }) : "");
@@ -710,7 +810,7 @@ App.initInvite = async function () {
       '<p class="naskh" style="max-width:360px;margin:18px auto 0;font-size:17px;line-height:1.9;opacity:.95">' + phrase + '</p>' +
       (guest ? '<p style="margin-top:14px;font-size:13px">' + d.dearGuest + ': <b style="color:' + t.accent + '">' + esc(guest) + '</b></p>' : "") +
     '</section>' +
-    (inv.showCountdown && inv.eventDate ? card('<h2 class="sec-title" style="color:' + t.accent + '">' + d.countdownTitle + '</h2><div class="cd" id="cd"></div>') : "") +
+    (f.countdown && inv.showCountdown && inv.eventDate ? card('<h2 class="sec-title" style="color:' + t.accent + '">' + d.countdownTitle + '</h2><div class="cd" id="cd"></div>') : "") +
     (dateText || timeText ? '<section class="reveal grid2">' +
       '<div class="card" style="background:' + t.card + ';border:1px solid ' + t.border + ';text-align:center"><div style="opacity:.85">' + App.ic("calendar", 24) + '</div><div class="lab">' + d.dateLabel + '</div><div class="val">' + dateText + '</div></div>' +
       '<div class="card" style="background:' + t.card + ';border:1px solid ' + t.border + ';text-align:center"><div style="opacity:.85">' + App.ic("clock", 24) + '</div><div class="lab">' + d.timeLabel + '</div><div class="val">' + timeText + '</div></div></section>' : "") +
@@ -718,49 +818,78 @@ App.initInvite = async function () {
       (inv.venueName ? '<div class="lab">' + d.venueLabel + '</div><div style="color:' + t.accent + ';font-size:18px;font-weight:700;margin-top:4px">' + esc(inv.venueName) + '</div>' : "") +
       (inv.venueAddress ? '<div style="margin-top:8px;font-size:14px;opacity:.9">' + esc(inv.venueAddress) + '</div>' : "") +
       (inv.mapsUrl ? '<a class="btn" style="background:' + t.accent + ';color:#1c1508;margin-top:16px" href="' + esc(inv.mapsUrl) + '" target="_blank" rel="noreferrer">' + App.ic("pin", 15) + ' ' + d.openMap + '</a>' : "") + '</div>') : "") +
-    (inv.program && inv.program.length ? card('<h2 class="sec-title" style="color:' + t.accent + '">' + d.programTitle + '</h2>' +
+    (f.program && inv.program && inv.program.length ? card('<h2 class="sec-title" style="color:' + t.accent + '">' + d.programTitle + '</h2>' +
       '<div class="prog">' + inv.program.map(function (p) { return '<div class="prog-row"><span class="prog-time" style="background:' + t.soft + ';color:' + t.accent + ';border:1px solid ' + t.border + '">' + esc(p.time) + '</span><span style="font-size:14px">' + esc(p.label) + '</span></div>'; }).join("") + '</div>') : "") +
     '<section class="reveal" style="text-align:center"><p class="naskh" style="max-width:360px;margin:0 auto;font-size:15px;line-height:1.9;opacity:.9">' + dua + '</p></section>' +
-    (inv.rsvpEnabled && inv.rsvpPhone ? card('<div style="text-align:center"><h2 class="sec-title" style="color:' + t.accent + ';margin-bottom:6px">' + d.rsvpTitle + '</h2>' +
+    (f.rsvp && inv.rsvpEnabled ? card('<div style="text-align:center"><h2 class="sec-title" style="color:' + t.accent + ';margin-bottom:6px">' + d.rsvpTitle + '</h2>' +
       '<p style="font-size:13px;opacity:.85">' + d.rsvpBody + '</p>' +
-      '<a class="btn" style="background:' + t.accent + ';color:#1c1508;margin-top:14px;font-weight:800" target="_blank" rel="noreferrer" href="https://wa.me/' + inv.rsvpPhone + '?text=' + encodeURIComponent(d.rsvpMessage + " — " + (inv.groom || "") + " " + d.and + " " + (inv.bride || "") + " 💍" + (guest ? "\n(" + guest + ")" : "")) + '">' + d.rsvpButton + '</a></div>') : "") +
+      '<div id="rsvpForm" style="margin-top:14px">' +
+        '<input id="rsvpName" placeholder="' + d.rsvpNamePh + '"' + (guest ? ' value="' + esc(guest) + '"' : "") + ' style="width:100%;box-sizing:border-box;text-align:center">' +
+        '<div style="display:flex;gap:8px;margin-top:10px;justify-content:center;align-items:center"><span style="font-size:13px;opacity:.85">' + d.rsvpCount + '</span><input id="rsvpCount" type="number" min="1" value="1" style="width:74px;text-align:center"></div>' +
+        '<div style="display:flex;gap:8px;margin-top:12px">' +
+          '<button type="button" id="rsvpYes" class="btn" style="flex:1;background:' + t.accent + ';color:#1c1508;font-weight:800">' + d.rsvpButton + '</button>' +
+          '<button type="button" id="rsvpNo" class="btn" style="flex:1;background:' + t.soft + ';border:1px solid ' + t.border + ';color:' + t.text + '">' + d.rsvpNo + '</button>' +
+        '</div>' +
+        (inv.rsvpPhone ? '<a class="btn-ghost" style="margin-top:10px;display:block;text-align:center" target="_blank" rel="noreferrer" href="https://wa.me/' + inv.rsvpPhone + '?text=' + encodeURIComponent(d.rsvpMessage + " — " + (inv.groom || "") + " " + d.and + " " + (inv.bride || "") + " 💍" + (guest ? "\n(" + guest + ")" : "")) + '">' + d.rsvpWa + '</a>' : "") +
+      '</div>' +
+      '<p id="rsvpThanks" style="display:none;color:' + t.accent + ';font-weight:700;margin-top:10px"></p></div>') : "") +
+    (f.gallery ? '<section class="card reveal" id="galSec" style="display:none;background:' + t.card + ';border:1px solid ' + t.border + '"><h2 class="sec-title" style="color:' + t.accent + '">' + d.secGalleryView + '</h2><div class="gal-grid" id="galGrid"></div></section>' : "") +
     '<footer class="reveal" style="text-align:center;padding:16px 0 30px">' +
       '<p style="font-size:12px;opacity:.6">' + d.withLove + " — " + groom + " " + d.and + " " + bride + '</p>' +
       '<a href="/" style="color:' + t.accent + ';font-size:11px;opacity:.5">بطاقتي VIP · bitaqaty.vip</a></footer>');
   root.appendChild(main);
+  if (f.gallery) App.loadInviteGallery(code, t, d);
+  App.bindRsvp(inv, code, d, t, guest);
 
-  let vidPlayed = false, openedFlag = false, musicStarted = false;
-  function startMusic() {
-    if (musicStarted || !inv.musicUrl) return;
-    musicStarted = true;
-    const id = ytId(inv.musicUrl);
+  let vidPlayed = false, openedFlag = false, musicOn = false, ytPlayer = null, audioEl = null, musicBtn = null;
+  const musicId = App.ytId(inv.musicUrl || "");
+  function musicStart() {
     const tm = String(inv.musicUrl).match(/[?&#]t=(?:(\d+)m)?(\d+)s?(?:\D|$)/);
     let start = tm ? (+(tm[1] || 0)) * 60 + (+tm[2]) : null;
-    let audio = null, ifr = null, muted = false;
-    if (id) {
+    if (musicId) {
       if (start === null) start = 35;
-      ifr = el("iframe", { class: "yt-hidden", allow: "autoplay", src: "https://www.youtube.com/embed/" + id + "?autoplay=1&loop=1&playlist=" + id + "&start=" + start });
-      document.body.appendChild(ifr);
-    } else {
-      audio = el("audio", { src: inv.musicUrl, loop: "" });
-      document.body.appendChild(audio);
-      audio.addEventListener("loadedmetadata", function () {
-        const st = start !== null ? start : (audio.duration > 75 ? 30 : 0);
-        try { audio.currentTime = st; } catch (e) {}
+      const box = el("div", { class: "yt-hidden" });
+      const slot = el("div", {});
+      box.appendChild(slot);
+      document.body.appendChild(box);
+      App.loadYT().then(function (YT) {
+        ytPlayer = new YT.Player(slot, {
+          width: "200", height: "120", videoId: musicId,
+          playerVars: { autoplay: 1, mute: 1, controls: 0, loop: 1, playlist: musicId, playsinline: 1, start: start, disablekb: 1, fs: 0, modestbranding: 1, rel: 0 },
+          events: {
+            onReady: function (e) { try { e.target.setVolume(100); e.target.playVideo(); if (musicOn) e.target.unMute(); } catch (x) {} },
+            onStateChange: function (e) { if (e.data === YT.PlayerState.ENDED) { try { e.target.playVideo(); } catch (x) {} } }
+          }
+        });
       });
-      audio.play().catch(function () {});
+    } else {
+      audioEl = el("audio", { loop: "", playsinline: "", preload: "auto" });
+      audioEl.muted = true;
+      audioEl.src = inv.musicUrl;
+      document.body.appendChild(audioEl);
+      audioEl.addEventListener("loadedmetadata", function () {
+        const st = start !== null ? start : (audioEl.duration > 75 ? 30 : 0);
+        try { audioEl.currentTime = st; } catch (e) {}
+      });
+      audioEl.play().catch(function () {});
     }
-    const btn = el("button", { class: "music-btn", style: "background:" + t.soft + ";border:1px solid " + t.border + ";color:" + t.accent }, App.ic("music", 20));
-    btn.addEventListener("click", function () {
-      muted = !muted;
-      btn.innerHTML = App.ic(muted ? "mute" : "music", 20);
-      if (audio) { audio.muted = muted; if (!muted) audio.play().catch(function () {}); }
-      if (ifr) { if (muted) { ifr.remove(); } else { document.body.appendChild(ifr); } }
-    });
-    document.body.appendChild(btn);
   }
+  function setMusic(on) {
+    musicOn = on;
+    if (musicBtn) musicBtn.innerHTML = App.ic(on ? "music" : "mute", 20);
+    if (ytPlayer && ytPlayer.unMute) { try { if (on) { ytPlayer.unMute(); ytPlayer.setVolume(100); ytPlayer.playVideo(); } else { ytPlayer.mute(); } } catch (e) {} }
+    if (audioEl) { audioEl.muted = !on; if (on) audioEl.play().catch(function () {}); }
+  }
+  function showMusicBtn() {
+    if (musicBtn || !(f.music && inv.musicUrl)) return;
+    musicBtn = el("button", { class: "music-btn", style: "background:" + t.soft + ";border:1px solid " + t.border + ";color:" + t.accent }, App.ic(musicOn ? "music" : "mute", 20));
+    musicBtn.addEventListener("click", function (ev) { ev.stopPropagation(); setMusic(!musicOn); });
+    document.body.appendChild(musicBtn);
+  }
+  function unlockMusic() { if (!musicOn) setMusic(true); showMusicBtn(); }
+  if (f.music && inv.musicUrl) musicStart();
   cover.addEventListener("click", function () {
-    startMusic();
+    unlockMusic();
     if (vid && !vidPlayed) {
       vidPlayed = true;
       center.classList.add("center-hide");
@@ -826,6 +955,10 @@ App.initEdit = async function () {
     return;
   }
   let saved = false;
+  App.capInv(inv);
+  let galleryArr = [], rsvpArr = [], galSaved = false;
+  if (serverMode && (App.TIERS[inv.tier] || App.TIERS.classic).gallery) { try { galleryArr = await App.fbGetGallery(inv.code); } catch (e) {} }
+  if (serverMode && (App.TIERS[inv.tier] || App.TIERS.classic).rsvp) { try { rsvpArr = await App.fbGetRsvps(inv.code); } catch (e) {} }
 
   function guestLink() {
     if (serverMode) return location.origin + "/d/" + encodeURIComponent(inv.code);
@@ -855,6 +988,16 @@ App.initEdit = async function () {
     const tog = function (name, label, on) {
       return '<button type="button" class="toggle" data-t="' + name + '"><span>' + label + '</span><i class="' + (on ? "on" : "") + '"></i></button>';
     };
+    const galThumbs = function () {
+      return galleryArr.map(function (src, i) { return '<div class="gal-cell"><img src="' + src + '"><button type="button" class="gal-del" data-gi="' + i + '">✕</button></div>'; }).join("");
+    };
+    const attHtml = function () {
+      if (!rsvpArr.length) return '<p style="font-size:12px;opacity:.6">' + d.attEmpty + '</p>';
+      var coming = rsvpArr.filter(function (r) { return r.attending; });
+      var total = coming.reduce(function (a, r) { return a + (parseInt(r.count, 10) || 1); }, 0);
+      return '<p style="font-size:12.5px;opacity:.85;margin:0 0 10px">' + d.attTotal + ': <b style="color:#dfa93a;font-size:15px">' + total + '</b> · ' + d.attComing + ': ' + coming.length + ' · ' + d.attNo + ': ' + (rsvpArr.length - coming.length) + '</p>' +
+        rsvpArr.slice().reverse().map(function (r) { return '<div class="att-row"><span>' + (r.attending ? "✅" : "❌") + '  ' + esc(r.name || "—") + '</span>' + (r.attending ? '<span style="opacity:.7">×' + (parseInt(r.count, 10) || 1) + '</span>' : "") + '</div>'; }).join("");
+    };
 
     root.innerHTML = '<div class="edit-wrap">' +
       '<header style="text-align:center;margin-bottom:28px">' +
@@ -877,7 +1020,7 @@ App.initEdit = async function () {
       '<section class="panel"><h2>' + d.secDateTime + '</h2>' +
         '<label class="field"><span>' + d.fEventDate + '</span><input type="datetime-local" data-k="eventDate" value="' + (inv.eventDate ? inv.eventDate.slice(0, 16) : "") + '"></label>' +
         '<div class="grid2">' + inp("dateText", d.fDateText, inv.dateText, "يوم الجمعة، ١٥ آب ٢٠٢٦") + inp("timeText", d.fTimeText, inv.timeText, "الساعة ٧ مساءً") + '</div>' +
-        tog("showCountdown", d.fCountdown, inv.showCountdown) + '</section>' +
+        (f.countdown ? tog("showCountdown", d.fCountdown, inv.showCountdown) : "") + '</section>' +
       '<section class="panel"><h2>' + d.secTexts + '</h2>' + area("dua", d.fDua, inv.dua, d.defaultDua) + '</section>' +
       '<section class="panel"><h2>' + d.secVenue + '</h2>' +
         inp("venueName", d.fVenue, inv.venueName) + inp("venueAddress", d.fAddress, inv.venueAddress) +
@@ -889,8 +1032,10 @@ App.initEdit = async function () {
       (f.music ? '<section class="panel"><h2>' + d.secMusic + '</h2>' +
         inp("musicUrl", d.fMusic, inv.musicUrl, "https://youtube.com/...", "ltr") +
         '<p style="font-size:11px;opacity:.6;margin:4px 0 0">' + d.musicHint + '</p></section>' : "") +
-      '<section class="panel"><h2>' + d.secRsvp + '</h2>' + tog("rsvpEnabled", d.fRsvpOn, inv.rsvpEnabled) +
-        (inv.rsvpEnabled ? inp("rsvpPhone", d.fRsvpPhone, inv.rsvpPhone, "9647501234567", "ltr") + '<p style="font-size:11px;opacity:.6;margin:4px 0 0">' + d.phoneHint + '</p>' : "") + '</section>' +
+      (f.rsvp ? '<section class="panel"><h2>' + d.secRsvp + '</h2>' + tog("rsvpEnabled", d.fRsvpOn, inv.rsvpEnabled) +
+        (inv.rsvpEnabled ? inp("rsvpPhone", d.fRsvpPhone, inv.rsvpPhone, "9647501234567", "ltr") + '<p style="font-size:11px;opacity:.6;margin:4px 0 0">' + d.phoneHint + '</p>' : "") + '</section>' : "") +
+      (f.rsvp && serverMode ? '<section class="panel"><h2>' + d.secAttendees + '</h2><div id="attList">' + attHtml() + '</div><button type="button" class="btn-ghost" id="attRefresh">' + d.attRefresh + '</button></section>' : "") +
+      (f.gallery ? '<section class="panel"><h2>' + d.secGallery + '</h2><p style="font-size:11px;opacity:.6;margin:0 0 8px">' + d.galleryHint + '</p><div class="gal-edit" id="galEdit">' + galThumbs() + '</div><label class="btn-ghost" style="text-align:center;cursor:pointer;display:block">' + d.galleryAdd + '<input id="galInput" type="file" accept="image/*" multiple style="display:none"></label>' + (serverMode ? '<button type="button" class="btn-gold" id="galSave" style="margin-top:10px">' + (galSaved ? "✓ " + d.gallerySaved : d.gallerySave) + '</button>' : '<p style="font-size:11px;opacity:.6;margin-top:8px">' + d.galleryServerOnly + '</p>') + '</section>' : "") +
       '<div class="actions">' +
         '<button type="button" class="btn-gold" id="save">' + (saved ? "✓ " + d.savedOk : d.saveBtn) + '</button>' +
         (saved ? '<div class="linkrow"><span>🔗</span><code dir="ltr">' + guestLink() + '</code><button type="button" id="copyLink">نسخ</button></div>' +
@@ -913,6 +1058,17 @@ App.initEdit = async function () {
   }
 
   function bind() {
+    const gi = $("#galInput");
+    if (gi) gi.addEventListener("change", async function () {
+      const files = Array.prototype.slice.call(gi.files || []);
+      for (const file of files) { if (galleryArr.length >= 12) break; try { galleryArr.push(await App.compressImg(file, 1280, 0.72)); } catch (e) {} }
+      galSaved = false; collect(); render();
+    });
+    document.querySelectorAll(".gal-del").forEach(function (b) { b.addEventListener("click", function () { galleryArr.splice(+b.dataset.gi, 1); galSaved = false; collect(); render(); }); });
+    const gsv = $("#galSave");
+    if (gsv) gsv.addEventListener("click", async function () { gsv.disabled = true; gsv.textContent = "..."; try { await App.fbPutGallery(inv.code, galleryArr); galSaved = true; } catch (e) {} gsv.disabled = false; render(); });
+    const arf = $("#attRefresh");
+    if (arf) arf.addEventListener("click", async function () { arf.textContent = "..."; try { rsvpArr = await App.fbGetRsvps(inv.code); } catch (e) {} render(); });
     document.querySelectorAll(".tpl-card").forEach(function (b) { b.addEventListener("click", function () { collect(); inv.template = b.dataset.tpl; saved = false; render(); }); });
     document.querySelectorAll(".toggle").forEach(function (b) { b.addEventListener("click", function () { collect(); inv[b.dataset.t] = !inv[b.dataset.t]; saved = false; render(); }); });
     const sel = document.querySelector('[data-k="lang"]');
