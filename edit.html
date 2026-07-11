@@ -412,38 +412,6 @@ App.initLanding = function () {
     document.body.appendChild(App.el("span", { class: "fall",
       style: `left:${Math.random()*100}%;animation-duration:${8+Math.random()*10}s;animation-delay:${Math.random()*12}s;font-size:${8+Math.random()*11}px;color:#dfa93a;opacity:.45` }, "✦"));
   }
-  /* موسيقى الموقع الرسمي والمعاينات */
-  (function () {
-    var mu = App.LANDING_MUSIC;
-    if (!mu) return;
-    var mId = App.ytId(mu), yt = null, ytOk = false, want = false, aud = null, started = false, on = false, btn = null;
-    function build() {
-      if (mId) {
-        var boxx = App.el("div", { class: "yt-hidden" }), slot = App.el("div", {});
-        boxx.appendChild(slot); document.body.appendChild(boxx);
-        App.loadYT().then(function (YT) {
-          yt = new YT.Player(slot, { width: "320", height: "180", videoId: mId,
-            playerVars: { autoplay: 0, controls: 0, loop: 1, playlist: mId, playsinline: 1, start: 20, disablekb: 1, fs: 0, modestbranding: 1, rel: 0 },
-            events: { onReady: function (e) { ytOk = true; if (want) { try { e.target.playVideo(); e.target.unMute(); e.target.setVolume(100); } catch (x) {} } },
-              onStateChange: function (e) { if (e.data === YT.PlayerState.PLAYING) started = true; if (e.data === YT.PlayerState.ENDED) { try { e.target.playVideo(); } catch (x) {} } } } });
-        });
-      } else {
-        aud = App.el("audio", { loop: "", playsinline: "", preload: "auto" }); aud.src = mu; document.body.appendChild(aud);
-        aud.addEventListener("playing", function () { started = true; });
-      }
-    }
-    function setOn(o) {
-      on = o; if (btn) btn.innerHTML = App.ic(o ? "music" : "mute", 20);
-      if (mId) { if (yt && ytOk) { try { if (o) { yt.playVideo(); yt.unMute(); yt.setVolume(100); } else { yt.pauseVideo(); } } catch (e) {} } else { want = o; } }
-      if (aud) { if (o) { aud.muted = false; aud.play().catch(function () {}); } else { aud.pause(); } }
-    }
-    btn = App.el("button", { class: "music-btn music-pulse", style: "background:rgba(233,192,94,.14);border:1px solid rgba(233,192,94,.4);color:#dfa93a" }, App.ic("music", 20));
-    btn.addEventListener("click", function (ev) { ev.stopPropagation(); btn.classList.remove("music-pulse"); setOn(!on); });
-    document.body.appendChild(btn);
-    build();
-    function firstTap() { if (!started) setOn(true); if (started) document.removeEventListener("click", firstTap); }
-    document.addEventListener("click", firstTap);
-  })();
 };
 
 
